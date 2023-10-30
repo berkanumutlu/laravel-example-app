@@ -12,4 +12,4 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"]);
+Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"])->name('home');

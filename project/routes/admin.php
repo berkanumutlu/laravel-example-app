@@ -12,4 +12,4 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "admin" middleware group. Make something great!
 |
 */
-Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"]);
+Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->name('dashboard');
