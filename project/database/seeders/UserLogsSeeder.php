@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserLogs;
 use Illuminate\Database\Seeder;
 
 class UserLogsSeeder extends Seeder
@@ -12,6 +12,6 @@ class UserLogsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        UserLogs::factory(10)->create();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ArticleFeatures;
 use Illuminate\Database\Seeder;
 
 class ArticleFeaturesSeeder extends Seeder
@@ -12,6 +12,6 @@ class ArticleFeaturesSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        ArticleFeatures::factory(10)->create();
     }
 }

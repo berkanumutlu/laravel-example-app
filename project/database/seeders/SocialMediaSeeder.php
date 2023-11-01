@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\SocialMedia;
 use Illuminate\Database\Seeder;
 
 class SocialMediaSeeder extends Seeder
@@ -12,6 +12,6 @@ class SocialMediaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        SocialMedia::factory(10)->create();
     }
 }

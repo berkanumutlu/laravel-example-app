@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ArticleUserLikes;
 use Illuminate\Database\Seeder;
 
 class ArticleUserLikesSeeder extends Seeder
@@ -12,6 +12,6 @@ class ArticleUserLikesSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        ArticleUserLikes::factory(10)->create();
     }
 }

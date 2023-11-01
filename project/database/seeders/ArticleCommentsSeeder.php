@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ArticleComments;
 use Illuminate\Database\Seeder;
 
 class ArticleCommentsSeeder extends Seeder
@@ -12,6 +12,6 @@ class ArticleCommentsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        ArticleComments::factory(10)->create();
     }
 }
