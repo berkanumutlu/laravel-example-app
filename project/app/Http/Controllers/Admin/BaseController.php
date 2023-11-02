@@ -14,4 +14,9 @@ class BaseController extends Controller
      * @var array
      */
     protected array $data = [];
+
+    public function __construct()
+    {
+        $this->data['title'] = '';
+    }
 }
