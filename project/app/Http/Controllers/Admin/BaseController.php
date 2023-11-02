@@ -18,5 +18,6 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->data['title'] = '';
+        $this->data['search_form'] = false;
     }
 }

@@ -65,9 +65,11 @@
                     <li class="nav-item hidden-on-mobile">
                         <a class="nav-link" href="#">Projects</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link toggle-search" href="#"><i class="material-icons">search</i></a>
-                    </li>
+                    @if(!empty($search_form))
+                        <li class="nav-item">
+                            <a class="nav-link toggle-search" href="#"><i class="material-icons">search</i></a>
+                        </li>
+                    @endif
                     <li class="nav-item hidden-on-mobile">
                         <a class="nav-link language-dropdown-toggle" href="#" id="languageDropDown"
                            data-bs-toggle="dropdown"><img src="{{ asset('assets/admin/images/flags/us.png') }}"

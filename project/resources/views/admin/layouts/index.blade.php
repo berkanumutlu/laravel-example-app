@@ -40,18 +40,13 @@
 <div class="app align-content-stretch d-flex flex-wrap">
     @include("components.admin.sidebar")
     <div class="app-container">
-        @include("components.admin.search")
+        @if(!empty($search_form))
+            @include("components.admin.search")
+        @endif
         @include("components.admin.header")
         <div class="app-content">
             <div class="content-wrapper">
                 <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <div class="page-description">
-                                <h1>{{ $title ?? '' }}</h1>
-                            </div>
-                        </div>
-                    </div>
                     @yield("content")
                 </div>
             </div>
