@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
             'name'            => $name,
             'slug'            => Str::slug($name),
             'description'     => fake()->text,
+            'parent_id'       => random_int(0, 10),
             'status'          => fake()->boolean,
             'feature_status'  => fake()->boolean,
             'order'           => random_int(0, 100),

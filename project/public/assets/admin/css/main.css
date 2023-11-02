@@ -2331,7 +2331,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .table-hover>tbody>tr:hover {
     --bs-table-hover-bg: transparent;
-    background: #F4F7FA;
+    background: #d6e8ff;
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {

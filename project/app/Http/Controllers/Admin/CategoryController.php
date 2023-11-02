@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
@@ -11,6 +12,26 @@ class CategoryController extends BaseController
      */
     public function index()
     {
+        //$records = Category::all();
+        //$records = Category::all()->toArray();
+        //$records = Category::with('parentCategory')->get();
+        //$records = Category::with('parentCategory:id,name,slug')->get();
+        //$records = Category::with('parentCategory:id,name,slug')->select(['id', 'name', 'slug', 'description', 'order', 'parent_id', 'created_at'])->get()->makeVisible(['created_at']);
+        //$records = Category::with(['parentCategory:id,name,slug', 'user:name'])->select(['id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'])->get();
+        $records = Category::with(['parentCategory:id,name,slug'])->select([
+            'id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'
+        ])->orderBy('id', 'desc')->get();
+        /*foreach ($records as $record) {
+            $record->name = 'Berkan';
+            if ($record->parentCategory) {
+                dd($record);
+            }
+        }*/
+        $this->data['records'] = $records;
+        $this->data['columns'] = [
+            'Id', 'Name', 'Slug', 'Description', 'Status', 'Feature Status', 'Order', 'Parent Category',
+            'Creation Time', 'Actions'
+        ];
         $this->data['title'] = 'Category List';
         return view('admin.category.index', $this->data);
     }
