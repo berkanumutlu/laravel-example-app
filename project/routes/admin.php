@@ -13,3 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->name('dashboard');
+Route::prefix("article")->name("article.")->controller('ArticleController')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::get('add', "create")->name('add');
+    });
