@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-
-class DashboardController extends Controller
+class DashboardController extends BaseController
 {
     public function index()
     {
