@@ -10,8 +10,9 @@
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title -->
     <title>@yield('title', isset($title) ? $title . ' - Admin Panel' : 'Admin Panel - Laravel Example App')</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon }}"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon }}"/>
     @yield("head")
-    @yield("style")
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -27,8 +28,7 @@
     <!-- Theme Styles -->
     <link href="{{ asset('assets/admin/css/main.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/admin/images/neptune.png') }}"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/admin/images/neptune.png') }}"/>
+    @yield("style")
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

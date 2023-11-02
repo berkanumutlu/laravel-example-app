@@ -17,6 +17,7 @@ class BaseController extends Controller
 
     public function __construct()
     {
+        $this->data['favicon'] = asset('assets/admin/images/neptune.png');
         $this->data['title'] = '';
         $this->data['search_form'] = false;
     }
