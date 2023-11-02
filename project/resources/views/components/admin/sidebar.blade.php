@@ -33,6 +33,22 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ Route::is('admin.category.index') || Route::is('admin.category.add') ? 'open' : '' }}">
+                <a href="javascript:;"><i class="material-icons-two-tone">category</i>Category
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('admin.category.index') }}"
+                           class="{{ Route::is('admin.category.index') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">list</i>List</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.category.add') }}"
+                           class="{{ Route::is('admin.category.add') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">add</i>Add</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

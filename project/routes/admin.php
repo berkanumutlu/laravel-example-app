@@ -18,3 +18,8 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
         Route::get('', "index")->name('index');
         Route::get('add', "create")->name('add');
     });
+Route::prefix("category")->name("category.")->controller('CategoryController')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::get('add', "create")->name('add');
+    });
