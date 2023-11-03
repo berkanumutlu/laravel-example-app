@@ -5,7 +5,7 @@
 **/.idea_modules/
 **/.buildpath
 **/.project
-**/vendor
+project/vendor
 
 # Other paths
 **/.vagrant/
