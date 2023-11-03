@@ -59,6 +59,7 @@
 <script src="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/pace/pace.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/apexcharts/apexcharts.min.js') }}"></script>
+@include('sweetalert::alert')
 <script src="{{ asset('assets/admin/js/main.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/custom.js') }}"></script>
 @yield("scripts")
