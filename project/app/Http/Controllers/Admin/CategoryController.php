@@ -84,4 +84,28 @@ class CategoryController extends BaseController
     {
         //
     }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function change_status(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $result = ['status' => false, 'message' => null];
+        $request->validate([
+            'id' => ['required', 'integer', 'exists:categories']
+        ]);
+        $category = Category::where("id", $request->id)->first();
+        $old_status_text = $category->status ? 'Active' : 'Passive';
+        $category->status = !$category->status;
+        $category->save();
+        $new_status_text = $category->status ? 'Active' : 'Passive';
+        $result['status'] = true;
+        $result['message'] = "Record(#".$request->id.") status value changed ".$old_status_text." to ".$new_status_text.".";
+        /*alert()->success("Success", "Record status value changed ".$old_status_text." to ".$new_status_text.".")
+            ->autoClose(5000)->showConfirmButton("OK");*/
+        //return redirect()->route('admin.category.index');
+        //return redirect()->back();
+        return response()->json($result);
+    }
 }

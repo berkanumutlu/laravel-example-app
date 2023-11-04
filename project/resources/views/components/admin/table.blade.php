@@ -19,16 +19,23 @@
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->slug }}</td>
                         <td>{{ Str::limit($item->description, 50) }}</td>
-                        <td>{{ $item->status }}</td>
-                        <td>{{ $item->feature_status }}</td>
+                        <td>
+                            <div class="changeStatusSection">
+                                <a href="javascript:;" data-id="{{ $item->id }}"
+                                   class="changeStatus btn btn-outline-success px-2 py-1 me-2 {{ $item->status ? '' : 'd-none' }}">Active</a>
+                                <a href="javascript:;" data-id="{{ $item->id }}"
+                                   class="changeStatus btn btn-outline-warning px-2 py-1 me-2 {{ $item->status ? 'd-none' : '' }}">Passive</a>
+                            </div>
+                        </td>
+                        <td>{{ $item->feature_status ? 'Active' : 'Passive' }}</td>
                         <td>{{ $item->order }}</td>
                         <td>{{ $item->parentCategory?->name }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td class="align-middle">
                             <div class="d-flex align-items-center">
-                                <a href="#" class="btn btn-dark px-2 py-1 me-2"><i
+                                <a href="javascript:;" class="btn btn-dark px-2 py-1 me-2"><i
                                         class="material-icons m-0">edit</i></a>
-                                <a href="#" class="btn btn-danger px-2 py-1"><i
+                                <a href="javascript:;" class="btn btn-danger px-2 py-1"><i
                                         class="material-icons m-0">delete</i></a>
                             </div>
                         </td>
