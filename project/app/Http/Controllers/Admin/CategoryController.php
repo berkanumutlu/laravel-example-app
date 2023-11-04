@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends BaseController
 {
@@ -92,16 +94,41 @@ class CategoryController extends BaseController
     public function change_status(Request $request): \Illuminate\Http\JsonResponse
     {
         $result = ['status' => false, 'message' => null];
-        $request->validate([
-            'id' => ['required', 'integer', 'exists:categories']
+        /*$request->validate([
+            'id'   => ['required', 'integer', 'exists:categories'],
+            'type' => ['required', 'string', Rule::in(['status', 'feature_status'])],
+        ]);*/
+        $validator = Validator::make($request->all(), [
+            'id'   => ['required', 'integer', 'exists:categories'],
+            'type' => ['required', 'string', Rule::in(['status', 'feature_status'])]
         ]);
-        $category = Category::where("id", $request->id)->first();
-        $old_status_text = $category->status ? 'Active' : 'Passive';
-        $category->status = !$category->status;
-        $category->save();
-        $new_status_text = $category->status ? 'Active' : 'Passive';
-        $result['status'] = true;
-        $result['message'] = "Record(#".$request->id.") status value changed ".$old_status_text." to ".$new_status_text.".";
+        if ($validator->fails()) {
+            $result['message'] = collect($validator->errors()->all())->implode('<br>');
+            $result['icon'] = 'info';
+            return response()->json($result);
+        }
+        $record_id = $request->id;
+        $category = Category::where("id", $record_id)->first();
+        if (!empty($category)) {
+            try {
+                $type = $request->type;
+                $old_status_text = $category->$type ? 'Active' : 'Passive';
+                $category->$type = !$category->$type;
+                $category->save();
+                $new_status_text = $category->$type ? 'Active' : 'Passive';
+                $result['status'] = true;
+                $result['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
+                $result['icon'] = 'success';
+                $result['timer'] = 4000;
+            } catch (\Exception $e) {
+                //$result['message'] = $e->getMessage();
+                $result['message'] = "Could not save.";
+                $result['icon'] = 'danger';
+            }
+        } else {
+            $result['message'] = "Record not found.";
+            $result['icon'] = 'danger';
+        }
         /*alert()->success("Success", "Record status value changed ".$old_status_text." to ".$new_status_text.".")
             ->autoClose(5000)->showConfirmButton("OK");*/
         //return redirect()->route('admin.category.index');

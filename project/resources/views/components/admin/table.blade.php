@@ -20,14 +20,25 @@
                         <td>{{ $item->slug }}</td>
                         <td>{{ Str::limit($item->description, 50) }}</td>
                         <td>
-                            <div class="changeStatusSection">
-                                <a href="javascript:;" data-id="{{ $item->id }}"
-                                   class="changeStatus btn btn-outline-success px-2 py-1 me-2 {{ $item->status ? '' : 'd-none' }}">Active</a>
-                                <a href="javascript:;" data-id="{{ $item->id }}"
-                                   class="changeStatus btn btn-outline-warning px-2 py-1 me-2 {{ $item->status ? 'd-none' : '' }}">Passive</a>
+                            <div class="btnChangeStatusSection">
+                                <a href="javascript:;" data-id="{{ $item->id }}" data-type="status"
+                                   data-type-text="Status"
+                                   class="btnChangeStatus btn btn-outline-success px-2 py-1 me-2 {{ $item->status ? '' : 'd-none' }}">Active</a>
+                                <a href="javascript:;" data-id="{{ $item->id }}" data-type="status"
+                                   data-type-text="Status"
+                                   class="btnChangeStatus btn btn-outline-warning px-2 py-1 me-2 {{ $item->status ? 'd-none' : '' }}">Passive</a>
                             </div>
                         </td>
-                        <td>{{ $item->feature_status ? 'Active' : 'Passive' }}</td>
+                        <td>
+                            <div class="btnChangeStatusSection">
+                                <a href="javascript:;" data-id="{{ $item->id }}" data-type="feature_status"
+                                   data-type-text="Feature Status"
+                                   class="btnChangeStatus btn btn-outline-success px-2 py-1 me-2 {{ $item->feature_status ? '' : 'd-none' }}">Active</a>
+                                <a href="javascript:;" data-id="{{ $item->id }}" data-type="feature_status"
+                                   data-type-text="Feature Status"
+                                   class="btnChangeStatus btn btn-outline-warning px-2 py-1 me-2 {{ $item->feature_status ? 'd-none' : '' }}">Passive</a>
+                            </div>
+                        </td>
                         <td>{{ $item->order }}</td>
                         <td>{{ $item->parentCategory?->name }}</td>
                         <td>{{ $item->created_at }}</td>

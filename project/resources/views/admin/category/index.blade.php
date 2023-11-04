@@ -22,35 +22,48 @@
 @section("scripts")
     <script>
         $(document).ready(function () {
-            $('.changeStatus').on("click", function () {
+            $('.btnChangeStatus').on("click", function () {
                 let $this = $(this);
+                let recordType = $this.data('type');
+                let recordTypeText = $this.data('type-text');
                 Swal.fire({
-                    text: 'Do you want to change the status?',
+                    text: 'Do you want to change the ' + recordTypeText + '?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#2269f5',
                     cancelButtonColor: '#ff6673',
-                    confirmButtonText: 'Yes'
+                    confirmButtonText: 'Yes',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let categoryId = $this.data('id');
+                        let recordId = $this.data('id');
                         $.ajax({
                             url: "{{ route('admin.category.change_status') }}",
                             type: "POST",
                             dataType: "JSON",
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
-                            data: {'id': categoryId}
+                            data: {'id': recordId, 'type': recordType, 'typeText': recordTypeText}
                         }).done(function (response) {
-                            if (response.hasOwnProperty('status')) {
-                                if (response.hasOwnProperty('message')) {
-                                    Swal.fire({
-                                        html: response.message,
-                                        timer: 4000
-                                    });
+                            if (response.hasOwnProperty('message')) {
+                                let $props = {
+                                    html: response.message,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    allowEnterKey: false
+                                };
+                                if (response.hasOwnProperty('icon')) {
+                                    $props['icon'] = response.icon;
                                 }
+                                if (response.hasOwnProperty('timer')) {
+                                    $props['timer'] = response.timer;
+                                }
+                                Swal.fire($props);
+                            }
+                            if (response.hasOwnProperty('status')) {
                                 if (response.status) {
-                                    $this.addClass('d-none');
-                                    $this.parent('.changeStatusSection').find('.changeStatus').not($this).removeClass('d-none');
+                                    $this.addClass('d-none').parent('.btnChangeStatusSection').find('.btnChangeStatus').not($this).removeClass('d-none');
                                 }
                             }
                         });
