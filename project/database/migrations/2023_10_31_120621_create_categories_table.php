@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string("seo_keywords")->nullable();
             $table->string("seo_description")->nullable();
             $table->timestamps();
-            $table->foreign("parent_id")->references("id")->on("categories");
+            $table->foreign("parent_id")->references("id")->on("categories")->onDelete("set null");
         });
     }
 

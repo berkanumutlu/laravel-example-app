@@ -17,10 +17,10 @@ class ArticlesFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->name;
+        $title = fake()->title;
         return [
-            'name'            => $name,
-            'slug'            => Str::slug($name),
+            'title'           => $title,
+            'slug'            => Str::slug($title),
             'body'            => fake()->paragraph,
             'image'           => fake()->imageUrl,
             'status'          => fake()->boolean,

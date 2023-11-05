@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 80);
+            $table->string("title", 80);
             $table->string("slug", 160);
             $table->text("body");
             $table->string("image")->nullable();
@@ -24,10 +24,10 @@ return new class extends Migration {
             $table->integer("view_count")->default(0);
             $table->integer("like_count")->default(0);
             $table->dateTime("publish_date")->nullable();
-            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("category_id")->nullable();
             $table->unsignedBigInteger("user_id");
-            $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
-            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
+            $table->foreign("category_id")->references("id")->on("categories");
+            $table->foreign("user_id")->references("id")->on("users");
             $table->timestamps();
         });
     }
