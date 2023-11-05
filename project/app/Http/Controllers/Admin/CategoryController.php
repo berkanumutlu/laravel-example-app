@@ -82,9 +82,29 @@ class CategoryController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request): \Illuminate\Http\JsonResponse
     {
-        //
+        $result = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:categories']
+        ]);
+        if ($validator->fails()) {
+            $result['message'] = collect($validator->errors()->all())->implode('<br>');
+            $result['icon'] = 'info';
+            return response()->json($result);
+        }
+        try {
+            $record_id = $request->id;
+            Category::where("id", $record_id)->delete();
+            $result['status'] = true;
+            $result['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
+            $result['icon'] = 'success';
+            $result['timer'] = 4000;
+        } catch (\Exception $e) {
+            $result['message'] = "Could not save.";
+            $result['icon'] = 'error';
+        }
+        return response()->json($result);
     }
 
     /**
@@ -121,16 +141,16 @@ class CategoryController extends BaseController
                 $result['icon'] = 'success';
                 $result['timer'] = 4000;
             } catch (\Exception $e) {
-                //$result['message'] = $e->getMessage();
+                //$result['system_message'] = $e->getMessage();
                 $result['message'] = "Could not save.";
-                $result['icon'] = 'danger';
+                $result['icon'] = 'error';
             }
         } else {
             $result['message'] = "Record not found.";
-            $result['icon'] = 'danger';
+            $result['icon'] = 'error';
         }
         /*alert()->success("Success", "Record status value changed ".$old_status_text." to ".$new_status_text.".")
-            ->autoClose(5000)->showConfirmButton("OK");*/
+            ->showConfirmButton("OK")->autoClose(5000);*/
         //return redirect()->route('admin.category.index');
         //return redirect()->back();
         return response()->json($result);

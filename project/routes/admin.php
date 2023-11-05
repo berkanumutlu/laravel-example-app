@@ -23,4 +23,5 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
         Route::get('', "index")->name('index');
         Route::get('add', "create")->name('add');
         Route::post('change-status', "change_status")->name('change_status');
+        Route::post('delete', "destroy")->name('delete');
     });

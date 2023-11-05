@@ -70,6 +70,52 @@
                     }
                 });
             });
+            $('.btnDelete').on("click", function () {
+                let $this = $(this);
+                Swal.fire({
+                    text: 'Do you want to delete this record?',
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2269f5',
+                    cancelButtonColor: '#ff6673',
+                    confirmButtonText: 'Yes',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let recordId = $this.data('id');
+                        $.ajax({
+                            url: "{{ route('admin.category.delete') }}",
+                            type: "POST",
+                            dataType: "JSON",
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
+                            data: {'id': recordId}
+                        }).done(function (response) {
+                            if (response.hasOwnProperty('message')) {
+                                let $props = {
+                                    html: response.message,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    allowEnterKey: false
+                                };
+                                if (response.hasOwnProperty('icon')) {
+                                    $props['icon'] = response.icon;
+                                }
+                                if (response.hasOwnProperty('timer')) {
+                                    $props['timer'] = response.timer;
+                                }
+                                Swal.fire($props);
+                            }
+                            if (response.hasOwnProperty('status')) {
+                                if (response.status) {
+                                    $this.parents('tr').remove();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
         });
     </script>
 @endsection
