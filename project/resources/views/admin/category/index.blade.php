@@ -1,6 +1,6 @@
 @extends("admin.layouts.index")
 @section("head")
-
+    <meta name="csrf_token" content="{{ csrf_token() }}"/>
 @endsection
 @section("content")
     <div class="row">
@@ -26,29 +26,19 @@
                                     <td>
                                         <x-admin.change-status
                                             :recordId="$item->id" :recordType="'status'"
-                                            :recordTypeText="'Status'" :recordStatus="$item->status"
-                                            :ajaxURL="route('admin.category.change_status')">
+                                            :recordTypeText="'Status'" :recordStatus="$item->status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>
                                         <x-admin.change-status
                                             :recordId="$item->id" :recordType="'feature_status'"
-                                            :recordTypeText="'Feature Status'" :recordStatus="$item->feature_status"
-                                            :ajaxURL="route('admin.category.change_status')">
+                                            :recordTypeText="'Feature Status'" :recordStatus="$item->feature_status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>{{ $item->order }}</td>
                                     <td>{{ $item->parentCategory?->name }}</td>
                                     <td>{{ $item->created_at }}</td>
-                                    <td class="align-middle">
-                                        <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="btn btn-dark px-2 py-1 me-2"><i
-                                                    class="material-icons m-0">edit</i></a>
-                                            <a href="javascript:;" data-id="{{ $item->id }}"
-                                               class="btnDelete btn btn-danger px-2 py-1">
-                                                <i class="material-icons m-0">delete</i></a>
-                                        </div>
-                                    </td>
+                                    <x-admin.table-actions :recordId="$item->id"></x-admin.table-actions>
                                 </tr>
                             @endforeach
                         </x-slot>
@@ -61,6 +51,54 @@
 @section("scripts")
     <script>
         $(document).ready(function () {
+            $('.btnChangeStatus').on("click", function () {
+                let $this = $(this);
+                let recordType = $this.data('type');
+                let recordTypeText = $this.data('type-text');
+                Swal.fire({
+                    text: 'Do you want to change the ' + recordTypeText + '?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2269f5',
+                    cancelButtonColor: '#ff6673',
+                    confirmButtonText: 'Yes',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let recordId = $this.data('id');
+                        $.ajax({
+                            url: "{{ route('admin.category.change_status') }}",
+                            type: "POST",
+                            dataType: "JSON",
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
+                            data: {'id': recordId, 'type': recordType, 'typeText': recordTypeText}
+                        }).done(function (response) {
+                            if (response.hasOwnProperty('message')) {
+                                let $props = {
+                                    html: response.message,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    allowEnterKey: false
+                                };
+                                if (response.hasOwnProperty('icon')) {
+                                    $props['icon'] = response.icon;
+                                }
+                                if (response.hasOwnProperty('timer')) {
+                                    $props['timer'] = response.timer;
+                                }
+                                Swal.fire($props);
+                            }
+                            if (response.hasOwnProperty('status')) {
+                                if (response.status) {
+                                    $this.addClass('d-none').parent('.btnChangeStatusSection').find('.btnChangeStatus').not($this).removeClass('d-none');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
             $('.btnDelete').on("click", function () {
                 let $this = $(this);
                 Swal.fire({
