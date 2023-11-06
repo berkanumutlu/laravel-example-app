@@ -10,6 +10,11 @@
             @isset($rows)
                 <tbody>{!! $rows !!}</tbody>
             @endisset
+            @isset($footer)
+                <tfoot>
+                <tr>{!! $footer !!}</tr>
+                </tfoot>
+            @endisset
         </table>
         @if(!empty($responsive))
     </div>

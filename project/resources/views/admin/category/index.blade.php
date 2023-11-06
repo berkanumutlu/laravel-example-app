@@ -2,6 +2,9 @@
 @section("head")
     <meta name="csrf_token" content="{{ csrf_token() }}"/>
 @endsection
+@section("style")
+    <link href="{{ asset('assets/admin/plugins/datatables/datatables.min.css') }}" rel="stylesheet">
+@endsection
 @section("content")
     <div class="row">
         <div class="col-12">
@@ -10,7 +13,7 @@
                     <h1 class="card-title">{{ $title }}</h1>
                 </x-slot>
                 <x-slot name="body">
-                    <x-admin.table :class="'table-striped table-hover'" :responsive="true">
+                    <x-admin.table :class="'table-striped table-hover data-table'" :responsive="true">
                         <x-slot name="columns">
                             @foreach($columns as $item)
                                 <th scope="col" class="align-middle"> {{ $item }}</th>
@@ -43,17 +46,28 @@
                                 </tr>
                             @endforeach
                         </x-slot>
+                        <x-slot name="footer">
+                            @foreach($columns as $item)
+                                @if(in_array($item, ['Title', 'Name', 'Slug', 'Description']))
+                                    <th> {{ $item }}</th>
+                                @else
+                                    <th></th>
+                                @endif
+                            @endforeach
+                        </x-slot>
                     </x-admin.table>
                     {{--{{ $records->links() }}--}}
                     {{--{{ $records->links("vendor.pagination.boostrap-5") }}--}}
                     {{--{{ $records->render() }}--}}
-                    {{ $records->onEachSide(1)->links() }}
+                    {{--{{ $records->onEachSide(1)->links() }}--}}
                 </x-slot>
             </x-admin.card>
         </div>
     </div>
 @endsection
 @section("scripts")
+    <script src="{{ asset('assets/admin/plugins/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/datatables.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.btnChangeStatus').on("click", function () {

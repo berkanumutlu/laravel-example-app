@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Pagination\Paginator;
+//use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
          * php artisan vendor:publish --tag=laravel-pagination
          */
         //Paginator::useBootstrapFive();
-        Paginator::defaultView("vendor.pagination.custom");
+        //Paginator::defaultView("vendor.pagination.custom");
     }
 }
