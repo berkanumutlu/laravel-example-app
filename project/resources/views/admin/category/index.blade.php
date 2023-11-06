@@ -13,7 +13,7 @@
                     <x-admin.table :class="'table-striped table-hover'" :responsive="true">
                         <x-slot name="columns">
                             @foreach($columns as $item)
-                                <th scope="col"> {{ $item }}</th>
+                                <th scope="col" class="align-middle"> {{ $item }}</th>
                             @endforeach
                         </x-slot>
                         <x-slot name="rows">
@@ -32,7 +32,8 @@
                                     <td>
                                         <x-admin.change-status
                                             :recordId="$item->id" :recordType="'feature_status'"
-                                            :recordTypeText="'Feature Status'" :recordStatus="$item->feature_status">
+                                            :recordTypeText="'Feature Status'"
+                                            :recordStatus="$item->feature_status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>{{ $item->order }}</td>
@@ -43,6 +44,10 @@
                             @endforeach
                         </x-slot>
                     </x-admin.table>
+                    {{--{{ $records->links() }}--}}
+                    {{--{{ $records->links("vendor.pagination.boostrap-5") }}--}}
+                    {{--{{ $records->render() }}--}}
+                    {{ $records->onEachSide(1)->links() }}
                 </x-slot>
             </x-admin.card>
         </div>

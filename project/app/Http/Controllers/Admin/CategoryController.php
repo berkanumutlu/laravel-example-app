@@ -20,15 +20,18 @@ class CategoryController extends BaseController
         //$records = Category::with('parentCategory:id,name,slug')->get();
         //$records = Category::with('parentCategory:id,name,slug')->select(['id', 'name', 'slug', 'description', 'order', 'parent_id', 'created_at'])->get()->makeVisible(['created_at']);
         //$records = Category::with(['parentCategory:id,name,slug', 'user:name'])->select(['id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'])->get();
-        $records = Category::with(['parentCategory:id,name,slug'])->select([
+        /*$records = Category::with(['parentCategory:id,name,slug'])->select([
             'id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'
-        ])->orderBy('id', 'desc')->get();
+        ])->orderBy('id', 'desc')->get();*/
         /*foreach ($records as $record) {
             $record->name = 'Berkan';
             if ($record->parentCategory) {
                 dd($record);
             }
         }*/
+        $records = Category::with(['parentCategory:id,name,slug'])->select([
+            'id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'
+        ])->orderBy('id', 'desc')->paginate(10);
         $this->data['records'] = $records;
         $this->data['columns'] = [
             'Id', 'Name', 'Slug', 'Description', 'Status', 'Feature Status', 'Order', 'Parent Category',
