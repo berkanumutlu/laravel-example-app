@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends BaseController
@@ -16,6 +18,7 @@ class CategoryController extends BaseController
     {
         //$records = Category::all();
         //$records = Category::all()->toArray();
+        //$records = Category::all(['id', 'name']);
         //$records = Category::with('parentCategory')->get();
         //$records = Category::with('parentCategory:id,name,slug')->get();
         //$records = Category::with('parentCategory:id,name,slug')->select(['id', 'name', 'slug', 'description', 'order', 'parent_id', 'created_at'])->get()->makeVisible(['created_at']);
@@ -49,6 +52,7 @@ class CategoryController extends BaseController
      */
     public function create()
     {
+        $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
         $this->data['title'] = 'Add Category';
         return view('admin.category.add', $this->data);
     }
@@ -56,9 +60,32 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        try {
+            $category = new Category();
+            $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->name);
+            $category->name = $request->name;
+            $category->slug = is_null($this->slug_check($slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
+            $category->description = $request->description;
+            $category->status = isset($request->status) ? 1 : 0;
+            $category->feature_status = isset($request->feature_status) ? 1 : 0;
+            $category->parent_id = $request->parent_id;
+            $category->seo_keywords = $request->seo_keywords;
+            $category->seo_description = $request->seo_description;
+            $category->order = $request->order;
+            $category->save();
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
+        }
+        alert()->success("Success", "Record successfully added.")
+            ->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back();
+    }
+
+    public function slug_check(string $slug)
+    {
+        return Category::where('slug', $slug)->first();
     }
 
     /**

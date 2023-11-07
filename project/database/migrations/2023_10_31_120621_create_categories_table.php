@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger("parent_id")->nullable();
             $table->boolean("status")->default(0);
             $table->boolean("feature_status")->default(0);
-            $table->integer("order")->default(0);
+            $table->integer("order")->default(0)->nullable();
             $table->string("seo_keywords")->nullable();
             $table->string("seo_description")->nullable();
             $table->timestamps();

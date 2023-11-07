@@ -22,6 +22,7 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {
         Route::get('', "index")->name('index');
         Route::get('add', "create")->name('add');
+        Route::post('add', "store");
         Route::post('change-status', "change_status")->name('change_status');
         Route::post('delete', "destroy")->name('delete');
     });
