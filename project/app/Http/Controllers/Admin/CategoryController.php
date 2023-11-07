@@ -54,7 +54,7 @@ class CategoryController extends BaseController
     {
         $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
         $this->data['title'] = 'Add Category';
-        return view('admin.category.add', $this->data);
+        return view('admin.category.add-edit', $this->data);
     }
 
     /**
@@ -101,7 +101,25 @@ class CategoryController extends BaseController
      */
     public function edit(string $id)
     {
-        //
+        $this->data['title'] = 'Category #'.$id.' Edit';
+        $category = Category::where('id', $id)->first();
+        if (is_null($category)) {
+            alert()->error("Error", "Record not found.")->showConfirmButton("OK");
+            return redirect()->route('admin.category.index');
+        }
+        $this->data['record'] = $category;
+        $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
+        /*$validator = Validator::make(['id' => $id], [
+            'id' => ['required', 'integer', 'exists:categories']
+        ]);
+        if ($validator->fails()) {
+            $this->data['errors'] = $validator->errors();
+        } else {
+            $this->data['record'] = Category::where('id', $id)->first();
+            $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
+        }
+        $this->data['title'] = 'Category #'.$id.' Edit';*/
+        return view('admin.category.add-edit', $this->data);
     }
 
     /**
@@ -109,7 +127,33 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, string $id)
     {
-        //
+        $slug = Str::slug($request->slug);
+        $slug_check = $this->slug_check($slug);
+        $category = Category::find($id);
+        if (is_null($slug_check) || (!is_null($slug_check) && $slug_check->id == $category->id)) {
+            $category->slug = $slug;
+        } else {
+            $category->slug = Str::slug($slug.'-'.random_int(1, 9999));
+        }
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->status = isset($request->status) ? 1 : 0;
+        $category->feature_status = isset($request->feature_status) ? 1 : 0;
+        $category->parent_id = $request->parent_id;
+        $category->seo_keywords = $request->seo_keywords;
+        $category->seo_description = $request->seo_description;
+        $category->order = $request->order;
+        try {
+            $category->save();
+        } catch (\Exception $e) {
+            //abort(500, $e->getMessage());
+            alert()->error("Error", "Record could not be updated.")
+                ->showConfirmButton("OK")->autoClose(5000);
+            return redirect()->back();
+        }
+        alert()->success("Success", "Record has been updated successfully.")
+            ->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back();
     }
 
     /**

@@ -42,7 +42,10 @@
                                     <td>{{ $item->order }}</td>
                                     <td>{{ $item->parentCategory?->name }}</td>
                                     <td>{{ $item->created_at }}</td>
-                                    <x-admin.table-actions :recordId="$item->id"></x-admin.table-actions>
+                                    <x-admin.table-actions
+                                        :editURL="route('admin.category.edit', ['id' => $item->id])"
+                                        :recordId="$item->id"
+                                    ></x-admin.table-actions>
                                 </tr>
                             @endforeach
                         </x-slot>

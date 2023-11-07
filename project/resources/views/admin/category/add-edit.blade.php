@@ -23,45 +23,53 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('admin.category.add') }}" method="POST">
+                            <form
+                                action="{{ isset($record) ? route('admin.category.edit', ['id' => $record->id]) : route('admin.category.add') }}"
+                                method="POST">
                                 @csrf
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm
                                 {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
-                                       name="name" placeholder="Category Name" required>
+                                       name="name" placeholder="Category Name" required
+                                       value="{{ $record->name ?? '' }}">
                                 @if($errors->has('name'))
                                     <p>{{ $errors->first('name') }}</p>
                                 @endif
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="slug" placeholder="Category Slug">
+                                       name="slug" placeholder="Category Slug" value="{{ $record->slug ?? '' }}">
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="description"
-                                          rows="5" placeholder="Description"></textarea>
+                                          rows="5" placeholder="Description">{{ $record->description ?? '' }}</textarea>
                                 <input type="number" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="order" min="0" placeholder="Order">
+                                       name="order" min="0" placeholder="Order" value="{{ $record->order ?? '' }}">
                                 <select class="form-select m-b-sm bg-light" name="parent_id"
                                         aria-label="Parent Category">
                                     <option value="{{ null }}">Parent Category</option>
                                     @if(!empty($category_list))
                                         @foreach($category_list as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}"
+                                                {{ isset($record) && $record->parent_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                         @endforeach
                                     @endif
                                 </select>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
-                                          rows="5" placeholder="SEO Keywords"></textarea>
+                                          rows="5"
+                                          placeholder="SEO Keywords">{{ $record->seo_keywords ?? '' }}</textarea>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_description"
-                                          rows="5" placeholder="SEO Description"></textarea>
+                                          rows="5"
+                                          placeholder="SEO Description">{{ $record->seo_description ?? '' }}</textarea>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="status" name="status" checked>
+                                    <input class="form-check-input" type="checkbox" id="status"
+                                           name="status" {{ isset($record) && $record->status ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status">Status</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="feature_status"
-                                           name="feature_status">
+                                           name="feature_status" {{ isset($record) && $record->feature_status ? 'checked' : '' }}>
                                     <label class="form-check-label" for="feature_status">Feature Status</label>
                                 </div>
                                 <hr>
                                 <div class="d-grid gap-2 col-lg-6 mx-auto">
-                                    <button class="btn btn-primary" type="submit">Save</button>
+                                    <button class="btn btn-primary"
+                                            type="submit">{{ isset($record) ? 'Save' : 'Submit' }}</button>
                                 </div>
                             </form>
                         </div>
