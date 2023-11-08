@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->name('dashboard');
 //Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->middleware('language')->name('dashboard');
+Route::prefix("login")->name("login.")->controller('\App\Http\Controllers\Auth\LoginController')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+    });
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
