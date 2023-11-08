@@ -17,6 +17,7 @@ Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"
 Route::prefix("login")->name("login.")->controller('\App\Http\Controllers\Auth\LoginController')
     ->group(function () {
         Route::get('', "index")->name('index');
+        Route::post('', "login");
     });
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {

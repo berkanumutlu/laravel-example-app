@@ -5,8 +5,8 @@
             <a href="//github.com/berkanumutlu" target="_blank">
                 <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}" alt="User Logo">
                 <span class="activity-indicator"></span>
-                <span class="user-info-text">Berkan Ümütlü<br><span
-                        class="user-state-info">On a development</span></span>
+                <span class="user-info-text">{{ auth()->user()->name }}<br>
+                    <span class="user-state-info">On a development</span></span>
             </a>
         </div>
     </div>
