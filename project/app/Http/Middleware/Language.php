@@ -17,11 +17,11 @@ class Language
     {
         $default_language = 'tr';
         $language = app()->getLocale();
-        dump(app()->getLocale());
+        //dump(app()->getLocale());
         if ($language !== $default_language) {
             app()->setLocale($default_language);
         }
-        dump(app()->getLocale());
+        //dump(app()->getLocale());
         return $next($request);
     }
 }
