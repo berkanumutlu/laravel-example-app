@@ -22,9 +22,9 @@
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/pace/pace.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/pace/pace.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('assets/admin/css/main.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet">
@@ -54,11 +54,11 @@
     </div>
 </div>
 <!-- Javascripts -->
-<script src="{{ asset('assets/admin/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/pace/pace.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/pace/pace.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
 @include('sweetalert::alert')
 <script src="{{ asset('assets/admin/js/main.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/custom.js') }}"></script>

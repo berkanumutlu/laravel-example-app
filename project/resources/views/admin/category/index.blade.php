@@ -3,7 +3,7 @@
     <meta name="csrf_token" content="{{ csrf_token() }}"/>
 @endsection
 @section("style")
-    <link href="{{ asset('assets/admin/plugins/datatables/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/datatables/datatables.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="row">
@@ -69,7 +69,7 @@
     </div>
 @endsection
 @section("scripts")
-    <script src="{{ asset('assets/admin/plugins/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/datatables.js') }}"></script>
     <script>
         $(document).ready(function () {
