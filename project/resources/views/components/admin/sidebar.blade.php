@@ -2,7 +2,7 @@
     <div class="logo">
         <a href="{{ route('admin.dashboard') }}" class="logo-icon"><span class="logo-text">Laravel</span></a>
         <div class="sidebar-user-switcher user-activity-online">
-            <a href="#">
+            <a href="//github.com/berkanumutlu" target="_blank">
                 <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}" alt="User Logo">
                 <span class="activity-indicator"></span>
                 <span class="user-info-text">Berkan Ümütlü<br><span

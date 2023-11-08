@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->name('dashboard');
+//Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->middleware('language')->name('dashboard');
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
