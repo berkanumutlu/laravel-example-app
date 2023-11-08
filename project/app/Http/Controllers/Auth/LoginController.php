@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,5 +45,23 @@ class LoginController extends Controller
         return redirect()->route('admin.login.index')->withErrors([
             "email" => "Email or password is incorrect."
         ])->onlyInput("email", "remember_me");
+    }
+
+    public function logout(Request $request)
+    {
+        $result = ['status' => false, 'message' => null];
+        if (Auth::check()) {
+            try {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerate();
+                $result['status'] = true;
+                $result['redirect'] = route('admin.login.index');
+            } catch (\Exception $e) {
+                $result['message'] = $e->getMessage();
+            }
+        }
+        //return redirect()->route('admin.login.index');
+        return response()->json($result);
     }
 }

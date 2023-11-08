@@ -9,6 +9,15 @@
                     <span class="user-state-info">On a development</span></span>
             </a>
         </div>
+        <div class="d-inline-block w-100 mt-2">
+            <div class="navbar-nav navbar-light align-items-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.logout') }}" class="btnUserLogout nav-link"><i class="material-icons">logout</i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="app-menu pb-5">
         <ul class="accordion-menu">

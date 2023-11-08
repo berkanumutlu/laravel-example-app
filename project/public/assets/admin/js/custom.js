@@ -1,11 +1,10 @@
-function imageCheck (images) {
+function imageCheck(images) {
     let $images = images[0];
     let length = $images.files.length;
     let files = $images.files;
     let mimeType = ['png', 'jpg', 'jpeg'];
 
-    if (length > 0)
-    {
+    if (length > 0) {
         for (let i = 0; i < length; i++) {
             let type = files[i].type.split("/").pop();
             let size = files[i].size;
@@ -35,20 +34,53 @@ function imageCheck (images) {
 }
 
 $(document).ready(function () {
-   $('#languageDropDown').click(function () {
-       $(this).addClass("show");
-   }) ;
+    $('#languageDropDown').click(function () {
+        $(this).addClass("show");
+    });
 
     $('#btnClearFilter').click(function () {
         let filters1 = $('#formFilter input');
         let filters2 = $('#formFilter select');
         let filters = filters1.toArray().concat(filters2.toArray());
         filters.forEach(function (element, index, arr) {
-            element.value=null;
-            if(element.nodeName == "SELECT")
-            {
+            element.value = null;
+            if (element.nodeName == "SELECT") {
                 $(element).val(null).trigger('change');
             }
         })
+    });
+
+    $('.btnUserLogout').on("click", function (e) {
+        e.preventDefault();
+        let url = $(this).attr("href");
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')}
+        }).done(function (response) {
+            if (response.hasOwnProperty('message') && response.message !== null && response.message !== '') {
+                let $swalProps = {
+                    html: response.message,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                };
+                if (response.hasOwnProperty('icon')) {
+                    $swalProps['icon'] = response.icon;
+                }
+                if (response.hasOwnProperty('timer')) {
+                    $swalProps['timer'] = response.timer;
+                }
+                Swal.fire($swalProps);
+            }
+            if (response.hasOwnProperty('status')) {
+                if (response.status) {
+                    if (response.hasOwnProperty('redirect')) {
+                        return window.location.replace(response.redirect);
+                    }
+                }
+            }
+        });
     });
 });

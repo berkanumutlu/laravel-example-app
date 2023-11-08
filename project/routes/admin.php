@@ -19,6 +19,7 @@ Route::prefix("login")->name("login.")->controller('\App\Http\Controllers\Auth\L
         Route::get('', "index")->name('index');
         Route::post('', "login");
     });
+Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, "logout"])->name('logout');
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
