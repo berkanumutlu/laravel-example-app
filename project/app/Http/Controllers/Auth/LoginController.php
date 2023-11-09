@@ -37,9 +37,16 @@ class LoginController extends Controller
         $password = $request->password;
         $remember_me = isset($request->remember_me);
         $user = User::where("email", $email)->first();
+        //$user = User::where("email", $email)->where("status", 1)->first();
+        /*if (Auth::attempt(['email' => $email, 'password' => $password], $remember_me)) {
+            return redirect()->route('admin.dashboard');
+        }*/
+        /*if (Auth::attempt(['email' => $email, 'password' => $password, 'status' => 1], $remember_me)) {
+            return redirect()->route("admin.index");
+        }*/
         if (!empty($user) && Hash::check($password, $user->password)) {
-            Auth::login($user);
-            //Auth::loginUsingId($user->id);
+            Auth::login($user, $remember_me);
+            //Auth::loginUsingId($user->id, $remember_me);
             return redirect()->route('admin.dashboard');
         }
         return redirect()->route('admin.login.index')->withErrors([
