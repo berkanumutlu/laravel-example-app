@@ -1,9 +1,31 @@
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+
+<p align="center">
+<a href="https://laravel.com/docs/10.x" target="_blank"><img src="https://img.shields.io/badge/Laravel-10.29.0-F23A2F" alt="Laravel Version"></a>
+<a href="https://www.php.net/releases/8_1_23.php" target="_blank"><img src="https://img.shields.io/badge/PHP-8.1.23-7A86B8" alt="PHP Version"></a>
+<a href="https://github.com/berkanumutlu/laravel-example-app/blob/master/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/berkanumutlu/laravel-example-app" alt="License"></a>
+</p>
+
 # Laravel Example App
 
-- **Laravel Version:** 10.29.0 (<a href="https://laravel.com/docs/10.x" target="_blank">Documentation</a>)
-- **PHP Version:** 8.1.23 (<a href="https://www.php.net/releases/8_1_23.php" target="_blank">Release Announcement</a>)
+It is an article publishing web project using Laravel. There is an admin panel within the project. In the admin panel,
+administrators and users can be created, articles can be added, edited and deleted, categories can be added, edited and
+deleted, and categories can be assigned to articles. On the web side, users can view the list of articles, filter by
+categories, and comment on articles.
 
 # Installation
+
+```sh
+$ docker-compose up
+```
+
+```sh
+$ docker ps
+```
+
+```sh
+$ docker exec -it {PHP8_CONTAINER_ID} bash
+```
 
 ```sh
 $ composer global require laravel/installer
