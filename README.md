@@ -54,3 +54,7 @@ $ laravel new project
 $ cd project
 $ php artisan serve
 ```
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
