@@ -7,6 +7,7 @@
     <meta name="description" content="Responsive Admin Dashboard Template">
     <meta name="keywords" content="admin,dashboard">
     <meta name="author" content="Berkan Ümütlü">
+    <meta name="csrf_token" content="{{ csrf_token() }}"/>
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title -->
     <title>@yield('title', isset($title) ? $title . ' - Admin Panel' : 'Admin Panel - Laravel Example App')</title>
@@ -27,7 +28,7 @@
     <link href="{{ asset('assets/plugins/pace/pace.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('assets/admin/css/main.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/custom.min.css') }}" rel="stylesheet">
     @yield("style")
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
