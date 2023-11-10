@@ -19,13 +19,7 @@ categories, and comment on articles.
 
 ```sh
 $ docker-compose up
-```
-
-```sh
 $ docker ps
-```
-
-```sh
 $ docker exec -it {PHP8_CONTAINER_ID} bash
 ```
 
@@ -35,9 +29,6 @@ $ composer global require laravel/installer
 
 ```sh
 $ composer global about
-```
-
-```sh
 # Changed current directory to /root/.composer
 # Composer - Dependency Manager for PHP - version 2.6.5
 # Composer is a dependency manager tracking local dependencies of your projects and libraries.
