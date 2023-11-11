@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->name('dashboard');
 //Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, "index"])->middleware('language')->name('dashboard');
-Route::prefix("login")->name("login.")->controller('\App\Http\Controllers\Auth\LoginController')
+Route::prefix("login")->name("login.")->controller('LoginController')
+    ->middleware('guest:admin')
+    ->withoutMiddleware(['auth:admin'])
     ->group(function () {
         Route::get('', "index")->name('index');
         Route::post('', "login");
     });
-Route::post('logout', [\App\Http\Controllers\Auth\LoginController::class, "logout"])->name('logout');
+Route::post('logout', [\App\Http\Controllers\Admin\LoginController::class, "logout"])->name('logout');
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');

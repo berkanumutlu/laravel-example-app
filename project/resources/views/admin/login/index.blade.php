@@ -9,10 +9,9 @@
         </div>
         <div class="app-auth-container">
             <div class="logo">
-                <a href="#">Login</a>
+                <a href="javascript:;" rel="nofollow">Login - Admin Panel</a>
             </div>
-            <p class="auth-description">Please sign-in to your account and continue to the dashboard.<br>Don't have an
-                account? <a href="#">Sign Up</a></p>
+            <p class="auth-description">Please sign-in to your account and continue to the admin dashboard.</p>
             @if($errors->any())
                 <div class="alert alert-danger">
                     <ul class="m-0 p-0">
@@ -40,14 +39,8 @@
                 </div>
                 <div class="auth-submit">
                     <button type="submit" class="btn btn-primary">Sign In</button>
-                    <a href="#" class="auth-forgot-password float-end">Forgot password?</a>
                 </div>
                 <div class="divider"></div>
-                <div class="auth-alts">
-                    <a href="#" class="auth-alts-google"></a>
-                    <a href="#" class="auth-alts-facebook"></a>
-                    <a href="#" class="auth-alts-twitter"></a>
-                </div>
             </form>
         </div>
     </div>
