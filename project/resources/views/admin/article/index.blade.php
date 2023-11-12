@@ -10,6 +10,69 @@
                     <h1 class="card-title">{{ $title }}</h1>
                 </x-slot>
                 <x-slot name="body">
+                    <form action="{{ route('admin.article.index') }}" id="formFilter">
+                        <div class="row">
+                            <div class="col-3 my-2">
+                                <input type="text" class="form-control" placeholder="Title" name="title"
+                                       value="{{ request()->get('title') }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text" class="form-control" placeholder="Slug" name="slug"
+                                       value="{{ request()->get('slug') }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text" class="form-control" placeholder="Body" name="body"
+                                       value="{{ request()->get('body') }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text" class="form-control" placeholder="Order" name="order"
+                                       value="{{ request()->get('order') }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                @if(!empty($categories))
+                                    <select class="form-select" name="category_id">
+                                        <option value="{{ null }}">Select Category</option>
+                                        @foreach($categories as $item)
+                                            <option
+                                                value="{{ $item->id }}" {{ request()->get('category_id') == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="col-3 my-2">
+                                @if(!empty($users))
+                                    <select class="form-select" name="user_id">
+                                        <option value="{{ null }}">Users</option>
+                                        @foreach($users as $user)
+                                            <option
+                                                value="{{ $user->id }}" {{ request()->get('user_id') == $user->id ? "selected" : "" }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="col-3 my-2">
+                                <select class="form-select" name="status" aria-label="Status">
+                                    <option value="{{ null }}">Status</option>
+                                    <option
+                                        value="0" {{ request()->filled('status') && request()->get('status') == 0 ? "selected" : "" }}>
+                                        Passive
+                                    </option>
+                                    <option
+                                        value="1" {{ request()->filled('status') && request()->get('status') == 1 ? "selected" : "" }}>
+                                        Active
+                                    </option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="col-6 mb-2 d-flex">
+                                <button class="btn btn-primary w-50 me-4" type="submit">Search</button>
+                                <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Reset</button>
+                            </div>
+                            <hr>
+                        </div>
+                    </form>
                     <x-admin.table :class="'table-striped table-hover'" :responsive="true">
                         <x-slot name="columns">
                             @foreach($columns as $item)

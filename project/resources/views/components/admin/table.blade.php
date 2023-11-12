@@ -1,5 +1,5 @@
 @if(!empty($responsive))
-    <div class="table-responsive">
+    <div class="table-responsive custom-scrollbar">
         @endif
         <table class="table {{ $class ?? '' }}">
             @isset($columns)

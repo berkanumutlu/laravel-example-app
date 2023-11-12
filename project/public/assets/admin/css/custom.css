@@ -1,4 +1,22 @@
 /* Your Custom CSS Goes here */
+.custom-scrollbar::-webkit-scrollbar {
+    margin-top: 15px;
+    padding-top: 15px;
+    width: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    border: 5px solid transparent;
+    background-clip: content-box;
+    background-color: #6799FA;
+}
+
 .app-menu > ul > li ul li a.has-icon:hover i, .app-menu > ul > li ul li a.has-icon.active i {
     color: #1e1e24;
     font-weight: 500;

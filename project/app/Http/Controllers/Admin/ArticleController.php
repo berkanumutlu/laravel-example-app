@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Articles;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ArticleController extends BaseController
@@ -10,12 +12,25 @@ class ArticleController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $categories = Category::where('status', 1)->select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['categories'] = $categories;
+        $users = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['users'] = $users;
         $records = Articles::with(['category:id,name', 'user:id,name'])->select([
             'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
             'publish_date', 'category_id', 'user_id', 'created_at'
-        ])->orderBy('id', 'desc')->paginate(20);
+        ])
+            ->title($request->title)
+            ->slug($request->slug)
+            ->body($request->body)
+            ->status($request->status)
+            ->user($request->user_id)
+            ->category($request->category_id)
+            ->orderBy('id', 'desc')
+            ->paginate(20)
+            ->appends(request()->query());// Pagination'daki sayfa linklerine filtre parametrelerini eklemesini sağlıyor.
         $this->data['records'] = $records;
         $this->data['columns'] = [
             'Id', 'Title', 'Slug', 'Body', 'Image', 'Status', 'Read Time', 'Views', 'Likes', 'Publish Date',
