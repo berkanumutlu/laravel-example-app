@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Articles;
 use Illuminate\Http\Request;
 
 class ArticleController extends BaseController
@@ -11,6 +12,15 @@ class ArticleController extends BaseController
      */
     public function index()
     {
+        $records = Articles::with(['category:id,name', 'user:id,name'])->select([
+            'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
+            'publish_date', 'category_id', 'user_id', 'created_at'
+        ])->orderBy('id', 'desc')->get();
+        $this->data['records'] = $records;
+        $this->data['columns'] = [
+            'Id', 'Title', 'Slug', 'Body', 'Image', 'Status', 'Read Time', 'Views', 'Likes', 'Publish Date',
+            'Category', 'User', 'Creation Time', 'Actions'
+        ];
         $this->data['title'] = 'Article List';
         return view('admin.article.index', $this->data);
     }

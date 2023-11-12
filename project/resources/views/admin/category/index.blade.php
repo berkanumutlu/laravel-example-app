@@ -43,19 +43,15 @@
                                     <td>{{ $item->parentCategory?->name }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
-                                        :editURL="route('admin.category.edit', ['id' => $item->id])"
                                         :recordId="$item->id"
+                                        :editURL="route('admin.category.edit', ['id' => $item->id])"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach
                         </x-slot>
                         <x-slot name="footer">
                             @foreach($columns as $item)
-                                @if(in_array($item, ['Title', 'Name', 'Slug', 'Description']))
-                                    <th> {{ $item }}</th>
-                                @else
-                                    <th></th>
-                                @endif
+                                <th>{{ in_array($item, ['Title', 'Name', 'Slug', 'Description']) ? $item : '' }}</th>
                             @endforeach
                         </x-slot>
                     </x-admin.table>
