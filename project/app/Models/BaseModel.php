@@ -29,7 +29,7 @@ class BaseModel extends Model
     {
         //dd($query->getQuery()->wheres);
         if (isset($value)) {
-            $query->where('user_id', $value);
+            return $query->where('user_id', $value);
         }
     }
 }

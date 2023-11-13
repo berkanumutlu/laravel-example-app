@@ -22,6 +22,15 @@ class ArticleController extends BaseController
             'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
             'publish_date', 'category_id', 'user_id', 'created_at'
         ])
+            //->where(function ($query) use ($category_id, $user_id) {
+            //    if (!is_null($category_id)) {
+            //        $query->where('category_id', $category_id);
+            //    }
+            //    if (!is_null($user_id)) {
+            //        $query->where('user_id', $user_id);
+            //    }
+            //})
+            //->where("category_id", $category_id)
             ->title($request->title)
             ->slug($request->slug)
             ->body($request->body)

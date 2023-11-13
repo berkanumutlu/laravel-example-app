@@ -45,8 +45,7 @@ class Articles extends BaseModel
     public function scopeCategory($query, $category_id)
     {
         if (!is_null($category_id)) {
-            $query->where('category_id', $category_id);
+            return $query->where('category_id', $category_id);
         }
-
     }
 }
