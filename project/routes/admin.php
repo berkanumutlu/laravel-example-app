@@ -26,7 +26,9 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
         Route::get('add', "create")->name('add');
+        Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
+        Route::post('edit/{id}', "update")->whereNumber('id');
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {

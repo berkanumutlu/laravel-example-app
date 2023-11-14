@@ -54,8 +54,9 @@ class ArticleController extends BaseController
      */
     public function create()
     {
+        $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
         $this->data['title'] = 'Add Article';
-        return view('admin.article.add', $this->data);
+        return view('admin.article.add-edit', $this->data);
     }
 
     /**
