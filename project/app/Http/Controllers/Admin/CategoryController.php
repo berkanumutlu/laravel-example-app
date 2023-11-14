@@ -72,7 +72,8 @@ class CategoryController extends BaseController
             $category = new Category();
             $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->name);
             $category->name = $request->name;
-            $category->slug = is_null($this->slug_check($slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
+            $category->slug = is_null($this->check_slug(Category::class,
+                $slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
             $category->description = $request->description;
             $category->status = isset($request->status) ? 1 : 0;
             $category->feature_status = isset($request->feature_status) ? 1 : 0;
@@ -87,11 +88,6 @@ class CategoryController extends BaseController
         alert()->success("Success", "Record successfully added.")
             ->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back();
-    }
-
-    public function slug_check(string $slug)
-    {
-        return Category::where('slug', $slug)->first();
     }
 
     /**
@@ -123,8 +119,7 @@ class CategoryController extends BaseController
         } else {
             $this->data['record'] = Category::where('id', $id)->first();
             $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])->get();
-        }
-        $this->data['title'] = 'Category #'.$id.' Edit';*/
+        }*/
         return view('admin.category.add-edit', $this->data);
     }
 
@@ -134,7 +129,7 @@ class CategoryController extends BaseController
     public function update(Request $request, string $id)
     {
         $slug = Str::slug($request->slug);
-        $slug_check = $this->slug_check($slug);
+        $slug_check = $this->check_slug(Category::class, $slug);
         $category = Category::find($id);
         if (is_null($slug_check) || (!is_null($slug_check) && $slug_check->id == $category->id)) {
             $category->slug = $slug;

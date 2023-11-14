@@ -38,12 +38,14 @@
                                 @endif
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm"
                                        name="slug" placeholder="Article Slug" value="{{ $record->slug ?? '' }}">
-                                {{--<textarea class="form-control form-control-solid-bordered m-b-sm" name="body"
-                                          rows="5" placeholder="Description"
-                                          required>{{ $record->body ?? '' }}</textarea>--}}
                                 <div class="m-b-sm">
-                                    <div id="summernote">{{ $record->body ?? '' }}</div>
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm" name="body"
+                                              id="summernote" rows="3" placeholder="Description"
+                                              required>{{ $record->body ?? '' }}</textarea>
                                 </div>
+                                <input type="file" name="image" id="image"
+                                       class="form-control form-control-solid-bordered m-b-sm"
+                                       accept="image/png, image/jpeg, image/jpg">
                                 <div class="m-b-sm bg-light">
                                     <select class="form-select" name="category_id"
                                             aria-label="Category">

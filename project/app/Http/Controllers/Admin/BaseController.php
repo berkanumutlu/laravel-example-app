@@ -21,4 +21,9 @@ class BaseController extends Controller
         $this->data['title'] = '';
         $this->data['search_form'] = false;
     }
+
+    public function check_slug($model, string $slug)
+    {
+        return $model::where('slug', $slug)->first();
+    }
 }

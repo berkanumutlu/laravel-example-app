@@ -45,7 +45,7 @@ $(document).ready(function () {
         buttons: {
             lfm: LFMButton
         },
-        height: 400
+        height: 100
     })
 
     $('#header_text').summernote({
