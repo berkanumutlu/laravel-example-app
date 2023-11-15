@@ -1,6 +1,6 @@
 @extends("admin.layouts.index")
 @section("head")
-
+    <link href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="row">
@@ -25,8 +25,17 @@
                                        value="{{ request()->get('body') }}">
                             </div>
                             <div class="col-3 my-2">
-                                <input type="text" class="form-control" placeholder="Order" name="order"
-                                       value="{{ request()->get('order') }}">
+                                <select class="form-select" name="status" aria-label="Status">
+                                    <option value="{{ null }}">Status</option>
+                                    <option
+                                        value="0" {{ request()->filled('status') && request()->get('status') == 0 ? "selected" : "" }}>
+                                        Passive
+                                    </option>
+                                    <option
+                                        value="1" {{ request()->filled('status') && request()->get('status') == 1 ? "selected" : "" }}>
+                                        Active
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-3 my-2">
                                 @if(!empty($categories))
@@ -53,17 +62,28 @@
                                 @endif
                             </div>
                             <div class="col-3 my-2">
-                                <select class="form-select" name="status" aria-label="Status">
-                                    <option value="{{ null }}">Status</option>
-                                    <option
-                                        value="0" {{ request()->filled('status') && request()->get('status') == 0 ? "selected" : "" }}>
-                                        Passive
-                                    </option>
-                                    <option
-                                        value="1" {{ request()->filled('status') && request()->get('status') == 1 ? "selected" : "" }}>
-                                        Active
-                                    </option>
-                                </select>
+                                <input type="text"
+                                       class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
+                                       name="publish_date" placeholder="Publish Date"
+                                       value="{{ request()->get("publish_date") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="number" class="form-control" placeholder="Min View Count"
+                                       name="min_view_count" value="{{ request()->get("min_view_count") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="number" class="form-control" placeholder="Max View Count"
+                                       name="max_view_count" value="{{ request()->get("max_view_count") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="number" class="form-control" placeholder="Min Like Count"
+                                       name="min_like_count" value="{{ request()->get("min_like_count") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="number" class="form-control" placeholder="Max Like Count"
+                                       name="max_like_count" value="{{ request()->get("max_like_count") }}">
                             </div>
                             <hr>
                             <div class="col-6 mb-2 d-flex">
@@ -85,11 +105,11 @@
                                     <th scope="row">{{ $item->id }}</th>
                                     <td>{{ Str::limit($item->title, 20) }}</td>
                                     <td>{{ Str::limit($item->slug, 20) }}</td>
-                                    <td>{{ Str::limit($item->body, 40) }}</td>
+                                    <td>{{ Str::limit(strip_tags($item->body), 40) }}</td>
                                     <td>
                                         @if(!empty($item->image))
-                                            <a href="{{ $item->image }}" target="_blank">
-                                                <img src="{{ $item->image }}" alt="{{ $item->title }}"
+                                            <a href="{{ asset($item->image) }}" target="_blank">
+                                                <img src="{{ asset($item->image) }}" alt="{{ $item->title }}"
                                                      width="40" height="40"></a>
                                         @endif
                                     </td>
@@ -128,5 +148,6 @@
     </div>
 @endsection
 @section("scripts")
-
+    <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/datepickers.js') }}"></script>
 @endsection

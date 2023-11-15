@@ -22,7 +22,7 @@ class ArticleController extends BaseController
         $this->data['categories'] = $categories;
         $users = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['users'] = $users;
-        $records = Articles::with(['category:id,name', 'user:id,name'])->select([
+        $records = Articles::query()->with(['category:id,name', 'user:id,name'])->select([
             'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
             'publish_date', 'category_id', 'user_id', 'created_at'
         ])
@@ -39,6 +39,22 @@ class ArticleController extends BaseController
             ->slug($request->slug)
             ->body($request->body)
             ->status($request->status)
+            ->tag($request->tag)
+            ->publishDate($request->publish_date)
+            ->where(function ($query) use ($request) {
+                if ($request->min_view_count) {
+                    $query->where('view_count', '>=', (int) $request->min_view_count);
+                }
+                if ($request->max_view_count) {
+                    $query->where('view_count', '<=', (int) $request->max_view_count);
+                }
+                if ($request->min_like_count) {
+                    $query->where('like_count', '>=', (int) $request->min_like_count);
+                }
+                if ($request->max_like_count) {
+                    $query->where('like_count', '<=', (int) $request->max_like_count);
+                }
+            })
             ->user($request->user_id)
             ->category($request->category_id)
             ->orderBy('id', 'desc')
