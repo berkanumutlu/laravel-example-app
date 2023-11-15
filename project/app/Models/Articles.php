@@ -48,4 +48,9 @@ class Articles extends BaseModel
             return $query->where('category_id', $category_id);
         }
     }
+
+    public function getTagsAttribute($value)
+    {
+        return explode(',', $value);
+    }
 }

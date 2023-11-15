@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\ArticleStoreRequest;
+use App\Http\Requests\Admin\ArticleUpdateRequest;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class ArticleController extends BaseController
@@ -120,12 +122,12 @@ class ArticleController extends BaseController
             //abort(500, $e->getMessage());
             //alert()->error("Error", $e->getMessage())->showConfirmButton("OK");
             if (isset($image_file_path) && file_exists($image_file_path)) {
-                @unlink($image_file_path);
+                File::delete($image_file_path);
             }
             alert()->error("Error", "Record could not be added.")->showConfirmButton("OK");
             return redirect()->back();
         }
-        alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
+        alert()->success("Success", "Record has been added successfully.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back();
     }
 
@@ -142,15 +144,63 @@ class ArticleController extends BaseController
      */
     public function edit(string $id)
     {
-        //
+        $article = Articles::where('id', $id)->first();
+        if (is_null($article)) {
+            alert()->error("Error", "Record not found.")->showConfirmButton("OK");
+            return redirect()->route('admin.article.index');
+        }
+        $this->data['record'] = $article;
+        $this->data['category_list'] = Category::where('status', 1)->select(['id', 'name'])
+            ->orderBy('name', 'asc')->get();
+        $this->data['title'] = 'Article #'.$id.' Edit';
+        return view('admin.article.add-edit', $this->data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ArticleUpdateRequest $request, string $id)
     {
-        //
+        $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
+        $data = [
+            'title'           => trim($request->title),
+            'slug'            => $slug,
+            'body'            => $request->body,
+            'category_id'     => $request->category_id,
+            'read_time'       => $request->read_time,
+            'publish_date'    => $request->publish_date,
+            'status'          => isset($request->status) ? 1 : 0,
+            'tags'            => is_array($request->tags) ? implode(',', $request->tags) : trim($request->tags),
+            'seo_keywords'    => $request->seo_keywords,
+            'seo_description' => $request->seo_description,
+            'user_id'         => auth()->id()
+        ];
+        try {
+            Articles::query()->where('id', $id)->update($data);
+            if ($request->file('image')) {
+                $record = Articles::query()->where('id', $id)->first();
+                $folder = 'articles';
+                $public_path = 'storage/'.$folder;
+                $image_file = $request->file('image');
+                $image_original_extension = $image_file->getClientOriginalExtension();
+                $image_file_name = $data['slug'].'.'.$image_original_extension;
+                try {
+                    $image_file->storeAs($folder, $image_file_name);
+                    Articles::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
+                    if (file_exists(public_path($record->image))) {
+                        //Storage::delete($record->image); // DB'de image değerleri storage/... olarak tutulduğu için çalışmadı.
+                        File::delete(public_path($record->image));
+                    }
+                } catch (\Exception $e) {
+
+                }
+            }
+        } catch (\Exception $e) {
+            alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
+            return redirect()->back();
+        }
+        alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back();
     }
 
     /**

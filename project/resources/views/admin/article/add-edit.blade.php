@@ -43,12 +43,19 @@
                                               id="summernote" rows="3" placeholder="Description"
                                               required>{{ $record->body ?? '' }}</textarea>
                                 </div>
-                                <input type="file" name="image" id="image"
-                                       class="form-control form-control-solid-bordered m-b-sm"
-                                       accept="image/png, image/jpeg, image/jpg">
+                                <div class="m-b-sm">
+                                    <input type="file" name="image" id="image"
+                                           class="form-control form-control-solid-bordered"
+                                           accept="image/png, image/jpeg, image/jpg">
+                                    @if(isset($record) && $record->image)
+                                        <a href="{{ asset($record->image) }}" target="_blank">
+                                            <img src="{{ asset($record->image) }}" alt="{{ $record->title ?? '' }}"
+                                                 class="img-fluid m-t-sm" style="max-height: 200px">
+                                        </a>
+                                    @endif
+                                </div>
                                 <div class="m-b-sm bg-light">
-                                    <select class="form-select" name="category_id"
-                                            aria-label="Category">
+                                    <select class="form-select" name="category_id" aria-label="Category">
                                         <option value="{{ null }}">Category</option>
                                         @if(!empty($category_list))
                                             @foreach($category_list as $item)
@@ -73,6 +80,11 @@
                                         class="form-control js-example-tokenizer" multiple="multiple" name="tags[]"
                                         id="tags" tabindex="-1" style="display: none; width: 100%"
                                         data-allow-clear="true">
+                                        @if(!empty($record->tags) && is_array($record->tags))
+                                            @foreach($record->tags as $item)
+                                                <option value="{{ $item }}" selected>{{ $item }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
