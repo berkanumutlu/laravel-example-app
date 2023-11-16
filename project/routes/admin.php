@@ -29,6 +29,8 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
         Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
         Route::post('edit/{id}', "update")->whereNumber('id');
+        Route::post('change-status', "change_status")->name('change_status');
+        Route::post('delete', "destroy")->name('delete');
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {

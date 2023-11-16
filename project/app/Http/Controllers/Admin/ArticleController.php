@@ -9,7 +9,9 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ArticleController extends BaseController
 {
@@ -222,8 +224,68 @@ class ArticleController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:articles']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['icon'] = 'info';
+            return response()->json($response);
+        }
+        try {
+            $record_id = $request->id;
+            Articles::where("id", $record_id)->delete();
+            $response['status'] = true;
+            $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['icon'] = 'success';
+            $response['timer'] = 4000;
+        } catch (\Exception $e) {
+            $response['message'] = "Could not delete.";
+            $response['icon'] = 'error';
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function change_status(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id'   => ['required', 'integer', 'exists:articles'],
+            'type' => ['required', 'string', Rule::in(['status', 'feature_status'])]
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['icon'] = 'info';
+            return response()->json($response);
+        }
+        $record_id = $request->id;
+        $article = Articles::query()->where("id", $record_id)->first();
+        if (!empty($article)) {
+            try {
+                $type = $request->type;
+                $old_status_text = $article->$type ? 'Active' : 'Passive';
+                $article->$type = !$article->$type;
+                $article->save();
+                $new_status_text = $article->$type ? 'Active' : 'Passive';
+                $response['status'] = true;
+                $response['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
+                $response['icon'] = 'success';
+                $response['timer'] = 4000;
+            } catch (\Exception $e) {
+                $response['message'] = "Could not change.";
+                $response['icon'] = 'error';
+            }
+        } else {
+            $response['message'] = "Record not found.";
+            $response['icon'] = 'error';
+        }
+        return response()->json($response);
     }
 }

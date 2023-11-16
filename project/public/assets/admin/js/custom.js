@@ -97,4 +97,70 @@ $(document).ready(function () {
             dataType: "JSON"
         });
     });
+    $('.btnChangeStatus').on("click", function (e) {
+        e.preventDefault();
+        let $this = $(this);
+        let recordTypeText = $this.data('type-text');
+        Swal.fire({
+            text: 'Do you want to change the ' + recordTypeText + '?',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#ff6673',
+            confirmButtonColor: '#2269f5',
+            confirmButtonText: 'Yes',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = $this.attr('href');
+                let recordId = $this.data('id');
+                let recordType = $this.data('type');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {'id': recordId, 'type': recordType, 'typeText': recordTypeText}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            $this.addClass('d-none').parent('.btnChangeStatusSection').find('.btnChangeStatus').not($this).removeClass('d-none');
+                        }
+                    }
+                });
+            }
+        });
+    });
+    $('.btnDelete').on("click", function (e) {
+        e.preventDefault();
+        let $this = $(this);
+        Swal.fire({
+            text: 'Do you want to delete this record?',
+            icon: 'error',
+            showCancelButton: true,
+            cancelButtonColor: '#ff6673',
+            confirmButtonColor: '#2269f5',
+            confirmButtonText: 'Yes',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = $this.attr('href');
+                let recordId = $this.data('id');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {'id': recordId}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            $this.parents('tr').remove();
+                        }
+                    }
+                });
+            }
+        });
+    });
 });

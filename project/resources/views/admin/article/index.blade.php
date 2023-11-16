@@ -115,8 +115,9 @@
                                     </td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :recordType="'status'"
-                                            :recordTypeText="'Status'" :recordStatus="$item->status">
+                                            :recordId="$item->id" :url="route('admin.article.change_status')"
+                                            :recordType="'status'" :recordTypeText="'Status'"
+                                            :recordStatus="$item->status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>{{ $item->read_time }}</td>
@@ -129,6 +130,7 @@
                                     <x-admin.table-actions
                                         :recordId="$item->id"
                                         :editURL="route('admin.article.edit', ['id' => $item->id])"
+                                        :deleteURL="route('admin.article.delete')"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach

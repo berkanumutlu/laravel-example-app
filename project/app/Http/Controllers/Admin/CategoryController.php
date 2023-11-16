@@ -162,27 +162,27 @@ class CategoryController extends BaseController
      */
     public function destroy(Request $request): \Illuminate\Http\JsonResponse
     {
-        $result = ['status' => false, 'message' => null];
+        $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:categories']
         ]);
         if ($validator->fails()) {
-            $result['message'] = collect($validator->errors()->all())->implode('<br>');
-            $result['icon'] = 'info';
-            return response()->json($result);
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['icon'] = 'info';
+            return response()->json($response);
         }
         try {
             $record_id = $request->id;
             Category::where("id", $record_id)->delete();
-            $result['status'] = true;
-            $result['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
-            $result['icon'] = 'success';
-            $result['timer'] = 4000;
+            $response['status'] = true;
+            $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['icon'] = 'success';
+            $response['timer'] = 4000;
         } catch (\Exception $e) {
-            $result['message'] = "Could not save.";
-            $result['icon'] = 'error';
+            $response['message'] = "Could not delete.";
+            $response['icon'] = 'error';
         }
-        return response()->json($result);
+        return response()->json($response);
     }
 
     /**
@@ -191,7 +191,7 @@ class CategoryController extends BaseController
      */
     public function change_status(Request $request): \Illuminate\Http\JsonResponse
     {
-        $result = ['status' => false, 'message' => null];
+        $response = ['status' => false, 'message' => null];
         /*$request->validate([
             'id'   => ['required', 'integer', 'exists:categories'],
             'type' => ['required', 'string', Rule::in(['status', 'feature_status'])],
@@ -201,9 +201,9 @@ class CategoryController extends BaseController
             'type' => ['required', 'string', Rule::in(['status', 'feature_status'])]
         ]);
         if ($validator->fails()) {
-            $result['message'] = collect($validator->errors()->all())->implode('<br>');
-            $result['icon'] = 'info';
-            return response()->json($result);
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['icon'] = 'info';
+            return response()->json($response);
         }
         $record_id = $request->id;
         $category = Category::where("id", $record_id)->first();
@@ -214,23 +214,23 @@ class CategoryController extends BaseController
                 $category->$type = !$category->$type;
                 $category->save();
                 $new_status_text = $category->$type ? 'Active' : 'Passive';
-                $result['status'] = true;
-                $result['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
-                $result['icon'] = 'success';
-                $result['timer'] = 4000;
+                $response['status'] = true;
+                $response['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
+                $response['icon'] = 'success';
+                $response['timer'] = 4000;
             } catch (\Exception $e) {
-                //$result['system_message'] = $e->getMessage();
-                $result['message'] = "Could not save.";
-                $result['icon'] = 'error';
+                //$response['system_message'] = $e->getMessage();
+                $response['message'] = "Could not change.";
+                $response['icon'] = 'error';
             }
         } else {
-            $result['message'] = "Record not found.";
-            $result['icon'] = 'error';
+            $response['message'] = "Record not found.";
+            $response['icon'] = 'error';
         }
         /*alert()->success("Success", "Record status value changed ".$old_status_text." to ".$new_status_text.".")
             ->showConfirmButton("OK")->autoClose(5000);*/
         //return redirect()->route('admin.category.index');
         //return redirect()->back();
-        return response()->json($result);
+        return response()->json($response);
     }
 }

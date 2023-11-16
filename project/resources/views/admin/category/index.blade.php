@@ -28,14 +28,15 @@
                                     <td>{{ Str::limit($item->description, 50) }}</td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :recordType="'status'"
-                                            :recordTypeText="'Status'" :recordStatus="$item->status">
+                                            :recordId="$item->id" :url="route('admin.category.change_status')"
+                                            :recordType="'status'" :recordTypeText="'Status'"
+                                            :recordStatus="$item->status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :recordType="'feature_status'"
-                                            :recordTypeText="'Feature Status'"
+                                            :recordId="$item->id" :url="route('admin.category.change_status')"
+                                            :recordType="'feature_status'" :recordTypeText="'Feature Status'"
                                             :recordStatus="$item->feature_status">
                                         </x-admin.change-status>
                                     </td>
@@ -45,6 +46,7 @@
                                     <x-admin.table-actions
                                         :recordId="$item->id"
                                         :editURL="route('admin.category.edit', ['id' => $item->id])"
+                                        :deleteURL="route('admin.category.delete')"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach
@@ -67,70 +69,4 @@
 @section("scripts")
     <script src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/datatables.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.btnChangeStatus').on("click", function () {
-                let $this = $(this);
-                let recordType = $this.data('type');
-                let recordTypeText = $this.data('type-text');
-                Swal.fire({
-                    text: 'Do you want to change the ' + recordTypeText + '?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    cancelButtonColor: '#ff6673',
-                    confirmButtonColor: '#2269f5',
-                    confirmButtonText: 'Yes',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let recordId = $this.data('id');
-                        $.ajax({
-                            url: "{{ route('admin.category.change_status') }}",
-                            type: "POST",
-                            dataType: "JSON",
-                            data: {'id': recordId, 'type': recordType, 'typeText': recordTypeText}
-                        }).done(function (response) {
-                            if (response.hasOwnProperty('status')) {
-                                if (response.status) {
-                                    $this.addClass('d-none').parent('.btnChangeStatusSection').find('.btnChangeStatus').not($this).removeClass('d-none');
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-            $('.btnDelete').on("click", function () {
-                let $this = $(this);
-                Swal.fire({
-                    text: 'Do you want to delete this record?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    cancelButtonColor: '#ff6673',
-                    confirmButtonColor: '#2269f5',
-                    confirmButtonText: 'Yes',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let recordId = $this.data('id');
-                        $.ajax({
-                            url: "{{ route('admin.category.delete') }}",
-                            type: "POST",
-                            dataType: "JSON",
-                            data: {'id': recordId}
-                        }).done(function (response) {
-                            if (response.hasOwnProperty('status')) {
-                                if (response.status) {
-                                    $this.parents('tr').remove();
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
