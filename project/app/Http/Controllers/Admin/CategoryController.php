@@ -83,7 +83,9 @@ class CategoryController extends BaseController
             $category->order = $request->order;
             $category->save();
         } catch (\Exception $e) {
-            abort(500, $e->getMessage());
+            //abort(500, $e->getMessage());
+            alert()->error("Error", "Record could not be added.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token");
         }
         alert()->success("Success", "Record successfully added.")
             ->showConfirmButton("OK")->autoClose(5000);
@@ -148,9 +150,8 @@ class CategoryController extends BaseController
             $category->save();
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
-            alert()->error("Error", "Record could not be updated.")
-                ->showConfirmButton("OK")->autoClose(5000);
-            return redirect()->back();
+            alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token");
         }
         alert()->success("Success", "Record has been updated successfully.")
             ->showConfirmButton("OK")->autoClose(5000);

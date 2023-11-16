@@ -32,16 +32,17 @@
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm
                                 {{ $errors->has('title') ? 'border-danger mb-0' : '' }}"
                                        name="title" placeholder="Article Title" required
-                                       value="{{ $record->title ?? '' }}">
+                                       value="{{ old('title') ?? ($record->title ?? '') }}">
                                 @if($errors->has('title'))
                                     <p>{{ $errors->first('title') }}</p>
                                 @endif
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="slug" placeholder="Article Slug" value="{{ $record->slug ?? '' }}">
+                                       name="slug" placeholder="Article Slug"
+                                       value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <div class="m-b-sm">
                                     <textarea class="form-control form-control-solid-bordered m-b-sm" name="body"
                                               id="summernote" rows="3" placeholder="Description"
-                                              required>{{ $record->body ?? '' }}</textarea>
+                                              required>{{ old('body') ?? ($record->body ?? '') }}</textarea>
                                 </div>
                                 <div class="m-b-sm">
                                     <input type="file" name="image" id="image"
@@ -60,18 +61,19 @@
                                         @if(!empty($category_list))
                                             @foreach($category_list as $item)
                                                 <option value="{{ $item->id }}"
-                                                    {{ isset($record) && $record->category_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                    {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}
+                                                >{{ $item->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
                                 </div>
                                 <input type="number" class="form-control form-control-solid-bordered m-b-sm"
                                        name="read_time" placeholder="Article Read Time"
-                                       value="{{ $record->read_time ?? '' }}">
+                                       value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
                                 <input type="text"
                                        class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
                                        name="publish_date" placeholder="Publish Date"
-                                       value="{{ $record->publish_date ?? '' }}">
+                                       value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
                                 {{--<textarea class="form-control form-control-solid-bordered m-b-sm" name="tags"
                                           rows="2" placeholder="Tags">{{ $record->tags ?? '' }}</textarea>--}}
                                 <div class="m-b-sm">
@@ -80,8 +82,11 @@
                                         class="form-control js-example-tokenizer" multiple="multiple" name="tags[]"
                                         id="tags" tabindex="-1" style="display: none; width: 100%"
                                         data-allow-clear="true">
-                                        @if(!empty($record->tags) && is_array($record->tags))
-                                            @foreach($record->tags as $item)
+                                        @if((!empty($record->tags) && is_array($record->tags)) || (old('tags') && is_array(old('tags'))))
+                                            @php
+                                                $tag_list = $record->tags ?? old('tags');
+                                            @endphp
+                                            @foreach($tag_list as $item)
                                                 <option value="{{ $item }}" selected>{{ $item }}</option>
                                             @endforeach
                                         @endif
@@ -89,13 +94,13 @@
                                 </div>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
                                           rows="5"
-                                          placeholder="SEO Keywords">{{ $record->seo_keywords ?? '' }}</textarea>
+                                          placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_description"
                                           rows="5"
-                                          placeholder="SEO Description">{{ $record->seo_description ?? '' }}</textarea>
+                                          placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status"
-                                           name="status" {{ isset($record) && $record->status ? 'checked' : '' }}>
+                                           name="status" {{ old('status') || (isset($record) && $record->status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status">Status</label>
                                 </div>
                                 <hr>

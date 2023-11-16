@@ -30,40 +30,44 @@
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm
                                 {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
                                        name="name" placeholder="Category Name" required
-                                       value="{{ $record->name ?? '' }}">
+                                       value="{{ old('name') ?? ($record->name ?? '') }}">
                                 @if($errors->has('name'))
                                     <p>{{ $errors->first('name') }}</p>
                                 @endif
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="slug" placeholder="Category Slug" value="{{ $record->slug ?? '' }}">
+                                       name="slug" placeholder="Category Slug"
+                                       value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="description"
-                                          rows="5" placeholder="Description">{{ $record->description ?? '' }}</textarea>
+                                          rows="5"
+                                          placeholder="Description">{{ old('description') ?? ($record->description ?? '') }}</textarea>
                                 <input type="number" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="order" min="0" placeholder="Order" value="{{ $record->order ?? '' }}">
+                                       name="order" min="0" placeholder="Order"
+                                       value="{{ old('order') ?? ($record->order ?? '') }}">
                                 <select class="form-select m-b-sm bg-light" name="parent_id"
                                         aria-label="Parent Category">
                                     <option value="{{ null }}">Parent Category</option>
                                     @if(!empty($category_list))
                                         @foreach($category_list as $item)
                                             <option value="{{ $item->id }}"
-                                                {{ isset($record) && $record->parent_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                {{ (old('parent_id') && old('parent_id') == $item->id) || (isset($record) && $record->parent_id == $item->id) ? 'selected' : '' }}
+                                            >{{ $item->name }}</option>
                                         @endforeach
                                     @endif
                                 </select>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
                                           rows="5"
-                                          placeholder="SEO Keywords">{{ $record->seo_keywords ?? '' }}</textarea>
+                                          placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_description"
                                           rows="5"
-                                          placeholder="SEO Description">{{ $record->seo_description ?? '' }}</textarea>
+                                          placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status"
-                                           name="status" {{ isset($record) && $record->status ? 'checked' : '' }}>
+                                           name="status" {{ old('status') || (isset($record) && $record->status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status">Status</label>
                                 </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="feature_status"
-                                           name="feature_status" {{ isset($record) && $record->feature_status ? 'checked' : '' }}>
+                                           name="feature_status" {{ old('feature_status') || (isset($record) && $record->feature_status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="feature_status">Feature Status</label>
                                 </div>
                                 <hr>

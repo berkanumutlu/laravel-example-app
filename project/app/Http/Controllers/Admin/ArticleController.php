@@ -119,7 +119,7 @@ class ArticleController extends BaseController
             /*if (file_exists($image_file_path)) {
                 return redirect()->back()->withErrors([
                     'image' => 'This image file already uploaded.'
-                ]);
+                ])->exceptInput("_token", "files", "image");
             }*/
             try {
                 /**
@@ -143,7 +143,7 @@ class ArticleController extends BaseController
                 File::delete($image_file_path);
             }
             alert()->error("Error", "Record could not be added.")->showConfirmButton("OK");
-            return redirect()->back();
+            return redirect()->back()->exceptInput("_token", "files", "image");
         }
         alert()->success("Success", "Record has been added successfully.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back();
@@ -215,7 +215,7 @@ class ArticleController extends BaseController
             }
         } catch (\Exception $e) {
             alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
-            return redirect()->back();
+            return redirect()->back()->exceptInput("_token", "files", "image");
         }
         alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back();
