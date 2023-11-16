@@ -43,23 +43,23 @@ jQuery(function ($) {
             // hide dialog // works
         },*/
         success: function (response, status, xhr) {
-            let hasMessage = response.hasOwnProperty('message') && response.message !== null && response.message !== '';
+            let hasMessage = (response.hasOwnProperty('notify') && response.notify.message !== null && response.notify.message !== '') || (response.hasOwnProperty('message') && response.message !== null && response.message !== '');
             let hasRedirect = response.hasOwnProperty('redirect');
             if (hasMessage) {
                 let $swalProps = {
-                    html: response.message,
+                    html: response.notify.message ?? response.message,
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     allowEnterKey: false
                 };
-                if (response.hasOwnProperty('icon')) {
+                if (response.notify.hasOwnProperty('icon')) {
                     $swalProps['icon'] = response.icon;
                 }
-                if (response.hasOwnProperty('timer')) {
+                if (response.notify.hasOwnProperty('timer')) {
                     $swalProps['timer'] = response.timer;
                 }
                 if (hasRedirect) {
-                    return Swal.fire($swalProps).then((result)=> {
+                    return Swal.fire($swalProps).then((result) => {
                         return window.location.replace(response.redirect);
                     });
                 } else {
@@ -124,7 +124,18 @@ $(document).ready(function () {
                 }).done(function (response) {
                     if (response.hasOwnProperty('status')) {
                         if (response.status) {
-                            $this.addClass('d-none').parent('.btnChangeStatusSection').find('.btnChangeStatus').not($this).removeClass('d-none');
+                            if (response.hasOwnProperty('data')) {
+                                if (response.data.hasOwnProperty('recordStatusText')) {
+                                    $this.text(response.data.recordStatusText);
+                                }
+                                if (response.data.hasOwnProperty('recordStatus')) {
+                                    if (response.data.recordStatus) {
+                                        $this.removeClass('btn-outline-warning').addClass('btn-outline-success');
+                                    } else {
+                                        $this.removeClass('btn-outline-success').addClass('btn-outline-warning');
+                                    }
+                                }
+                            }
                         }
                     }
                 });

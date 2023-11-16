@@ -224,7 +224,7 @@ class ArticleController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): \Illuminate\Http\JsonResponse
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
@@ -232,7 +232,10 @@ class ArticleController extends BaseController
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
-            $response['icon'] = 'info';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
             return response()->json($response);
         }
         try {
@@ -240,11 +243,17 @@ class ArticleController extends BaseController
             Articles::where("id", $record_id)->delete();
             $response['status'] = true;
             $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
-            $response['icon'] = 'success';
-            $response['timer'] = 4000;
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
         } catch (\Exception $e) {
-            $response['message'] = "Could not delete.";
-            $response['icon'] = 'error';
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
         }
         return response()->json($response);
     }
@@ -262,7 +271,10 @@ class ArticleController extends BaseController
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
-            $response['icon'] = 'info';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
             return response()->json($response);
         }
         $record_id = $request->id;
@@ -270,21 +282,36 @@ class ArticleController extends BaseController
         if (!empty($article)) {
             try {
                 $type = $request->type;
-                $old_status_text = $article->$type ? 'Active' : 'Passive';
-                $article->$type = !$article->$type;
+                $record_type = $article->$type;
+                $old_status_text = $record_type ? 'Active' : 'Passive';
+                $article->$type = !$record_type;
                 $article->save();
-                $new_status_text = $article->$type ? 'Active' : 'Passive';
+                $record_type = $article->$type;
+                $new_status_text = $record_type ? 'Active' : 'Passive';
                 $response['status'] = true;
                 $response['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
-                $response['icon'] = 'success';
-                $response['timer'] = 4000;
+                $response['data'] = [
+                    'recordStatus'     => $record_type,
+                    'recordStatusText' => $new_status_text
+                ];
+                $response['notify'] = [
+                    'message' => $response['message'],
+                    'icon'    => 'success',
+                    'timer'   => 4000
+                ];
             } catch (\Exception $e) {
-                $response['message'] = "Could not change.";
-                $response['icon'] = 'error';
+                $response['message'] = $e->getMessage();
+                $response['notify'] = [
+                    'message' => "Could not change.",
+                    'icon'    => 'error'
+                ];
             }
         } else {
             $response['message'] = "Record not found.";
-            $response['icon'] = 'error';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'error'
+            ];
         }
         return response()->json($response);
     }

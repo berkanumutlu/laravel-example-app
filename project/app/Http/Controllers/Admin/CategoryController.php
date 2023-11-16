@@ -169,7 +169,10 @@ class CategoryController extends BaseController
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
-            $response['icon'] = 'info';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
             return response()->json($response);
         }
         try {
@@ -177,11 +180,17 @@ class CategoryController extends BaseController
             Category::where("id", $record_id)->delete();
             $response['status'] = true;
             $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
-            $response['icon'] = 'success';
-            $response['timer'] = 4000;
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
         } catch (\Exception $e) {
-            $response['message'] = "Could not delete.";
-            $response['icon'] = 'error';
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
         }
         return response()->json($response);
     }
@@ -203,7 +212,10 @@ class CategoryController extends BaseController
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
-            $response['icon'] = 'info';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
             return response()->json($response);
         }
         $record_id = $request->id;
@@ -211,22 +223,36 @@ class CategoryController extends BaseController
         if (!empty($category)) {
             try {
                 $type = $request->type;
-                $old_status_text = $category->$type ? 'Active' : 'Passive';
-                $category->$type = !$category->$type;
+                $record_type = $category->$type;
+                $old_status_text = $record_type ? 'Active' : 'Passive';
+                $category->$type = !$record_type;
                 $category->save();
-                $new_status_text = $category->$type ? 'Active' : 'Passive';
+                $record_type = $category->$type;
+                $new_status_text = $record_type ? 'Active' : 'Passive';
                 $response['status'] = true;
                 $response['message'] = "Record(<strong>#".$record_id."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
-                $response['icon'] = 'success';
-                $response['timer'] = 4000;
+                $response['data'] = [
+                    'recordStatus'     => $record_type,
+                    'recordStatusText' => $new_status_text
+                ];
+                $response['notify'] = [
+                    'message' => $response['message'],
+                    'icon'    => 'success',
+                    'timer'   => 4000
+                ];
             } catch (\Exception $e) {
-                //$response['system_message'] = $e->getMessage();
-                $response['message'] = "Could not change.";
-                $response['icon'] = 'error';
+                $response['message'] = $e->getMessage();
+                $response['notify'] = [
+                    'message' => "Could not change.",
+                    'icon'    => 'error'
+                ];
             }
         } else {
             $response['message'] = "Record not found.";
-            $response['icon'] = 'error';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'error'
+            ];
         }
         /*alert()->success("Success", "Record status value changed ".$old_status_text." to ".$new_status_text.".")
             ->showConfirmButton("OK")->autoClose(5000);*/
