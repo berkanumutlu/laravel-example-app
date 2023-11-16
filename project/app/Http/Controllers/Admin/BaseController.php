@@ -20,6 +20,7 @@ class BaseController extends Controller
         $this->data['favicon'] = asset('assets/admin/images/neptune.png');
         $this->data['title'] = '';
         $this->data['search_form'] = false;
+        $this->data['avatar'] = asset('assets/admin/images/avatars/avatar.png');
     }
 
     public function check_slug($model, string $slug)

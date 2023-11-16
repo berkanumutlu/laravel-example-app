@@ -97,9 +97,9 @@
                                 <a href="#">
                                     <div class="notifications-dropdown-item">
                                         <div class="notifications-dropdown-item-image">
-                                                        <span class="notifications-badge bg-info text-white">
-                                                            <i class="material-icons-outlined">campaign</i>
-                                                        </span>
+                                            <span class="notifications-badge bg-info text-white">
+                                                <i class="material-icons-outlined">campaign</i>
+                                            </span>
                                         </div>
                                         <div class="notifications-dropdown-item-text">
                                             <p class="bold-notifications-text">Donec tempus nisi sed erat
@@ -111,9 +111,9 @@
                                 <a href="#">
                                     <div class="notifications-dropdown-item">
                                         <div class="notifications-dropdown-item-image">
-                                                        <span class="notifications-badge bg-danger text-white">
-                                                            <i class="material-icons-outlined">bolt</i>
-                                                        </span>
+                                            <span class="notifications-badge bg-danger text-white">
+                                                <i class="material-icons-outlined">bolt</i>
+                                            </span>
                                         </div>
                                         <div class="notifications-dropdown-item-text">
                                             <p class="bold-notifications-text">Quisque ligula dui, tincidunt nec
@@ -125,9 +125,9 @@
                                 <a href="#">
                                     <div class="notifications-dropdown-item">
                                         <div class="notifications-dropdown-item-image">
-                                                        <span class="notifications-badge bg-success text-white">
-                                                            <i class="material-icons-outlined">alternate_email</i>
-                                                        </span>
+                                            <span class="notifications-badge bg-success text-white">
+                                                <i class="material-icons-outlined">alternate_email</i>
+                                            </span>
                                         </div>
                                         <div class="notifications-dropdown-item-text">
                                             <p>Nulla id libero mattis justo euismod congue in et metus</p>
@@ -138,11 +138,9 @@
                                 <a href="#">
                                     <div class="notifications-dropdown-item">
                                         <div class="notifications-dropdown-item-image">
-                                                        <span class="notifications-badge">
-                                                            <img
-                                                                src="{{ asset('assets/admin/images/avatars/avatar.png') }}"
-                                                                alt="">
-                                                        </span>
+                                            <span class="notifications-badge">
+                                                <img src="{{ $avatar }}" alt="">
+                                            </span>
                                         </div>
                                         <div class="notifications-dropdown-item-text">
                                             <p>Praesent sodales lobortis velit ac pellentesque</p>
@@ -153,11 +151,9 @@
                                 <a href="#">
                                     <div class="notifications-dropdown-item">
                                         <div class="notifications-dropdown-item-image">
-                                                        <span class="notifications-badge">
-                                                            <img
-                                                                src="{{ asset('assets/admin/images/avatars/avatar.png') }}"
-                                                                alt="">
-                                                        </span>
+                                            <span class="notifications-badge">
+                                                <img src="{{ $avatar }}" alt="">
+                                            </span>
                                         </div>
                                         <div class="notifications-dropdown-item-text">
                                             <p>Praesent lacinia ante eget tristique mattis. Nam sollicitudin

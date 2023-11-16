@@ -3,7 +3,7 @@
         <a href="{{ route('admin.dashboard') }}" class="logo-icon"><span class="logo-text">Laravel Admin</span></a>
         <div class="sidebar-user-switcher user-activity-online">
             <a href="//github.com/berkanumutlu" target="_blank">
-                <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}" alt="User Logo">
+                <img src="{{ $avatar }}" alt="User Logo">
                 <span class="activity-indicator"></span>
                 <span class="user-info-text">{{ auth()->guard('admin')->user()->name }}<br>
                     <span class="user-state-info">On a development</span></span>

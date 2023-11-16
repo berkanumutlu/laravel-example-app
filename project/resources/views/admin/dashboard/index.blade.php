@@ -243,7 +243,7 @@
                     <div class="widget-payment-request-container">
                         <div class="widget-payment-request-author">
                             <div class="avatar m-r-sm">
-                                <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}" alt="">
+                                <img src="{{ $avatar }}" alt="">
                             </div>
                             <div class="widget-payment-request-author-info">
                                 <span class="widget-payment-request-author-name">Caio Yousuke</span>
@@ -594,8 +594,7 @@
                     <p class="text-muted d-block">This link will be opened in a new window</p>
                     <div class="input-group">
                         <input type="text" class="form-control form-control-solid-bordered"
-                               value="https://themeforest.net/user/stacks/portfolio"
-                               aria-label="https://themeforest.net/user/stacks/portfolio"
+                               value="{{ config('app.url') }}" aria-label="{{ config('app.url') }}"
                                aria-describedby="share-link1">
                         <button class="btn btn-primary" type="button" id="share-link1"><i
                                 class="material-icons no-m fs-5">content_copy</i></button>
@@ -652,7 +651,7 @@
                     <div class="widget-connection-request-container d-flex">
                         <div class="widget-connection-request-avatar">
                             <div class="avatar avatar-xl m-r-xs">
-                                <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}" alt="">
+                                <img src="{{ $avatar }}" alt="">
                             </div>
                         </div>
                         <div class="widget-connection-request-info flex-grow-1">

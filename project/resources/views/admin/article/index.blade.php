@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-3 my-2">
                                 <input type="text"
-                                       class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
+                                       class="form-control form-control-solid-bordered flatpickr2 bg-light"
                                        name="publish_date" placeholder="Publish Date"
                                        value="{{ request()->get("publish_date") }}">
                             </div>
