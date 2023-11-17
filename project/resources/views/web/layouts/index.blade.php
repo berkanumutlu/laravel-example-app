@@ -23,34 +23,30 @@
     @yield("style")
 </head>
 <body>
-<header class="pt-2 bg-white shadow-sm">
+<header>
     <div class="container">
-        <div class="header-top d-flex justify-content-between align-items-center">
-            <div class="header-logo">
-                <a href="{{ route('home') }}" class="d-flex align-items-center">
-                    <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid" alt="Logo">
-                    <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4" alt="Logo Text">
-                </a>
-            </div>
-            <div class="header-text d-none d-md-block">
-                <p class="text-center text-secondary fst-italic">Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.</p>
-            </div>
-            <div class="header-search">
-                {{--<div class="search-form">
-                    <form action="" method="GET">
-                        <input type="text" name="search_text" class="search-input" placeholder="Search..."
-                               autocomplete="off">
-                        <button type="submit" class="search-button">
-                            <span class="material-icons search-icon">search</span></button>
-                    </form>
-                </div>--}}
-                <div class="input-group search-group">
-                    <input type="text" name="search" autocomplete="off" class="form-control search-input"
-                           placeholder="Search" required>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-secondary search-button">
-                            <span class="material-icons search-icon">search</span></button>
+        <div class="header-top">
+            <div class="row align-items-center">
+                <div class="col-lg-2">
+                    <div class="header-logo">
+                        <a href="{{ route('home') }}" class="header-logo-link">
+                            <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid"
+                                 alt="Logo">
+                            <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4"
+                                 alt="Logo Text">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8 d-none d-md-block">
+                    <div class="header-text">
+                        <p class="text-center text-secondary fst-italic">Lorem ipsum dolor sit amet, consectetur
+                            adipiscing
+                            elit.</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 d-none d-lg-block">
+                    <div class="header-search">
+                        <x-web.search-group></x-web.search-group>
                     </div>
                 </div>
             </div>
@@ -91,6 +87,7 @@
                     </ul>
                 </div>
             </nav>
+            <x-web.search-group :class="'d-lg-none'"></x-web.search-group>
         </div>
     </div>
 </header>
