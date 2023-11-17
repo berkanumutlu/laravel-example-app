@@ -9,4 +9,15 @@ use Illuminate\Routing\Controller;
 class BaseController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    /**
+     * @var array
+     */
+    protected array $data = [];
+
+    public function __construct()
+    {
+        $this->data['favicon'] = asset('assets/web/images/logomark.min.svg');
+        $this->data['site_name'] = config('app.name');
+    }
 }

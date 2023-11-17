@@ -6,6 +6,6 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        return view('web.home.index');
+        return view('web.home.index', $this->data);
     }
 }

@@ -5,12 +5,98 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laravel Example App</title>
+    <meta name="description" content="Laravel Example App">
+    <meta name="keywords" content="web,laravel, laravel example app">
+    <meta name="author" content="Berkan Ümütlü">
+    <title>{{ isset($title) ? $title . ' - '.$site_name : $site_name }}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon }}"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon }}"/>
     @yield("head")
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link href="{{ asset("assets/plugins/material-icons/iconfont/material-icons.css") }}" rel="stylesheet">
+    <link href="{{ asset("assets/plugins/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("assets/web/css/style.min.css") }}" rel="stylesheet">
     @yield("style")
 </head>
-<body class="antialiased">
+<body>
+<header class="pt-2 bg-white shadow-sm">
+    <div class="container">
+        <div class="header-top d-flex justify-content-between align-items-center">
+            <div class="header-logo">
+                <a href="{{ route('home') }}" class="d-flex align-items-center">
+                    <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid" alt="Logo">
+                    <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4" alt="Logo Text">
+                </a>
+            </div>
+            <div class="header-text d-none d-md-block">
+                <p class="text-center text-secondary fst-italic">Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit.</p>
+            </div>
+            <div class="header-search">
+                {{--<div class="search-form">
+                    <form action="" method="GET">
+                        <input type="text" name="search_text" class="search-input" placeholder="Search..."
+                               autocomplete="off">
+                        <button type="submit" class="search-button">
+                            <span class="material-icons search-icon">search</span></button>
+                    </form>
+                </div>--}}
+                <div class="input-group search-group">
+                    <input type="text" name="search" autocomplete="off" class="form-control search-input"
+                           placeholder="Search" required>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary search-button">
+                            <span class="material-icons search-icon">search</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand d-none" href="#">{{ $site_name }}</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
 @yield("content")
+<script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 @yield("scripts")
 </body>
 </html>
