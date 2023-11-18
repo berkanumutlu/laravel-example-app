@@ -10,6 +10,7 @@
     --color-gray2: #eceff2;
     --color-gray3: #ced4da;
     --color-gray3-hover: #919497;
+    --color-gray4: #d3d3d3;
 }
 
 body {
@@ -19,7 +20,7 @@ body {
 
 header {
     background-color: var(--color-white);
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 header .header-top {
