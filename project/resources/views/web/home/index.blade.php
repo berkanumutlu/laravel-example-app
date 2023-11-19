@@ -5,13 +5,14 @@
 @section("style")
     <link href="{{ asset('assets/web/css/home.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="feature-category-list">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-xl-3">
-                    <div class="feature-category-item">
+                    <div class="feature-category-item" data-aos="flip-left">
                         <h2 class="title">Feature Category Title</h2>
                         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
                             tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
@@ -19,7 +20,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-3">
-                    <div class="feature-category-item">
+                    <div class="feature-category-item" data-aos="flip-left">
                         <h2 class="title">Feature Category Title</h2>
                         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
                             tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
@@ -27,14 +28,14 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-3">
-                    <div class="feature-category-item">
+                    <div class="feature-category-item" data-aos="flip-right">
                         <h2 class="title">Feature Category Title</h2>
                         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
                             tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
                         <p class="footer-text">Lorem ipsum dolor sit amet</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-3" data-aos="flip-right">
                     <div class="feature-category-item">
                         <h2 class="title">Feature Category Title</h2>
                         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
@@ -68,7 +69,7 @@
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
                                         <!-- Slides -->
-                                        <div class="swiper-slide">
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
                                             <div class="popular-item">
                                                 <a href="#" class="d-block">
                                                     <img src="https://via.placeholder.com/600x400" class="img-fluid"
@@ -90,7 +91,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
                                             <div class="popular-item">
                                                 <a href="#" class="d-block">
                                                     <img src="https://via.placeholder.com/600x400" class="img-fluid"
@@ -112,7 +113,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
                                             <div class="popular-item">
                                                 <a href="#" class="d-block">
                                                     <img src="https://via.placeholder.com/600x400" class="img-fluid"
@@ -134,7 +135,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
                                             <div class="popular-item">
                                                 <a href="#" class="d-block">
                                                     <img src="https://via.placeholder.com/600x400" class="img-fluid"
@@ -159,6 +160,17 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </section>
+                    <section class="home-description" data-aos="flip-up">
+                        <div class="icon">
+                            <span class="material-icons-outlined">send</span>
+                        </div>
+                        <div class="body">
+                            <h4>Description Title</h4>
+                            <p>It is a long established fact that a reader will be distracted by the readable
+                                content of a page when looking at its layout.</p>
+                            <a href="#" class="btn btn-warning">Join us</a>
                         </div>
                     </section>
                 </div>
@@ -188,7 +200,9 @@
 @endsection
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
+    <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script>
+        AOS.init();
         $(document).ready(function () {
             let swiper = new Swiper('.popular-article-list .swiper', {
                 speed: 400,

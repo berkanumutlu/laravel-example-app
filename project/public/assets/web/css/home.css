@@ -128,3 +128,29 @@
 .popular-article-list .popular-item .popular-item-body .date p {
     margin-bottom: 0;
 }
+
+.home-description {
+    margin: 16px 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: var(--color-white);
+    background-color: var(--color-orange);
+    border-radius: 4px;
+}
+
+.home-description .icon {
+    margin-right: 24px;
+}
+
+.home-description .icon span {
+    color: #735732 !important;
+}
+
+.home-description .body h4 {
+    letter-spacing: 0.03em;
+}
+
+.home-description .body p {
+    letter-spacing: 0.05em;
+}
