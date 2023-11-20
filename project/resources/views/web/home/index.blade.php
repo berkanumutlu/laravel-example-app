@@ -57,9 +57,11 @@
                                     <h2 class="font-weight-bold">Most Popular Articles</h2>
                                     <div class="custom-pagination">
                                         <span
-                                            class="custom-swiper-button-prev material-icons-outlined btn btn-secondary">arrow_back</span>
+                                            class="custom-swiper-button-prev material-icons-outlined btn btn-secondary"
+                                            data-aos="fade-right">arrow_back</span>
                                         <span
-                                            class="custom-swiper-button-next material-icons-outlined btn btn-secondary">arrow_forward</span>
+                                            class="custom-swiper-button-next material-icons-outlined btn btn-secondary"
+                                            data-aos="fade-left">arrow_forward</span>
                                     </div>
                                 </div>
                             </div>
@@ -70,19 +72,25 @@
                                     <div class="swiper-wrapper">
                                         <!-- Slides -->
                                         <div class="swiper-slide" data-aos="zoom-in-up">
-                                            <div class="popular-item">
-                                                <a href="#" class="d-block">
-                                                    <img src="https://via.placeholder.com/600x400" class="img-fluid"
-                                                         alt="Slider 1">
-                                                </a>
-                                                <div class="popular-item-body">
+                                            <div class="article-item">
+                                                <div class="article-item-image-section">
+                                                    <a href="#" class="article-item-image-link">
+                                                        <img src="https://via.placeholder.com/600x400"
+                                                             class="article-item-image img-fluid" alt="Slider 1">
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger article-item-category"
+                                                       data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                                       data-aos-duration="2500">CSS</a>
+                                                </div>
+                                                <div class="article-item-body">
                                                     <div class="author">
                                                         Author: <a href="#">Berkan Ümütlü</a>
                                                     </div>
                                                     <div class="title">
-                                                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Aliquam
-                                                            porta blandit risus ac consectetur.</h4>
+                                                        <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit.
+                                                                Aliquam
+                                                                porta blandit risus ac consectetur.</h4></a>
                                                     </div>
                                                     <div class="date">
                                                         <p>18 Oct 2023</p>
@@ -92,19 +100,25 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-up">
-                                            <div class="popular-item">
-                                                <a href="#" class="d-block">
-                                                    <img src="https://via.placeholder.com/600x400" class="img-fluid"
-                                                         alt="Slider 1">
-                                                </a>
-                                                <div class="popular-item-body">
+                                            <div class="article-item">
+                                                <div class="article-item-image-section">
+                                                    <a href="#" class="article-item-image-link">
+                                                        <img src="https://via.placeholder.com/600x400"
+                                                             class="article-item-image img-fluid" alt="Slider 1">
+                                                    </a>
+                                                    <a href="#" class="btn btn-primary article-item-category"
+                                                       data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                                       data-aos-duration="2500">HTML</a>
+                                                </div>
+                                                <div class="article-item-body">
                                                     <div class="author">
                                                         Author: <a href="#">Berkan Ümütlü</a>
                                                     </div>
                                                     <div class="title">
-                                                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Aliquam
-                                                            porta blandit risus ac consectetur.</h4>
+                                                        <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit.
+                                                                Aliquam
+                                                                porta blandit risus ac consectetur.</h4></a>
                                                     </div>
                                                     <div class="date">
                                                         <p>18 Oct 2023</p>
@@ -114,19 +128,25 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-up">
-                                            <div class="popular-item">
-                                                <a href="#" class="d-block">
-                                                    <img src="https://via.placeholder.com/600x400" class="img-fluid"
-                                                         alt="Slider 1">
-                                                </a>
-                                                <div class="popular-item-body">
+                                            <div class="article-item">
+                                                <div class="article-item-image-section">
+                                                    <a href="#" class="article-item-image-link">
+                                                        <img src="https://via.placeholder.com/600x400"
+                                                             class="article-item-image img-fluid" alt="Slider 1">
+                                                    </a>
+                                                    <a href="#" class="btn btn-success article-item-category"
+                                                       data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                                       data-aos-duration="2500">JS</a>
+                                                </div>
+                                                <div class="article-item-body">
                                                     <div class="author">
                                                         Author: <a href="#">Berkan Ümütlü</a>
                                                     </div>
                                                     <div class="title">
-                                                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Aliquam
-                                                            porta blandit risus ac consectetur.</h4>
+                                                        <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit.
+                                                                Aliquam
+                                                                porta blandit risus ac consectetur.</h4></a>
                                                     </div>
                                                     <div class="date">
                                                         <p>18 Oct 2023</p>
@@ -136,19 +156,25 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-up">
-                                            <div class="popular-item">
-                                                <a href="#" class="d-block">
-                                                    <img src="https://via.placeholder.com/600x400" class="img-fluid"
-                                                         alt="Slider 1">
-                                                </a>
-                                                <div class="popular-item-body">
+                                            <div class="article-item">
+                                                <div class="article-item-image-section">
+                                                    <a href="#" class="article-item-image-link">
+                                                        <img src="https://via.placeholder.com/600x400"
+                                                             class="article-item-image img-fluid" alt="Slider 1">
+                                                    </a>
+                                                    <a href="#" class="btn btn-warning article-item-category"
+                                                       data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                                       data-aos-duration="2500">PHP</a>
+                                                </div>
+                                                <div class="article-item-body">
                                                     <div class="author">
                                                         Author: <a href="#">Berkan Ümütlü</a>
                                                     </div>
                                                     <div class="title">
-                                                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Aliquam
-                                                            porta blandit risus ac consectetur.</h4>
+                                                        <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit.
+                                                                Aliquam
+                                                                porta blandit risus ac consectetur.</h4></a>
                                                     </div>
                                                     <div class="date">
                                                         <p>18 Oct 2023</p>
@@ -173,9 +199,156 @@
                             <a href="#" class="btn btn-warning">Join us</a>
                         </div>
                     </section>
+                    <section class="last-article-list" data-aos="flip-down">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="my-3 font-weight-bold">Last Articles</h2>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="article-item" data-aos="flip-down">
+                                    <div class="article-item-image-section">
+                                        <a href="#" class="article-item-image-link">
+                                            <img src="https://via.placeholder.com/600x400"
+                                                 class="article-item-image img-fluid" alt="Slider 1">
+                                        </a>
+                                        <a href="#" class="btn btn-danger article-item-category"
+                                           data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                           data-aos-duration="2500">CSS</a>
+                                    </div>
+                                    <div class="article-item-body">
+                                        <div class="author">
+                                            Author: <a href="#">Berkan Ümütlü</a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                    adipiscing elit.
+                                                    Aliquam
+                                                    porta blandit risus ac consectetur.</h4></a>
+                                        </div>
+                                        <div class="date">
+                                            <p>18 Oct 2023</p>
+                                            <p class="ms-3">&#x25CF;10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="article-item" data-aos="flip-down">
+                                    <div class="article-item-image-section">
+                                        <a href="#" class="article-item-image-link">
+                                            <img src="https://via.placeholder.com/600x400"
+                                                 class="article-item-image img-fluid" alt="Slider 1">
+                                        </a>
+                                        <a href="#" class="btn btn-primary article-item-category"
+                                           data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                           data-aos-duration="2500">HTML</a>
+                                    </div>
+                                    <div class="article-item-body">
+                                        <div class="author">
+                                            Author: <a href="#">Berkan Ümütlü</a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                    adipiscing elit.
+                                                    Aliquam
+                                                    porta blandit risus ac consectetur.</h4></a>
+                                        </div>
+                                        <div class="date">
+                                            <p>18 Oct 2023</p>
+                                            <p class="ms-3">&#x25CF;10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="article-item" data-aos="flip-down">
+                                    <div class="article-item-image-section">
+                                        <a href="#" class="article-item-image-link">
+                                            <img src="https://via.placeholder.com/600x400"
+                                                 class="article-item-image img-fluid" alt="Slider 1">
+                                        </a>
+                                        <a href="#" class="btn btn-success article-item-category"
+                                           data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                           data-aos-duration="2500">JS</a>
+                                    </div>
+                                    <div class="article-item-body">
+                                        <div class="author">
+                                            Author: <a href="#">Berkan Ümütlü</a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                    adipiscing elit.
+                                                    Aliquam
+                                                    porta blandit risus ac consectetur.</h4></a>
+                                        </div>
+                                        <div class="date">
+                                            <p>18 Oct 2023</p>
+                                            <p class="ms-3">&#x25CF;10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="article-item" data-aos="flip-down">
+                                    <div class="article-item-image-section">
+                                        <a href="#" class="article-item-image-link">
+                                            <img src="https://via.placeholder.com/600x400"
+                                                 class="article-item-image img-fluid" alt="Slider 1">
+                                        </a>
+                                        <a href="#" class="btn btn-warning article-item-category"
+                                           data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                           data-aos-duration="2500">PHP</a>
+                                    </div>
+                                    <div class="article-item-body">
+                                        <div class="author">
+                                            Author: <a href="#">Berkan Ümütlü</a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                    adipiscing elit.
+                                                    Aliquam
+                                                    porta blandit risus ac consectetur.</h4></a>
+                                        </div>
+                                        <div class="date">
+                                            <p>18 Oct 2023</p>
+                                            <p class="ms-3">&#x25CF;10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="article-item" data-aos="flip-down">
+                                    <div class="article-item-image-section">
+                                        <a href="#" class="article-item-image-link">
+                                            <img src="https://via.placeholder.com/600x400"
+                                                 class="article-item-image img-fluid" alt="Slider 1">
+                                        </a>
+                                        <a href="#" class="btn btn-danger article-item-category"
+                                           data-aos="flip-right" data-aos-easing="ease-out-cubic"
+                                           data-aos-duration="2500">CSS</a>
+                                    </div>
+                                    <div class="article-item-body">
+                                        <div class="author">
+                                            Author: <a href="#">Berkan Ümütlü</a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="#"><h4>Lorem ipsum dolor sit amet, consectetur
+                                                    adipiscing elit.
+                                                    Aliquam
+                                                    porta blandit risus ac consectetur.</h4></a>
+                                        </div>
+                                        <div class="date">
+                                            <p>18 Oct 2023</p>
+                                            <p class="ms-3">&#x25CF;10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <div class="col-xl-3">
-                    <section class="sidebar sidebar-right category-list">
+                    <section class="sidebar sidebar-right category-list" data-aos="fade-left">
                         <div class="title-section">
                             <h4 class="title">Categories</h4>
                         </div>
