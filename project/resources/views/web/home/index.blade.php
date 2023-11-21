@@ -366,6 +366,92 @@
                             </ul>
                         </div>
                     </section>
+                    <section class="sidebar-video mt-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
+                                            <iframe width="100%" height="250"
+                                                    src="https://www.youtube.com/embed/fEErySYqItI"
+                                                    title="Into The Nature - Cinematic Travel Video | Sony a6300"
+                                                    frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
+                                            <iframe width="100%" height="250"
+                                                    src="https://www.youtube.com/embed/bjxTIcuzB6k?si=gl7wHywarxjEHiDC"
+                                                    title="YouTube video player" frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
+                                            <iframe width="100%" height="250"
+                                                    src="https://www.youtube.com/embed/TATT6toJrdY?list=PLe6YKWr4VVM1x2LIpiqmVvG4QgIvoDEdO"
+                                                    title="No copyright music | Copyright-free nature video | Copyright-free nature music for YouTube videos"
+                                                    frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-up">
+                                            <iframe width="100%" height="250"
+                                                    src="https://www.youtube.com/embed/73GcBPduYE4?list=PLe6YKWr4VVM1x2LIpiqmVvG4QgIvoDEdO"
+                                                    title="copyright free music | No copyright music cinematic video | free nature video no copyright | Clips"
+                                                    frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-pagination text-end my-2">
+                                    <span
+                                        class="custom-swiper-button-prev material-icons-outlined btn btn-secondary"
+                                        data-aos="fade-right">arrow_back</span>
+                                    <span
+                                        class="custom-swiper-button-next material-icons-outlined btn btn-secondary"
+                                        data-aos="fade-left">arrow_forward</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="sidebar-authors mt-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="font-weight-600">Authors</h2>
+                            </div>
+                            <div class="col-12">
+                                <div class="swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide" data-aos="zoom-in-left">
+                                            <a href="#" class="author-link">
+                                                <div class="author-image"
+                                                     style="background-image: url('https://via.placeholder.com/250x250');"></div>
+                                                <div class="author-name">Berkan Ümütlü</div>
+                                            </a>
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-left">
+
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-left">
+
+                                        </div>
+                                        <div class="swiper-slide" data-aos="zoom-in-left">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-pagination text-end my-2">
+                                    <span
+                                        class="custom-swiper-button-prev material-icons-outlined btn btn-secondary"
+                                        data-aos="fade-right">arrow_back</span>
+                                    <span
+                                        class="custom-swiper-button-next material-icons-outlined btn btn-secondary"
+                                        data-aos="fade-left">arrow_forward</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -375,8 +461,8 @@
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script>
-        AOS.init();
         $(document).ready(function () {
+            AOS.init();
             let swiper = new Swiper('.popular-article-list .swiper', {
                 speed: 400,
                 spaceBetween: 15,
@@ -386,8 +472,8 @@
                     type: 'bullets',
                 },
                 navigation: {
-                    nextEl: '.custom-swiper-button-next',
-                    prevEl: '.custom-swiper-button-prev'
+                    nextEl: '.popular-article-list .custom-pagination .custom-swiper-button-next',
+                    prevEl: '.popular-article-list .custom-pagination .custom-swiper-button-prev'
                 },
                 /*autoplay: {
                     delay: 5000,
@@ -423,6 +509,30 @@
                         slidesPerView: 3,
                         spaceBetween: 15
                     }
+                },
+            });
+            let sidebarVideoSwiper = new Swiper('.sidebar-video .swiper', {
+                speed: 400,
+                slidesPerView: 1,
+                autoplay: {
+                    delay: 5000,
+                },
+                loop: true,
+                navigation: {
+                    nextEl: '.sidebar-video .custom-pagination .custom-swiper-button-next',
+                    prevEl: '.sidebar-video .custom-pagination .custom-swiper-button-prev'
+                },
+            });
+            let sidebarAuthorSwiper = new Swiper('.sidebar-author .swiper', {
+                speed: 400,
+                slidesPerView: 1,
+                autoplay: {
+                    delay: 5000,
+                },
+                loop: true,
+                navigation: {
+                    nextEl: '.sidebar-author .custom-pagination .custom-swiper-button-next',
+                    prevEl: '.sidebar-author .custom-pagination .custom-swiper-button-prev'
                 },
             });
         });

@@ -78,6 +78,26 @@
     text-decoration: none;
 }
 
+.sidebar-authors .author-link,
+.sidebar-authors .author-name {
+    color: var(--color-gray5);
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-authors .author-link:hover,
+.sidebar-authors .author-name:hover {
+    color: var(--color-gray5-hover);
+}
+
+.sidebar-authors .author-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 250px;
+}
+
 .swiper .swiper-pagination {
     bottom: -7px !important;
 }
@@ -164,7 +184,7 @@
 }
 
 .home-description .icon span {
-    color: #735732 !important;
+    color: var(--color-brown) !important;
 }
 
 .home-description .body h4 {
