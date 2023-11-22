@@ -92,6 +92,11 @@
     </div>
 </header>
 @yield("content")
+<footer class="container-fluid" data-aos="fade-up">
+    <div class="container text-center">
+        <p class="mb-0">Copyright © 2023 Berkan Ümütlü. All Right Reserved.</p>
+    </div>
+</footer>
 <script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 @yield("scripts")

@@ -431,13 +431,25 @@
                                             </a>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-left">
-
+                                            <a href="#" class="author-link">
+                                                <div class="author-image"
+                                                     style="background-image: url('https://via.placeholder.com/250x250');"></div>
+                                                <div class="author-name">Author2</div>
+                                            </a>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-left">
-
+                                            <a href="#" class="author-link">
+                                                <div class="author-image"
+                                                     style="background-image: url('https://via.placeholder.com/250x250');"></div>
+                                                <div class="author-name">Author3</div>
+                                            </a>
                                         </div>
                                         <div class="swiper-slide" data-aos="zoom-in-left">
-
+                                            <a href="#" class="author-link">
+                                                <div class="author-image"
+                                                     style="background-image: url('https://via.placeholder.com/250x250');"></div>
+                                                <div class="author-name">Author4</div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -523,7 +535,7 @@
                     prevEl: '.sidebar-video .custom-pagination .custom-swiper-button-prev'
                 },
             });
-            let sidebarAuthorSwiper = new Swiper('.sidebar-author .swiper', {
+            let sidebarAuthorSwiper = new Swiper('.sidebar-authors .swiper', {
                 speed: 400,
                 slidesPerView: 1,
                 autoplay: {
@@ -531,8 +543,8 @@
                 },
                 loop: true,
                 navigation: {
-                    nextEl: '.sidebar-author .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-author .custom-pagination .custom-swiper-button-prev'
+                    nextEl: '.sidebar-authors .custom-pagination .custom-swiper-button-next',
+                    prevEl: '.sidebar-authors .custom-pagination .custom-swiper-button-prev'
                 },
             });
         });
