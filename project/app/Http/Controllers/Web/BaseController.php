@@ -20,4 +20,9 @@ class BaseController extends Controller
         $this->data['favicon'] = asset('assets/web/images/logomark.min.svg');
         $this->data['site_name'] = config('app.name');
     }
+
+    public function search()
+    {
+        return view("web.home.index", $this->data);
+    }
 }
