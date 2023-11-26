@@ -16,4 +16,5 @@ Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"])->nam
 Route::get('/search', [\App\Http\Controllers\Web\BaseController::class, "search"])->name('search');
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('/list', "index")->name('index');
+    Route::get('/detail/{slug}', "show")->name('detail');
 });

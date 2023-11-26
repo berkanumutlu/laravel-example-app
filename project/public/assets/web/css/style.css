@@ -25,6 +25,10 @@ body {
     background-color: var(--color-gray1);
 }
 
+pre {
+    white-space: pre-line;
+}
+
 header {
     background-color: var(--color-white);
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
