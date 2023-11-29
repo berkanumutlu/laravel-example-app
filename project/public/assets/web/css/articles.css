@@ -3,7 +3,7 @@
     padding: 40px 0;
     display: flex;
     justify-content: center;
-    border-top: 1px solid var(--color-black3);
+    border-top: 1px solid var(--color-black-3);
 }
 
 .pagination-section .pagination {
@@ -12,7 +12,7 @@
 
 .article-detail {
     padding: 20px;
-    color: var(--color-gray5);
+    color: var(--color-gray-5);
     background-color: var(--color-white);
     border-radius: 4px;
 }
@@ -24,7 +24,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-    border-bottom: 1px solid var(--color-gray2);
+    border-bottom: 1px solid var(--color-gray-2);
 }
 
 .article-detail .article-header .date {
@@ -65,9 +65,9 @@
 
 .article-detail .article-content .title {
     margin-bottom: 16px;
-    color: var(--color-black2);
+    color: var(--color-black-2);
 }
 
 .article-detail .article-content .text {
-    color: var(--color-black3);
+    color: var(--color-black-3);
 }
