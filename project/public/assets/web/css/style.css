@@ -8,6 +8,9 @@
     --color-black-2-hover: #3b3b3b;
     --color-black-3: #212529;
     --color-black-4: #303030;
+    --color-black-5: #2e2e2e;
+    --color-black-6: #494e51;
+    --color-black-7: #424242;
     --color-gray-1: #f5f8f9;
     --color-gray-2: #eceff2;
     --color-gray-2-hover: #eceff2;
@@ -183,7 +186,7 @@ footer {
     font-size: 20px;
     font-weight: 600;
     line-height: 1.5;
-    color: #2e2e2e;
+    color: var(--color-black-5);
 }
 
 .author-card .author-content .designation {
@@ -191,7 +194,7 @@ footer {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.55;
-    color: #2e2e2e;
+    color: var(--color-black-5);
 }
 
 .author-card .author-content .description {
@@ -199,7 +202,7 @@ footer {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.67;
-    color: #494e51;
+    color: var(--color-black-6);
 }
 
 .author-card .author-content .socials {
@@ -245,13 +248,13 @@ footer {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
-    color: #494e51;
+    color: var(--color-black-6);
     font-size: 17px;
     height: 30px;
     width: 30px;
     border-radius: 50%;
     border: 1px solid;
-    border-color: #424242;
+    border-color: var(--color-black-7);
     -webkit-transition: var(--transition);
     -moz-transition: var(--transition);
     -o-transition: var(--transition);
@@ -292,6 +295,43 @@ footer {
 
 .author-card .author-content .socials ul li a:hover i {
     color: var(--color-white);
+}
+
+.comments .header {
+
+}
+
+.comments .header .title {
+    margin-bottom: 20px;
+    color: var(--color-black-5);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.42;
+}
+
+.comments .header .description {
+    margin-bottom: 24px;
+    color: var(--color-black-6);
+    font-size: 15px;
+    font-weight: 100;
+    line-height: 1.67;
+}
+
+.comments .btn-comment {
+    padding: 5px 15px;
+    color: inherit;
+    border: 1px solid var(--color-gray-6);
+    border-radius: 5px;
+    text-decoration: none;
+    -webkit-transition: var(--transition);
+    -moz-transition: var(--transition);
+    -o-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.comments .btn-comment:hover {
+    color: var(--color-white);
+    background-color: var(--color-orange);
 }
 
 @media screen and (min-width: 576px) {

@@ -13,17 +13,23 @@
                 <div class="col-xl-9">
                     <section class="article-detail">
                         <div class="article-header">
-                            <div class="date">
-                                <time datetime="26-11-2023 20:00">26 November 2023</time>
-                                <ul class="category-list nav list-unstyled">
-                                    <li class="category-item"><a href="#">CSS</a></li>
-                                    <li class="category-item"><a href="#">HTML</a></li>
-                                    <li class="category-item"><a href="#">PHP</a></li>
-                                </ul>
-                            </div>
-                            <div class="author">
-                                Author: <a href="#">Berkan Ümütlü</a>
-                            </div>
+                            <ul class="meta">
+                                <li class="author">by <a href="#">Berkan Ümütlü</a></li>
+                                <li class="date">
+                                    <time datetime="26-11-2023 20:00">26 November 2023</time>
+                                </li>
+                                <li class="favorite-count">
+                                    <a href="#" class="btn btn-favorite"><span class="material-icons-outlined">favorite_border</span></a>
+                                    <span class="number">100</span>
+                                </li>
+                                <li class="category-list">
+                                    <ul class="nav list-unstyled">
+                                        <li class="category-item"><a href="#">CSS</a></li>
+                                        <li class="category-item"><a href="#">HTML</a></li>
+                                        <li class="category-item"><a href="#">PHP</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                         <div class="article-content">
                             <h1 class="title">Article Title</h1>
@@ -51,6 +57,37 @@
                                 </pre>
                             </div>
                         </div>
+                        <hr>
+                        <section class="comments">
+                            <div class="header">
+                                <h3 class="title">Post a Comment</h3>
+                                <p class="description">In maximus faucibus mi sed accumsan. Suspendisse ut mi facilisis,
+                                    pharetra ante ac,
+                                    dapibus massa. Morbi aliquam magna erat, quis feugiat enim rhoncus eget. Maecenas et
+                                    sagittis augue.</p>
+                            </div>
+                            <div class="form">
+                                <form action="#" method="POST">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <input type="text" name="fullname" id="fullname" class="form-control mb-3"
+                                                   placeholder="Full Name">
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <input type="text" name="email" id="email" class="form-control mb-3"
+                                                   placeholder="Email">
+                                        </div>
+                                        <div class="col-12">
+                                            <textarea name="comment" id="comment" rows="5" class="form-control mb-3"
+                                                      placeholder="Comment"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-comment">Post a Comment</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
                         <section class="author">
                             <div class="author-card">
                                 <div class="author-thumb">
