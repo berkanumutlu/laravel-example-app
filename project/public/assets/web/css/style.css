@@ -20,9 +20,12 @@
     --color-gray-5: #6c757d;
     --color-gray-5-hover: #383e43;
     --color-gray-6: #9ea1a2;
+    --color-gray-7: #6b7074;
+    --color-gray-8: #f5f5f5;
     --color-blue: #073c8a;
     --color-orange: #ee8606;
     --color-orange-2: #fdeddd;
+    --color-orange-3: #f79459;
     --color-brown: #735732;
     --color-github: #171515;
     --color-twitter: #33CCFF;
@@ -154,7 +157,7 @@ footer {
 }
 
 .author-card {
-    margin: 90px 0 40px;
+    margin: 70px 0 35px;
     padding: 95px 15px 30px;
     position: relative;
     background-color: var(--color-orange-2);
@@ -297,11 +300,120 @@ footer {
     color: var(--color-white);
 }
 
-.comments .header {
-
+.comments {
+    margin-bottom: 16px;
+    padding: 20px;
+    color: var(--color-gray-5);
+    background-color: var(--color-white);
+    border-radius: 4px;
 }
 
-.comments .header .title {
+.comments .title {
+    margin-bottom: 32px;
+    color: var(--color-black-5);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.42;
+}
+
+.comments .list ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.comments .list ul li .child {
+    padding-left: 50px;
+    margin-bottom: 20px;
+}
+
+.comments .list .comment-item {
+    margin-bottom: 20px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments .list .comment-item.has-child,
+.comments .list ul li ul.child .comment-item {
+    margin-bottom: 12px;
+}
+
+.comments .list ul li ul.child li:last-child .comment-item {
+    margin-bottom: 0;
+}
+
+.comments .list .comment-item .image {
+    display: table;
+}
+
+.comments .list .comment-item .image img {
+    width: 100px;
+    border: 3px solid var(--color-black-5);
+    border-radius: 50%;
+}
+
+.comments .list .comment-item .content .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comments .list .comment-item .content .header .title {
+    margin-bottom: 5px;
+    color: var(--color-black-5);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.comments .list .comment-item .content .header .btn-reply {
+    padding: 3px 12px;
+    color: var(--color-black-5);
+    background-color: var(--color-gray-8);
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.comments .list .comment-item .content .header .btn-reply:hover {
+    color: var(--color-white);
+    background-color: var(--color-orange-3);
+}
+
+.comments .list .comment-item .content .meta {
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.55;
+}
+
+.comments .list .comment-item .content .meta .date {
+    color: var(--color-gray-7);
+}
+
+.comments .list .comment-item .content .comment {
+    margin: 0;
+    color: var(--color-black-5);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.67;
+}
+
+.comment-form {
+    padding: 20px;
+    color: var(--color-gray-5);
+    background-color: var(--color-white);
+    border-radius: 4px;
+}
+
+.comment-form .header {
+    margin-bottom: 20px;
+}
+
+.comment-form .header .title {
     margin-bottom: 20px;
     color: var(--color-black-5);
     font-size: 24px;
@@ -309,16 +421,18 @@ footer {
     line-height: 1.42;
 }
 
-.comments .header .description {
-    margin-bottom: 24px;
+.comment-form .header .description {
+    margin-bottom: 0;
     color: var(--color-black-6);
     font-size: 15px;
     font-weight: 100;
     line-height: 1.67;
 }
 
-.comments .btn-comment {
+.comment-form .btn-comment {
     padding: 5px 15px;
+    display: flex;
+    gap: 3px;
     color: inherit;
     border: 1px solid var(--color-gray-6);
     border-radius: 5px;
@@ -329,15 +443,25 @@ footer {
     transition: var(--transition);
 }
 
-.comments .btn-comment:hover {
+.comment-form .btn-comment:hover {
     color: var(--color-white);
     background-color: var(--color-orange);
+}
+
+.comment-form .btn-comment i {
+    font-size: 20px;
+    transform: rotate(320deg) translateY(-1px);
 }
 
 @media screen and (min-width: 576px) {
     .author-card {
         padding: 95px 30px 30px;
     }
+
+    .comments .list .comment-item {
+        flex-direction: row;
+    }
+
 }
 
 @media screen and (min-width: 768px) {
