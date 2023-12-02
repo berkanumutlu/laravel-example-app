@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -30,7 +31,7 @@ class CategoryController extends BaseController
         //$records = Category::with('parentCategory:id,name,slug')->select(['id', 'name', 'slug', 'description', 'order', 'parent_id', 'created_at'])->get()->makeVisible(['created_at']);
         //$records = Category::with(['parentCategory:id,name,slug', 'user:name'])->select(['id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'])->get();
         $records = Category::with(['parentCategory:id,name,slug'])->select([
-            'id', 'name', 'slug', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'
+            'id', 'name', 'slug', 'image', 'description', 'status', 'feature_status', 'order', 'parent_id', 'created_at'
         ])->orderBy('id', 'desc')->get();
         /*foreach ($records as $record) {
             $record->name = 'Berkan';
@@ -46,7 +47,7 @@ class CategoryController extends BaseController
         ])->orderBy('id', 'desc')->paginate(10);*/
         $this->data['records'] = $records;
         $this->data['columns'] = [
-            'Id', 'Name', 'Slug', 'Description', 'Status', 'Feature Status', 'Order', 'Parent Category',
+            'Id', 'Name', 'Slug', 'Image', 'Description', 'Status', 'Feature Status', 'Order', 'Parent Category',
             'Creation Time', 'Actions'
         ];
         $this->data['title'] = 'Category List';
@@ -68,24 +69,41 @@ class CategoryController extends BaseController
      */
     public function store(CategoryStoreRequest $request)
     {
+        $category = new Category();
+        $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->name);
+        $category->name = $request->name;
+        $category->slug = is_null($this->check_slug(Category::class,
+            $slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
+        $category->description = $request->description;
+        $category->status = isset($request->status) ? 1 : 0;
+        $category->feature_status = isset($request->feature_status) ? 1 : 0;
+        $category->parent_id = $request->parent_id;
+        $category->seo_keywords = $request->seo_keywords;
+        $category->seo_description = $request->seo_description;
+        $category->order = $request->order;
+        if ($request->file('image')) {
+            $folder = 'categories';
+            $public_path = 'storage/'.$folder;
+            $image_file = $request->file('image');
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $category->slug.'.'.$image_original_extension;
+            $image_file_path = public_path($public_path.'/'.$image_file_name);
+            try {
+                $image_file->storeAs($folder, $image_file_name);
+                $category->image = $public_path.'/'.$image_file_name;
+            } catch (\Exception $e) {
+
+            }
+        }
         try {
-            $category = new Category();
-            $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->name);
-            $category->name = $request->name;
-            $category->slug = is_null($this->check_slug(Category::class,
-                $slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
-            $category->description = $request->description;
-            $category->status = isset($request->status) ? 1 : 0;
-            $category->feature_status = isset($request->feature_status) ? 1 : 0;
-            $category->parent_id = $request->parent_id;
-            $category->seo_keywords = $request->seo_keywords;
-            $category->seo_description = $request->seo_description;
-            $category->order = $request->order;
             $category->save();
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
+            if (isset($image_file_path) && file_exists($image_file_path)) {
+                File::delete($image_file_path);
+            }
             alert()->error("Error", "Record could not be added.")->showConfirmButton("OK");
-            return redirect()->back()->exceptInput("_token");
+            return redirect()->back()->exceptInput("_token", "files", "image");
         }
         alert()->success("Success", "Record successfully added.")
             ->showConfirmButton("OK")->autoClose(5000);
@@ -133,6 +151,7 @@ class CategoryController extends BaseController
         $slug = Str::slug($request->slug);
         $slug_check = $this->check_slug(Category::class, $slug);
         $category = Category::find($id);
+        $category_image = $category->image;
         if (is_null($slug_check) || (!is_null($slug_check) && $slug_check->id == $category->id)) {
             $category->slug = $slug;
         } else {
@@ -148,10 +167,26 @@ class CategoryController extends BaseController
         $category->order = $request->order;
         try {
             $category->save();
+            if ($request->file('image')) {
+                $folder = 'categories';
+                $public_path = 'storage/'.$folder;
+                $image_file = $request->file('image');
+                $image_original_extension = $image_file->getClientOriginalExtension();
+                $image_file_name = $category->slug.'.'.$image_original_extension;
+                try {
+                    $image_file->storeAs($folder, $image_file_name);
+                    Category::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
+                    if (file_exists(public_path($category_image))) {
+                        File::delete(public_path($category_image));
+                    }
+                } catch (\Exception $e) {
+
+                }
+            }
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
             alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
-            return redirect()->back()->exceptInput("_token");
+            return redirect()->back()->exceptInput("_token", "files", "image");
         }
         alert()->success("Success", "Record has been updated successfully.")
             ->showConfirmButton("OK")->autoClose(5000);

@@ -48,6 +48,10 @@
     background: #d6e8ff;
 }
 
+.swal2-container .select2-selection--single {
+    display: none;
+}
+
 @media (max-width: 576px) {
     .app-sidebar .logo .logo-icon:hover {
         background: none;

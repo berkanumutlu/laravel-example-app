@@ -1,6 +1,6 @@
 @extends("admin.layouts.index")
 @section("head")
-
+    <link href="{{ asset('assets/plugins/summernote/summernote-lite.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="row">
@@ -25,7 +25,7 @@
                             @endif
                             <form
                                 action="{{ isset($record) ? route('admin.category.edit', ['id' => $record->id]) : route('admin.category.add') }}"
-                                method="POST">
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm
                                 {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
@@ -37,9 +37,22 @@
                                 <input type="text" class="form-control form-control-solid-bordered m-b-sm"
                                        name="slug" placeholder="Category Slug"
                                        value="{{ old('slug') ?? ($record->slug ?? '') }}">
-                                <textarea class="form-control form-control-solid-bordered m-b-sm" name="description"
-                                          rows="5"
-                                          placeholder="Description">{{ old('description') ?? ($record->description ?? '') }}</textarea>
+                                <div class="m-b-sm">
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm" name="description"
+                                              id="summernote" rows="3" placeholder="Description"
+                                    >{{ old('description') ?? ($record->description ?? '') }}</textarea>
+                                </div>
+                                <div class="m-b-sm">
+                                    <input type="file" name="image" id="image"
+                                           class="form-control form-control-solid-bordered"
+                                           accept="image/png, image/jpeg, image/jpg">
+                                    @if(isset($record) && $record->image)
+                                        <a href="{{ asset($record->image) }}" target="_blank">
+                                            <img src="{{ asset($record->image) }}" alt="{{ $record->name ?? '' }}"
+                                                 class="img-fluid m-t-sm" style="max-height: 200px">
+                                        </a>
+                                    @endif
+                                </div>
                                 <input type="number" class="form-control form-control-solid-bordered m-b-sm"
                                        name="order" min="0" placeholder="Order"
                                        value="{{ old('order') ?? ($record->order ?? '') }}">
@@ -84,5 +97,7 @@
     </div>
 @endsection
 @section("scripts")
-
+    <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/summernote/lang/summernote-tr-TR.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/text-editor.js') }}"></script>
 @endsection

@@ -25,6 +25,7 @@ class CategoryStoreRequest extends FormRequest
             //'title' => 'required|unique:categories|max:255|in:active,passive',
             "name"            => ['required', 'min:3', 'max:255'],
             "slug"            => ['max:255'],
+            "image"           => ['nullable', 'image', 'mimetypes:image/jpeg,image/jpg,image/png', 'max:5120'],
             "description"     => ['max:255'],
             "seo_keywords"    => ['max:255'],
             "seo_description" => ['max:255']

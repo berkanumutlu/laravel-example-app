@@ -25,6 +25,13 @@
                                     <th scope="row">{{ $item->id }}</th>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->slug }}</td>
+                                    <td>
+                                        @if(!empty($item->image))
+                                            <a href="{{ asset($item->image) }}" target="_blank">
+                                                <img src="{{ asset($item->image) }}" alt="{{ $item->name }}"
+                                                     width="40"></a>
+                                        @endif
+                                    </td>
                                     <td>{{ Str::limit($item->description, 50) }}</td>
                                     <td>
                                         <x-admin.change-status
