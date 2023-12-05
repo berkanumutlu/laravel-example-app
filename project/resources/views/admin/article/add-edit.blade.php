@@ -42,7 +42,7 @@
                                 <div class="m-b-sm">
                                     <textarea class="form-control form-control-solid-bordered m-b-sm" name="body"
                                               id="summernote" rows="3" placeholder="Description"
-                                              required>{{ old('body') ?? ($record->body ?? '') }}</textarea>
+                                              required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
                                 </div>
                                 <div class="m-b-sm">
                                     <input type="file" name="image" id="image"

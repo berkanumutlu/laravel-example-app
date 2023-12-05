@@ -26,10 +26,10 @@
                 <div class="auth-credentials m-b-xxl">
                     <label for="signInEmail" class="form-label">Email address</label>
                     <input type="email" class="form-control m-b-md" id="signInEmail" aria-describedby="signInEmail"
-                           placeholder="example@example.com" name="email" value="{{ old('email') }}">
+                           placeholder="example@example.com" name="email" value="{{ old('email') }}" required>
                     <label for="signInPassword" class="form-label">Password</label>
                     <input type="password" class="form-control m-b-md" id="signInPassword" name="password"
-                           aria-describedby="signInPassword"
+                           aria-describedby="signInPassword" required
                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="signInRememberMe"

@@ -42,3 +42,6 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
         Route::post('change-status', "change_status")->name('change_status');
         Route::post('delete', "destroy")->name('delete');
     });
+Route::prefix("laravel-filemanager")->group(function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

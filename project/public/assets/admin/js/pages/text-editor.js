@@ -14,13 +14,11 @@ $(document).ready(function () {
             contents: '<i class="note-icon-picture"></i> ',
             tooltip: 'Insert image with filemanager',
             click: function () {
-
-                lfm({type: 'image', prefix: '/admin/filemanager'}, function (lfmItems, path) {
+                lfm({type: 'image', prefix: '/admin/laravel-filemanager'}, function (lfmItems, path) {
                     lfmItems.forEach(function (lfmItem) {
                         context.invoke('insertImage', lfmItem.url);
                     });
                 });
-
             }
         });
         return button.render();
