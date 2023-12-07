@@ -71,9 +71,26 @@ jQuery(function ($) {
             }
         }
     });
+    $('form input[type="checkbox"]').each(function () {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
+    $('form input[type="checkbox"]').on("click", function () {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
 });
 
 $(document).ready(function () {
+    $('form').submit(function() {
+        $(this).find('input[type=checkbox]').each(function (i, el) {
+            if(!el.checked) {
+                var hidden_el = $(el).clone();
+                hidden_el[0].checked = true;
+                hidden_el[0].value = '0';
+                hidden_el[0].type = 'hidden'
+                hidden_el.insertAfter($(el));
+            }
+        })
+    });
     $('#languageDropDown').click(function () {
         $(this).addClass("show");
     });

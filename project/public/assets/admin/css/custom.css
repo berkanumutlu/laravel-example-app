@@ -52,6 +52,10 @@
     display: none;
 }
 
+.form-check {
+    padding-left: 35px;
+}
+
 @media (max-width: 576px) {
     .app-sidebar .logo .logo-icon:hover {
         background: none;

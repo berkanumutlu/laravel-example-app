@@ -21,11 +21,16 @@
     </div>
     <div class="app-menu pb-5">
         <ul class="accordion-menu">
-            <li class="sidebar-title">Apps</li>
+            <li class="sidebar-title">General</li>
             <li class="{{ Route::is('admin.dashboard') ? 'active-page' : '' }}">
                 <a href="{{ route('admin.dashboard') }}" class="{{ Route::is('admin.dashboard') ? 'active' : '' }}">
                     <i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
+            <li class="{{ Route::is('admin.settings') ? 'active-page' : '' }}">
+                <a href="{{ route('admin.settings') }}" class="{{ Route::is('admin.settings') ? 'active' : '' }}">
+                    <i class="material-icons-two-tone">settings</i>Settings</a>
+            </li>
+            <li class="sidebar-title">Records</li>
             <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') ? 'open' : '' }}">
                 <a href="javascript:;"><i class="material-icons-two-tone">article</i>Article
                     <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
