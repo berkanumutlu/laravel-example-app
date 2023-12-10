@@ -30,18 +30,20 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="{{ route('home') }}" class="header-logo-link">
-                            <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid"
-                                 alt="Logo">
-                            <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4"
-                                 alt="Logo Text">
+                            @if(!empty($settings->image_logo))
+                                <img src="{{ asset($settings->image_logo) }}" class="img-fluid" alt="Logo">
+                            @else
+                                <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid"
+                                     alt="Logo">
+                                <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4"
+                                     alt="Logo Text">
+                            @endif
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-8 d-none d-md-block">
                     <div class="header-text">
-                        <p class="text-center text-secondary fst-italic">Lorem ipsum dolor sit amet, consectetur
-                            adipiscing
-                            elit.</p>
+                        <p class="text-center text-secondary fst-italic">{!! $settings->text_header ?? '' !!}</p>
                     </div>
                 </div>
                 <div class="col-lg-2 d-none d-lg-block">

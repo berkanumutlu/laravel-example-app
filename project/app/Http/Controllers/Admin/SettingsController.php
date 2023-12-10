@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SettingsController extends BaseController
@@ -29,6 +30,7 @@ class SettingsController extends BaseController
                     Settings::query()->where('id', $id)->update(['key_value' => $value]);
                 }
             });
+            Cache::forget('settings');
         } catch (\Exception $e) {
             //alert()->error("Error", $e->getMessage())->showConfirmButton("OK");
             alert()->error("Error", "Any records could not be updated.")->showConfirmButton("OK");
