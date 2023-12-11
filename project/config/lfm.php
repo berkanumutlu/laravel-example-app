@@ -20,7 +20,7 @@ return [
     /**
      * \UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::boot metodu içerisinde;
      * if (config('lfm.use_package_routes')) {
-     *    Route::group(['prefix' => config('lfm.prefix') ?: 'filemanger', config('lfm.middlewares') ?: ['web','auth']], function () {
+     *    Route::group(['prefix' => config('lfm.prefix') ?: 'filemanager', config('lfm.middlewares') ?: ['web','auth']], function () {
      *      \UniSharp\LaravelFilemanager\Lfm::routes();
      *   });
      * }
