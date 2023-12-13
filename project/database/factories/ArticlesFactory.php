@@ -22,7 +22,7 @@ class ArticlesFactory extends Factory
             'title'           => $title,
             'slug'            => Str::slug($title),
             'body'            => fake()->paragraph,
-            'image'           => fake()->imageUrl,
+            'image'           => fake()->imageUrl(600, 400),
             'status'          => fake()->boolean,
             'tags'            => Str::slug(fake()->text, ','),
             'seo_keywords'    => Str::slug(fake()->paragraph, ','),

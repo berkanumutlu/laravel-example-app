@@ -1,19 +1,18 @@
-@if(!empty($settings->show_sidebar_categories))
+@if(!empty($settings->show_sidebar_categories) && !empty($categories))
     <section class="sidebar sidebar-right category-list" data-aos="fade-left">
         <div class="title-section">
             <h4 class="title">Categories</h4>
         </div>
         <div class="content">
             <ul class="list-group list-unstyled">
-                <li class="list-group-item"><a href="#" class="list-group-item-action">PHP<span
-                            class="text-warning float-end me-3">&#x25CF;</span></a>
-                </li>
-                <li class="list-group-item"><a href="#" class="list-group-item-action">HTML<span
-                            class="text-primary float-end me-3">&#x25CF;</span></a></li>
-                <li class="list-group-item"><a href="#" class="list-group-item-action">CSS<span
-                            class="text-danger float-end me-3">&#x25CF;</span></a></li>
-                <li class="list-group-item"><a href="#" class="list-group-item-action">JS<span
-                            class="text-success float-end me-3">&#x25CF;</span></a></li>
+                @foreach($categories as $item)
+                    <li class="list-group-item">
+                        <a href="{{ route('article.category', ['slug' => $item->slug]) }}"
+                           class="list-group-item-action">{{ $item->name }}
+                            <span class="float-end me-3" style="color: {{ $item->color }}">&#x25CF;</span>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </section>
