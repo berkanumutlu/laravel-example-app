@@ -67,6 +67,11 @@
                                         @endforeach
                                     @endif
                                 </select>
+                                <div class="m-b-sm d-flex align-items-center">
+                                    <label for="color" class="form-label mb-0">Category Color</label>
+                                    <input type="color" name="color" id="color" class="ms-2"
+                                           value="{{ ($record->color ?? '') }}">
+                                </div>
                                 <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
                                           rows="5"
                                           placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>

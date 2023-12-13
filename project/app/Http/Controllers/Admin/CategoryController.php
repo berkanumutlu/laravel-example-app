@@ -81,6 +81,7 @@ class CategoryController extends BaseController
         $category->seo_keywords = $request->seo_keywords;
         $category->seo_description = $request->seo_description;
         $category->order = $request->order;
+        $category->color = $request->color;
         if ($request->file('image')) {
             $folder = 'categories';
             $public_path = 'storage/'.$folder;
@@ -165,6 +166,7 @@ class CategoryController extends BaseController
         $category->seo_keywords = $request->seo_keywords;
         $category->seo_description = $request->seo_description;
         $category->order = $request->order;
+        $category->color = $request->color;
         try {
             $category->save();
             if ($request->file('image')) {
