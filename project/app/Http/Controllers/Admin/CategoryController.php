@@ -75,8 +75,8 @@ class CategoryController extends BaseController
         $category->slug = is_null($this->check_slug(Category::class,
             $slug)) ? $slug : Str::slug($slug.'-'.random_int(1, 9999));
         $category->description = $request->description;
-        $category->status = isset($request->status) ? 1 : 0;
-        $category->feature_status = isset($request->feature_status) ? 1 : 0;
+        $category->status = $request->status;
+        $category->feature_status = $request->feature_status;
         $category->parent_id = $request->parent_id;
         $category->seo_keywords = $request->seo_keywords;
         $category->seo_description = $request->seo_description;
@@ -159,8 +159,8 @@ class CategoryController extends BaseController
         }
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->status = isset($request->status) ? 1 : 0;
-        $category->feature_status = isset($request->feature_status) ? 1 : 0;
+        $category->status = $request->status;
+        $category->feature_status = $request->feature_status;
         $category->parent_id = $request->parent_id;
         $category->seo_keywords = $request->seo_keywords;
         $category->seo_description = $request->seo_description;

@@ -100,7 +100,7 @@
                                           placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status"
-                                           name="status" {{ old('status') || (isset($record) && $record->status) ? 'checked' : '' }}>
+                                           name="status" {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status">Status</label>
                                 </div>
                                 <hr>
