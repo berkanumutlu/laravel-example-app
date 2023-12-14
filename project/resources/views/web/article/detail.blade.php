@@ -1,7 +1,7 @@
 @extends("web.layouts.index")
 @section("style")
-    <link href="{{ asset('assets/web/css/home.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/web/css/articles.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/highlight/styles/default.min.css') }}" rel="stylesheet">
@@ -13,62 +13,59 @@
                 <div class="col-xl-9">
                     <section class="article-detail" data-aos="zoom-in-right">
                         <div class="article-header">
-                            <h1 class="title">Article Title</h1>
+                            <h1 class="title">{{ $record->title ?? '' }}</h1>
                             <ul class="meta">
-                                <li class="author">by <a href="#">Berkan Ümütlü</a></li>
+                                <li class="author">by <a href="#">{{ $record->user?->name }}</a></li>
                                 <li class="date">
-                                    <time datetime="26-11-2023 20:00">26 November 2023</time>
+                                    <time datetime="26-11-2023 20:00">{{ $record->publish_date ?? '' }}</time>
                                 </li>
                                 <li class="favorite-count">
                                     <a href="#" class="btn btn-favorite"><span class="material-icons-outlined">favorite_border</span></a>
-                                    <span class="number">100</span>
-                                </li>
-                                <li class="category-list">
-                                    <ul class="nav list-unstyled">
-                                        <li class="category-item"><a href="#">CSS</a></li>
-                                        <li class="category-item"><a href="#">HTML</a></li>
-                                        <li class="category-item"><a href="#">PHP</a></li>
-                                    </ul>
+                                    <span class="number">{{ $record->like_count ?? 0 }}</span>
                                 </li>
                             </ul>
                         </div>
                         <div class="article-content">
                             <div class="text">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sodales massa et
-                                    urna aliquet, eu placerat leo pretium. Nulla at mauris sed justo convallis iaculis.
-                                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-                                    egestas. Mauris eu orci viverra, imperdiet arcu eu, lobortis metus. Aliquam diam
-                                    augue, dictum sed mauris ac, ullamcorper convallis est. Ut rutrum lectus vitae
-                                    tellus interdum imperdiet. Morbi congue turpis mauris, ac eleifend purus congue nec.
-                                    Fusce nec mauris nunc. Mauris vitae magna sit amet felis placerat auctor a et ipsum.
-                                    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                    himenaeos. Nullam augue magna, pharetra blandit mauris sollicitudin, sagittis tempus
-                                    justo. Donec nec sapien feugiat, sodales arcu non, finibus felis. Pellentesque
-                                    viverra at tortor id pretium. Integer a placerat turpis.</p>
-                                <pre>
-                                    <code class="language-js">
-                                        var number1 = 10
-                                        // Comment line
-
-                                        var number2 = 20
-
-                                        var result = number1 + number2
-                                    </code>
-                                </pre>
+                                @if(!empty($record->image))
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <img src="{{ asset($record->image) }}" class="img-fluid w-75"
+                                             alt="{{ $record->title ?? '' }}">
+                                    </div>
+                                @endif
+                                {!! $record->body ?? '' !!}
                             </div>
                         </div>
                     </section>
+                    <div class="article-detail-bottom" data-aos="fade-up">
+                        <div class="tag-share-wrap">
+                            <div class="tag-wrap">
+                                <h4 class="mb-2">Tags:</h4>
+                                @if(!empty($record->tags))
+                                    <div class="tag-list">
+                                        <ul class="nav list-unstyled">
+                                            @foreach($record->tags as $item)
+                                                <li class="tag-item"><a href="#">{{ $item }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="share-wrap">
+                                <h4 class="mb-2">Share:</h4>
+                            </div>
+                        </div>
+                    </div>
                     <section class="author" data-aos="fade-up">
                         <div class="author-card">
                             <div class="author-thumb">
-                                <img width="180" height="180" src="{{ $avatar }}" alt="Author Image">
+                                <img width="180" height="180" src="{{ asset($record->user?->image) }}"
+                                     alt="Author Image">
                             </div>
                             <div class="author-content">
-                                <h4 class="name">Berkan Ümütlü</h4>
-                                <div class="designation">Full Stack Developer</div>
-                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                                    volutpat vitae arcu nec luctus. Etiam pretium eros ex, ut facilisis diam
-                                    tincidunt mollis.</p>
+                                <h4 class="name">{{ $record->user?->name ?? '' }}</h4>
+                                <div class="designation">{{ $record->user?->title ?? '' }}</div>
+                                <p class="description">{{ $record->user?->description ?? '' }}</p>
                                 <div class="socials">
                                     <ul>
                                         <li class="github">
@@ -122,7 +119,7 @@
                         <div class="list">
                             <ul>
                                 <li>
-                                    <div class="comment-item has-child">
+                                    <div class="comment-item has-child" data-aos="fade-up">
                                         <div class="image">
                                             <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
                                         </div>
@@ -187,7 +184,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <div class="comment-item">
+                                    <div class="comment-item" data-aos="fade-up">
                                         <div class="image">
                                             <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
                                         </div>
@@ -206,7 +203,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="comment-item">
+                                    <div class="comment-item" data-aos="fade-up">
                                         <div class="image">
                                             <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
                                         </div>
@@ -269,79 +266,13 @@
 @endsection
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
+    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script src="{{ asset("assets/plugins/highlight/highlight.min.js") }}"></script>
     <script>
         $(document).ready(function () {
             AOS.init();
             hljs.highlightAll();
-            let swiper = new Swiper('.popular-article-list .swiper', {
-                speed: 400,
-                spaceBetween: 15,
-                slidesPerView: 3,
-                pagination: {
-                    el: '.swiper-pagination',
-                    type: 'bullets',
-                },
-                navigation: {
-                    nextEl: '.popular-article-list .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.popular-article-list .custom-pagination .custom-swiper-button-prev'
-                },
-                breakpoints: {
-                    320: {
-                        slidesPerView: 1,
-                        spaceBetween: 10
-                    },
-                    480: {
-                        slidesPerView: 2,
-                        spaceBetween: 10
-                    },
-                    576: {
-                        slidesPerView: 2,
-                        spaceBetween: 10
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 10
-                    },
-                    992: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    },
-                    1200: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    },
-                    1400: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    }
-                },
-            });
-            let sidebarVideoSwiper = new Swiper('.sidebar-video .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-video .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-video .custom-pagination .custom-swiper-button-prev'
-                },
-            });
-            let sidebarAuthorSwiper = new Swiper('.sidebar-authors .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-authors .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-authors .custom-pagination .custom-swiper-button-prev'
-                },
-            });
         });
     </script>
 @endsection

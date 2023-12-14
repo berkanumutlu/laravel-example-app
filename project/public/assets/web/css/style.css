@@ -1,3 +1,7 @@
+/*#region Global*/
+/*------------------------------------------------------------
+    [Global]
+------------------------------------------------------------*/
 :root {
     --color-primary: #F05340;
     --color-primary-alternative: #FF2D20;
@@ -156,8 +160,16 @@ footer {
     border-top: 1px solid var(--color-gray-2);
 }
 
-.author-card {
+/*#endregion */
+/*#region Author Card*/
+/*------------------------------------------------------------
+    [Author Card]
+------------------------------------------------------------*/
+section.author {
     margin: 70px 0 35px;
+}
+
+section.author .author-card {
     padding: 95px 15px 30px;
     position: relative;
     background-color: var(--color-orange-2);
@@ -165,7 +177,7 @@ footer {
     text-align: center;
 }
 
-.author-card .author-thumb {
+section.author .author-card .author-thumb {
     margin: 0 auto 20px;
     position: absolute;
     top: -40px;
@@ -178,13 +190,13 @@ footer {
     border-radius: 50%;
 }
 
-.author-card .author-thumb img {
+section.author .author-card .author-thumb img {
     max-width: 100%;
     height: 100%;
     border-radius: 50%;
 }
 
-.author-card .author-content .name {
+section.author .author-card .author-content .name {
     margin-bottom: 5px;
     font-size: 20px;
     font-weight: 600;
@@ -192,7 +204,7 @@ footer {
     color: var(--color-black-5);
 }
 
-.author-card .author-content .designation {
+section.author .author-card .author-content .designation {
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: 500;
@@ -200,7 +212,7 @@ footer {
     color: var(--color-black-5);
 }
 
-.author-card .author-content .description {
+section.author .author-card .author-content .description {
     margin: 0 0 20px 0;
     font-size: 16px;
     font-weight: 400;
@@ -208,11 +220,11 @@ footer {
     color: var(--color-black-6);
 }
 
-.author-card .author-content .socials {
+section.author .author-card .author-content .socials {
     margin-bottom: 0;
 }
 
-.author-card .author-content .socials ul {
+section.author .author-card .author-content .socials ul {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     -ms-flex-pack: center;
@@ -234,11 +246,11 @@ footer {
     flex-wrap: wrap;
 }
 
-.author-card .author-content .socials ul li {
+section.author .author-card .author-content .socials ul li {
     line-height: 1;
 }
 
-.author-card .author-content .socials ul li a {
+section.author .author-card .author-content .socials ul li a {
     gap: 20px;
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
@@ -264,27 +276,27 @@ footer {
     transition: var(--transition);
 }
 
-.author-card .author-content .socials ul li.github a:hover {
+section.author .author-card .author-content .socials ul li.github a:hover {
     fill: var(--color-white);
     background-color: var(--color-github);
 }
 
-.author-card .author-content .socials ul li.linkedin a:hover {
+section.author .author-card .author-content .socials ul li.linkedin a:hover {
     fill: var(--color-white);
     background-color: var(--color-linkedin);
 }
 
-.author-card .author-content .socials ul li.instagram a:hover {
+section.author .author-card .author-content .socials ul li.instagram a:hover {
     fill: var(--color-white);
     background-color: var(--color-instagram);
 }
 
-.author-card .author-content .socials ul li.twitter a:hover {
+section.author .author-card .author-content .socials ul li.twitter a:hover {
     fill: var(--color-white);
     background-color: var(--color-twitter);
 }
 
-.author-card .author-content .socials ul li a i {
+section.author .author-card .author-content .socials ul li a i {
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -296,10 +308,15 @@ footer {
     transition: var(--transition);
 }
 
-.author-card .author-content .socials ul li a:hover i {
+section.author .author-card .author-content .socials ul li a:hover i {
     color: var(--color-white);
 }
 
+/*#endregion */
+/*#region Comments*/
+/*------------------------------------------------------------
+    [Comments]
+------------------------------------------------------------*/
 .comments {
     margin-bottom: 16px;
     padding: 20px;
@@ -314,6 +331,10 @@ footer {
     font-size: 24px;
     font-weight: 600;
     line-height: 1.42;
+}
+
+.comments .title.no-comment {
+    margin-bottom: 0;
 }
 
 .comments .list ul {
@@ -453,6 +474,11 @@ footer {
     transform: rotate(320deg) translateY(-1px);
 }
 
+/*#endregion */
+/*#region Responsive*/
+/*------------------------------------------------------------
+    [Responsive]
+------------------------------------------------------------*/
 @media screen and (min-width: 576px) {
     .author-card {
         padding: 95px 30px 30px;
@@ -461,7 +487,6 @@ footer {
     .comments .list .comment-item {
         flex-direction: row;
     }
-
 }
 
 @media screen and (min-width: 768px) {
@@ -481,3 +506,5 @@ footer {
 @media screen and (min-width: 1400px) {
 
 }
+
+/*#endregion */

@@ -1,7 +1,7 @@
 @extends("web.layouts.index")
 @section("style")
-    <link href="{{ asset('assets/web/css/home.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/web/css/articles.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection
@@ -17,11 +17,14 @@
                             </div>
                             @if(!empty($records))
                                 @foreach($records as $item)
+                                    @php
+                                        $item_url = route('article.detail', ['slug' => $item->slug]);
+                                    @endphp
                                     <div class="col-xl-4">
                                         <div class="article-item" data-aos="flip-down">
                                             <div class="article-item-image-section">
-                                                <a href="#" class="article-item-image-link">
-                                                    <img src="{{ $item->image }}"
+                                                <a href="{{ $item_url }}" class="article-item-image-link">
+                                                    <img src="{{ asset($item->image) }}"
                                                          class="article-item-image img-fluid" alt="{{ $item->title }}">
                                                 </a>
                                                 <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"
@@ -34,7 +37,7 @@
                                                     Author: <a href="#">{{ $item->user?->name }}</a>
                                                 </div>
                                                 <div class="title">
-                                                    <a href="#"><h4>{{ $item->title }}</h4></a>
+                                                    <a href="{{ $item_url }}"><h4>{{ $item->title }}</h4></a>
                                                 </div>
                                                 <div class="date">
                                                     <p>{{ $item->publish_date }}</p>
@@ -44,13 +47,13 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @endif
-                            @if($records->lastPage() > 1)
-                                <div class="col-12">
-                                    <div class="pagination-section">
-                                        {{ $records->links() }}
+                                @if($records->lastPage() > 1)
+                                    <div class="col-12">
+                                        <div class="pagination-section">
+                                            {{ $records->links() }}
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endif
                         </div>
                     </section>
@@ -64,82 +67,11 @@
 @endsection
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
+    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script>
         $(document).ready(function () {
             AOS.init();
-            let swiper = new Swiper('.popular-article-list .swiper', {
-                speed: 400,
-                spaceBetween: 15,
-                slidesPerView: 3,
-                pagination: {
-                    el: '.swiper-pagination',
-                    type: 'bullets',
-                },
-                navigation: {
-                    nextEl: '.popular-article-list .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.popular-article-list .custom-pagination .custom-swiper-button-prev'
-                },
-                /*autoplay: {
-                    delay: 5000,
-                },
-                rewind: true*/
-                breakpoints: {
-                    // when window width is >= 320px
-                    320: {
-                        slidesPerView: 1,
-                        spaceBetween: 10
-                    },
-                    480: {
-                        slidesPerView: 2,
-                        spaceBetween: 10
-                    },
-                    576: {
-                        slidesPerView: 2,
-                        spaceBetween: 10
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 10
-                    },
-                    992: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    },
-                    1200: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    },
-                    1400: {
-                        slidesPerView: 3,
-                        spaceBetween: 15
-                    }
-                },
-            });
-            let sidebarVideoSwiper = new Swiper('.sidebar-video .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-video .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-video .custom-pagination .custom-swiper-button-prev'
-                },
-            });
-            let sidebarAuthorSwiper = new Swiper('.sidebar-authors .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-authors .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-authors .custom-pagination .custom-swiper-button-prev'
-                },
-            });
         });
     </script>
 @endsection

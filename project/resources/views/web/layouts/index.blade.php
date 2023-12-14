@@ -96,7 +96,7 @@
     </div>
 </header>
 @yield("content")
-<footer class="container-fluid" data-aos="fade-up">
+<footer class="container-fluid">
     <div class="container text-center">
         <p class="mb-0">Copyright © 2023 Berkan Ümütlü. All Right Reserved.</p>
     </div>

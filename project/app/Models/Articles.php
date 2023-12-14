@@ -65,7 +65,7 @@ class Articles extends BaseModel
         }
     }
 
-    public function getTagsAttribute($value)
+    public function getTagsAttribute($value): array
     {
         return explode(',', $value);
     }

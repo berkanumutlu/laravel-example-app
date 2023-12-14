@@ -3,7 +3,9 @@
 
 @endsection
 @section("style")
-    <link href="{{ asset('assets/web/css/home.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/pages/home.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection
@@ -365,10 +367,11 @@
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
+    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script>
         $(document).ready(function () {
             AOS.init();
-            let swiper = new Swiper('.popular-article-list .swiper', {
+            let popularArticleList = new Swiper('.popular-article-list .swiper', {
                 speed: 400,
                 spaceBetween: 15,
                 slidesPerView: 3,
@@ -414,30 +417,6 @@
                         slidesPerView: 3,
                         spaceBetween: 15
                     }
-                },
-            });
-            let sidebarVideoSwiper = new Swiper('.sidebar-video .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-video .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-video .custom-pagination .custom-swiper-button-prev'
-                },
-            });
-            let sidebarAuthorSwiper = new Swiper('.sidebar-authors .swiper', {
-                speed: 400,
-                slidesPerView: 1,
-                autoplay: {
-                    delay: 5000,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.sidebar-authors .custom-pagination .custom-swiper-button-next',
-                    prevEl: '.sidebar-authors .custom-pagination .custom-swiper-button-prev'
                 },
             });
         });
