@@ -29,7 +29,7 @@
                             <div class="text">
                                 @if(!empty($record->image))
                                     <div class="d-flex justify-content-center mb-3">
-                                        <img src="{{ asset($record->image) }}" class="img-fluid w-75"
+                                        <img src="{{ asset($record->image) }}" class="img-fluid w-75 rounded-1"
                                              alt="{{ $record->title ?? '' }}">
                                     </div>
                                 @endif

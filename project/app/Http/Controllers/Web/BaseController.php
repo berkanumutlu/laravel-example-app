@@ -8,6 +8,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
+//use Barryvdh\Debugbar\Facades\Debugbar;
+
 class BaseController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
@@ -19,11 +21,13 @@ class BaseController extends Controller
 
     public function __construct()
     {
+        //Debugbar::startMeasure('render', 'Time for BaseController rendering');
         $this->data['settings'] = $this->get_settings();
         $this->data['favicon'] = asset('assets/web/images/logomark.min.svg');
         $this->data['site_name'] = config('app.name');
         $this->data['site_image'] = asset('assets/web/images/logomark.min.svg');
         $this->data['avatar'] = asset('assets/web/images/avatars/avatar.png');
+        //Debugbar::stopMeasure('render');
     }
 
     public function search()
