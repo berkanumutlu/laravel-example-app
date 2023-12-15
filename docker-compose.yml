@@ -41,7 +41,7 @@ services:
       SERVICE_NAME: mysql
   mysql_phpmyadmin:
     image: phpmyadmin:5.2.1
-    container_name: phpmyadmin
+    container_name: ${COMPOSE_PROJECT_NAME}-phpmyadmin
     ports:
       - 8080:80
     environment:
