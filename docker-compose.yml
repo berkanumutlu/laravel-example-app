@@ -4,7 +4,7 @@ services:
   php8:
     build:
       context: ./docker/php8
-    container_name: ${COMPOSE_PROJECT_NAME}-app
+    container_name: ${PROJECT_NAME}-app
     ports:
       - "9000:9000"
     volumes:
@@ -17,7 +17,7 @@ services:
   nginx:
     platform: linux/x86_64
     image: nginx:1.13.8
-    container_name: ${COMPOSE_PROJECT_NAME}-nginx
+    container_name: ${PROJECT_NAME}-nginx
     ports:
       - "80:80"
     volumes:
@@ -27,7 +27,7 @@ services:
       - php8
   mysql:
     image: mysql:5.7
-    container_name: ${COMPOSE_PROJECT_NAME}-db
+    container_name: ${PROJECT_NAME}-db
     ports:
       - "3306:3306"
     depends_on:
@@ -41,7 +41,7 @@ services:
       SERVICE_NAME: mysql
   mysql_phpmyadmin:
     image: phpmyadmin:5.2.1
-    container_name: ${COMPOSE_PROJECT_NAME}-phpmyadmin
+    container_name: ${PROJECT_NAME}-phpmyadmin
     ports:
       - 8080:80
     environment:
