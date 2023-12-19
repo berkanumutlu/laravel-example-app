@@ -27,7 +27,7 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('admin.settings') }}" method="POST" class="settings-form"
+                            <form action="{{ route('admin.settings.index') }}" method="POST" class="settings-form"
                                   enctype="multipart/form-data">
                                 @csrf
                                 @foreach($settings as $item)

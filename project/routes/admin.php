@@ -45,5 +45,13 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
 Route::prefix("laravel-filemanager")->group(function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-Route::get("settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"])->name('settings');
-Route::post("settings", [\App\Http\Controllers\Admin\SettingsController::class, "update"]);
+Route::prefix("settings")->name("settings.")->controller('SettingsController')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::post('', "update");
+    });
+Route::prefix("user")->name("user.")->controller('UserController')
+    ->group(function () {
+        Route::get('list', "index")->name('index');
+        Route::post('change-status', "change_status")->name('change_status');
+    });

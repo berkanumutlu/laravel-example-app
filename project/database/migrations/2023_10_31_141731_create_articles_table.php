@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string("slug", 160);
             $table->text("body");
             $table->string("image")->nullable();
-            $table->boolean("status")->default(0);
             $table->string("tags")->nullable();
             $table->string("seo_keywords")->nullable();
             $table->string("seo_description")->nullable();
@@ -24,6 +23,7 @@ return new class extends Migration {
             $table->integer("view_count")->default(0);
             $table->integer("like_count")->default(0);
             $table->dateTime("publish_date")->nullable();
+            $table->boolean("status")->default(0);
             $table->unsignedBigInteger("category_id")->nullable();
             $table->unsignedBigInteger("user_id");
             $table->foreign("category_id")->references("id")->on("categories");

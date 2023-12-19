@@ -26,8 +26,8 @@
                 <a href="{{ route('admin.dashboard') }}" class="{{ Route::is('admin.dashboard') ? 'active' : '' }}">
                     <i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
-            <li class="{{ Route::is('admin.settings') ? 'active-page' : '' }}">
-                <a href="{{ route('admin.settings') }}" class="{{ Route::is('admin.settings') ? 'active' : '' }}">
+            <li class="{{ Route::is('admin.settings.index') ? 'active-page' : '' }}">
+                <a href="{{ route('admin.settings.index') }}" class="{{ Route::is('admin.settings') ? 'active' : '' }}">
                     <i class="material-icons-two-tone">settings</i>Settings</a>
             </li>
             <li class="sidebar-title">Records</li>

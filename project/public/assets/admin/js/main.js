@@ -298,7 +298,7 @@ $(document).ready(function () {
     plugins();
     components();
     if (typeof hljs != "undefined") {
-        hljs.initHighlighting();
+        hljs.highlightAll();
     }
 });
 
