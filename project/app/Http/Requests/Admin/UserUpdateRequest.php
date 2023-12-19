@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserStoreRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class UserStoreRequest extends FormRequest
     {
         return [
             "name"        => ['required', 'min:3', 'max:255'],
-            "email"       => ['email', 'required', 'unique:users'],
-            "username"    => ['required', 'max:255', 'unique:users'],
+            "email"       => ['email', 'required', 'unique:users,email,'.$this->id],
+            "username"    => ['required', 'max:255', 'unique:users,username,'.$this->id],
             "password"    => [
-                'required', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()->symbols()->mixedCase()
+                'nullable', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()->symbols()->mixedCase()
             ],
             "image"       => ['nullable', 'image', 'mimetypes:image/jpeg,image/jpg,image/png', 'max:5120'],
             "title"       => ['max:255'],

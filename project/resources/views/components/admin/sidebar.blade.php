@@ -63,6 +63,23 @@
                     </li>
                 </ul>
             </li>
+            <li class="sidebar-title">Users</li>
+            <li class="{{ Route::is('admin.user.index') || Route::is('admin.user.add') ? 'open' : '' }}">
+                <a href="javascript:;"><i class="material-icons-two-tone">person</i>User
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('admin.user.index') }}"
+                           class="{{ Route::is('admin.user.index') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">list</i>List</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.user.add') }}"
+                           class="{{ Route::is('admin.user.add') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">add</i>Add</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

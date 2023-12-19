@@ -27,4 +27,9 @@ class BaseController extends Controller
     {
         return $model::where('slug', $slug)->first();
     }
+
+    public function check_username($model, string $username)
+    {
+        return $model::where('username', $username)->first();
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\UserEditRequest;
 use App\Http\Requests\Admin\UserStoreRequest;
+use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -43,31 +45,31 @@ class UserController extends BaseController
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = !empty($request->username) ? Str::slug($request->username) : Str::slug($request->name);
-        $user->password = $request->password;
+        $user->password = bcrypt($request->password);
         $user->title = $request->title;
         $user->description = $request->description;
-        if ($request->file('image')) {
-            $folder = 'users';
-            $public_path = 'storage/'.$folder;
-            $image_file = $request->file('image');
-            $image_original_extension = $image_file->getClientOriginalExtension();
-            $image_file_name = $user->username.'.'.$image_original_extension;
-            $image_file_path = public_path($public_path.'/'.$image_file_name);
-            try {
-                $image_file->storeAs($folder, $image_file_name);
-                $user->image = $public_path.'/'.$image_file_name;
-            } catch (\Exception $e) {
-
-            }
-        }
         try {
             $user->save();
+            if ($request->file('image')) {
+                $folder = 'users';
+                $public_path = 'storage/'.$folder;
+                $image_file = $request->file('image');
+                $image_original_extension = $image_file->getClientOriginalExtension();
+                $image_file_name = $user->id.'.'.$image_original_extension;
+                $image_file_path = public_path($public_path.'/'.$image_file_name);
+                try {
+                    $image_file->storeAs($folder, $image_file_name);
+                    User::query()->where('id', $user->id)->update(['image' => $public_path.'/'.$image_file_name]);
+                } catch (\Exception $e) {
+
+                }
+            }
         } catch (\Exception $e) {
             if (isset($image_file_path) && file_exists($image_file_path)) {
                 File::delete($image_file_path);
             }
             alert()->error("Error", "User could not be added.")->showConfirmButton("OK");
-            return redirect()->back()->exceptInput("_token", "files", "image");
+            return redirect()->back()->exceptInput("_token", "files", "image", "password");
         }
         alert()->success("Success", "User successfully added.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->route('admin.user.index');
@@ -84,17 +86,66 @@ class UserController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(UserEditRequest $request)
     {
-        //
+        $id = $request->id;
+        $this->data['title'] = 'User #'.$id.' Edit';
+        $user = User::where('id', $id)->first();
+        if (is_null($user)) {
+            alert()->error("Error", "User not found.")->showConfirmButton("OK");
+            return redirect()->route('admin.user.index');
+        }
+        $this->data['record'] = $user;
+        return view('admin.user.add-edit', $this->data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, string $id)
     {
-        //
+        $username = Str::slug($request->username);
+        $slug_check = $this->check_username(User::class, $username);
+        $user = User::find($id);
+        $user_image = $user->image;
+        if (is_null($slug_check) || (!is_null($slug_check) && $slug_check->id == $user->id)) {
+            $user->username = $username;
+        } else {
+            $user->username = Str::slug($username.'-'.random_int(1, 9999));
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->title = $request->title;
+        $user->description = $request->description;
+        if (!is_null($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
+        try {
+            $user->save();
+            if ($request->file('image')) {
+                $folder = 'users';
+                $public_path = 'storage/'.$folder;
+                $image_file = $request->file('image');
+                $image_original_extension = $image_file->getClientOriginalExtension();
+                $image_file_name = $user->id.'.'.$image_original_extension;
+                try {
+                    $image_file->storeAs($folder, $image_file_name);
+                    User::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
+                    if (file_exists(public_path($user_image))) {
+                        File::delete(public_path($user_image));
+                    }
+                } catch (\Exception $e) {
+
+                }
+            }
+        } catch (\Exception $e) {
+            //abort(500, $e->getMessage());
+            alert()->error("Error", "User could not be updated.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token", "files", "image", "password");
+        }
+        alert()->success("Success", "User has been updated successfully.")
+            ->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back();
     }
 
     /**

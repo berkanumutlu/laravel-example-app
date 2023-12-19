@@ -41,7 +41,7 @@
                                        name="username" placeholder="Username"
                                        value="{{ old('username') ?? ($record->username ?? '') }}">
                                 <input type="password" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="password" placeholder="Password" required>
+                                       name="password" placeholder="Password" {{ isset($record) ? '' : 'required' }}>
                                 <div class="m-b-sm">
                                     <input type="file" name="image" id="image"
                                            class="form-control form-control-solid-bordered"
