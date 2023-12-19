@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class UserController extends BaseController
 {
@@ -27,15 +30,47 @@ class UserController extends BaseController
      */
     public function create()
     {
-        //
+        $this->data['title'] = 'Add User';
+        return view('admin.user.add-edit', $this->data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = !empty($request->username) ? Str::slug($request->username) : Str::slug($request->name);
+        $user->password = $request->password;
+        $user->title = $request->title;
+        $user->description = $request->description;
+        if ($request->file('image')) {
+            $folder = 'users';
+            $public_path = 'storage/'.$folder;
+            $image_file = $request->file('image');
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $user->username.'.'.$image_original_extension;
+            $image_file_path = public_path($public_path.'/'.$image_file_name);
+            try {
+                $image_file->storeAs($folder, $image_file_name);
+                $user->image = $public_path.'/'.$image_file_name;
+            } catch (\Exception $e) {
+
+            }
+        }
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            if (isset($image_file_path) && file_exists($image_file_path)) {
+                File::delete($image_file_path);
+            }
+            alert()->error("Error", "User could not be added.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token", "files", "image");
+        }
+        alert()->success("Success", "User successfully added.")->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->route('admin.user.index');
     }
 
     /**

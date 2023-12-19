@@ -30,8 +30,8 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->username }}</td>
-                                    <td>{{ $item->Title }}</td>
-                                    <td>{{ !empty($item->description) ? Str::limit($item->description, 50) : '' }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{!! !empty($item->description) ? Str::limit($item->description, 50) : '' !!}</td>
                                     <td>
                                         <x-admin.change-status
                                             :recordId="$item->id" :url="route('admin.user.change_status')"

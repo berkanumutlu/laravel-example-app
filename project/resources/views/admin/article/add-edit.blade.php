@@ -40,8 +40,8 @@
                                        name="slug" placeholder="Article Slug"
                                        value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <div class="m-b-sm">
-                                    <textarea class="form-control form-control-solid-bordered m-b-sm" name="body"
-                                              id="summernote" rows="3" placeholder="Description"
+                                    <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
+                                              name="body" rows="3" placeholder="Description"
                                               required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
                                 </div>
                                 <div class="m-b-sm">

@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     // Initialize summernote with LFM button in the popover button group
     // Please note that you can add this button to any other button group you'd like
-    $('#summernote').summernote({
+    $('.summernote').summernote({
         lang: 'tr-TR',
         // toolbar: [
         //     ['popovers', ['lfm']],

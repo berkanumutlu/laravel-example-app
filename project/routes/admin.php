@@ -53,5 +53,10 @@ Route::prefix("settings")->name("settings.")->controller('SettingsController')
 Route::prefix("user")->name("user.")->controller('UserController')
     ->group(function () {
         Route::get('list', "index")->name('index');
+        Route::get('add', "create")->name('add');
+        Route::post('add', "store");
+        Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
+        Route::post('edit/{id}', "update")->whereNumber('id');
+        Route::post('delete', "destroy")->name('delete');
         Route::post('change-status', "change_status")->name('change_status');
     });

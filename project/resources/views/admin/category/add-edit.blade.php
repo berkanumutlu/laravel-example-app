@@ -38,9 +38,9 @@
                                        name="slug" placeholder="Category Slug"
                                        value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <div class="m-b-sm">
-                                    <textarea class="form-control form-control-solid-bordered m-b-sm" name="description"
-                                              id="summernote" rows="3" placeholder="Description"
-                                    >{!! old('description') ?? ($record->description ?? '') !!}</textarea>
+                                    <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
+                                              name="description" rows="3"
+                                              placeholder="Description">{!! old('description') ?? ($record->description ?? '') !!}</textarea>
                                 </div>
                                 <div class="m-b-sm">
                                     <input type="file" name="image" id="image"
