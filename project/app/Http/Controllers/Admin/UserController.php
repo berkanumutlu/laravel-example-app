@@ -69,4 +69,62 @@ class UserController extends BaseController
     {
         //
     }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function change_status(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id'   => ['required', 'integer', 'exists:users'],
+            'type' => ['required', 'string', Rule::in(['status'])]
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        $record_id = $request->id;
+        $user = User::where("id", $record_id)->first();
+        if (!empty($user)) {
+            try {
+                $type = $request->type;
+                $record_type = $user->$type;
+                $old_status_text = $record_type ? 'Active' : 'Passive';
+                $user->$type = !$record_type;
+                $user->save();
+                $record_type = $user->$type;
+                $new_status_text = $record_type ? 'Active' : 'Passive';
+                $response['status'] = true;
+                $response['message'] = "User(<strong>".$user->name."</strong>) <strong>".$request->typeText."</strong> value changed <strong>".$old_status_text."</strong> to <strong>".$new_status_text."</strong>.";
+                $response['data'] = [
+                    'recordStatus'     => $record_type,
+                    'recordStatusText' => $new_status_text
+                ];
+                $response['notify'] = [
+                    'message' => $response['message'],
+                    'icon'    => 'success',
+                    'timer'   => 4000
+                ];
+            } catch (\Exception $e) {
+                $response['message'] = $e->getMessage();
+                $response['notify'] = [
+                    'message' => "Could not change.",
+                    'icon'    => 'error'
+                ];
+            }
+        } else {
+            $response['message'] = "User not found.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
 }
