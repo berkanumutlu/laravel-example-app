@@ -42,4 +42,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
+
+    /**
+     * @var mixed|\Illuminate\Cache\CacheManager|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application
+     */
+    private mixed $settings;
+
+    public function __construct()
+    {
+        $this->settings = cache('settings');
+    }
+
+    public function getImageAttribute($value): string
+    {
+        if (empty($value)) {
+            if (!empty($this->settings) && !empty($this->settings->image_default_author)) {
+                return asset($this->settings->image_default_author);
+            }
+            return '';
+        }
+        return $value;
+    }
 }

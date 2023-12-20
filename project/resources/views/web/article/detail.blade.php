@@ -59,8 +59,9 @@
                     <section class="author" data-aos="fade-up">
                         <div class="author-card">
                             <div class="author-thumb">
-                                <img width="180" height="180" src="{{ asset($record->user?->image) }}"
-                                     alt="Author Image">
+                                @if(!empty($record->user->image))
+                                    <img width="180" height="180" src="{{ $record->user->image }}" alt="Author Image">
+                                @endif
                             </div>
                             <div class="author-content">
                                 <h4 class="name">{{ $record->user?->name ?? '' }}</h4>
@@ -80,7 +81,8 @@
                                             </a>
                                         </li>
                                         <li class="linkedin">
-                                            <a aria-label="Learn more from LinkedIn" href="https://linkedin.com/"
+                                            <a aria-label="Learn more from LinkedIn"
+                                               href="https://www.linkedin.com/in/berkanumutlu/"
                                                target="_blank" rel="nofollow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20"
                                                      height="20" viewBox="0 0 50 50">
