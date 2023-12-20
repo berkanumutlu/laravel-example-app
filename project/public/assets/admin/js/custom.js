@@ -18,10 +18,10 @@ jQuery(function ($) {
                     allowEnterKey: false
                 };
                 if (response.notify.hasOwnProperty('icon')) {
-                    $swalProps['icon'] = response.icon;
+                    $swalProps['icon'] = response.notify.icon;
                 }
                 if (response.notify.hasOwnProperty('timer')) {
-                    $swalProps['timer'] = response.timer;
+                    $swalProps['timer'] = response.notify.timer;
                 }
                 if (hasRedirect) {
                     return Swal.fire($swalProps).then((result) => {

@@ -19,9 +19,11 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $this->data['records'] = User::query()->select([
-            'id', 'name', 'email', 'username', 'image', 'title', 'description', 'status', 'created_at'
-        ])->orderBy('id', 'desc')->get();
+        $this->data['records'] = User::query()
+            //->withTrashed()
+            ->select([
+                'id', 'name', 'email', 'username', 'image', 'title', 'description', 'status', 'created_at'
+            ])->orderBy('id', 'desc')->get();
         $this->data['columns'] = [
             'Id', 'Image', 'Name', 'Email', 'Username', 'Title', 'Description', 'Status', 'Creation Time', 'Actions'
         ];
@@ -153,9 +155,43 @@ class UserController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['integer', 'exists:users,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $user = User::find($request->id);
+            /**
+             * Kullanıcıya bağlı article ve article comments kayıtlarını silmeyi sağlar.
+             */
+            //$user->articleComments()->delete();
+            //$user->articles()->delete();
+            $user->delete();
+            $response['status'] = true;
+            $response['message'] = "User(<strong>".$user->name."</strong>) successfully deleted.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
     }
 
     /**
@@ -210,6 +246,41 @@ class UserController extends BaseController
             $response['message'] = "User not found.";
             $response['notify'] = [
                 'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function restore(Request $request)
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['integer', 'exists:users,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            //$user = User::withTrashed()->findOrFail($request->id);
+            $user = User::findOrFail($request->id);
+            $user->restore();
+            $response['status'] = true;
+            $response['message'] = "User(<strong>".$user->name."</strong>) successfully restored.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
                 'icon'    => 'error'
             ];
         }
