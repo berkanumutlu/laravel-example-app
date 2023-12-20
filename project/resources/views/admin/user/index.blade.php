@@ -42,7 +42,7 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
-                                        :editURL="route('admin.user.edit', ['id' => $item->id])"
+                                        :editURL="route('admin.user.edit', ['user' => $item->id])"
                                         :deleteURL="route('admin.user.delete')"
                                     ></x-admin.table-actions>
                                 </tr>

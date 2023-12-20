@@ -24,7 +24,7 @@
                                 </div>
                             @endif
                             <form
-                                action="{{ isset($record) ? route('admin.user.edit', ['id' => $record->id]) : route('admin.user.add') }}"
+                                action="{{ isset($record) ? route('admin.user.edit', ['user' => $record->id]) : route('admin.user.add') }}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="text"

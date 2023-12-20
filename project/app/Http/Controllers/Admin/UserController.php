@@ -88,15 +88,15 @@ class UserController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserEditRequest $request)
+    public function edit(UserEditRequest $request, User $user)
     {
-        $id = $request->id;
-        $this->data['title'] = 'User #'.$id.' Edit';
+        /*$id = $request->id;
         $user = User::where('id', $id)->first();
         if (is_null($user)) {
             alert()->error("Error", "User not found.")->showConfirmButton("OK");
             return redirect()->route('admin.user.index');
-        }
+        }*/
+        $this->data['title'] = 'User #'.$user->id.' Edit';
         $this->data['record'] = $user;
         return view('admin.user.add-edit', $this->data);
     }
