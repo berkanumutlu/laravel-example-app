@@ -48,6 +48,11 @@
                                 </tr>
                             @endforeach
                         </x-slot>
+                        <x-slot name="footer">
+                            @foreach($columns as $item)
+                                <th>{{ in_array($item, ['Name', 'Email', 'Username', 'Title', 'Description']) ? $item : '' }}</th>
+                            @endforeach
+                        </x-slot>
                     </x-admin.table>
                 </x-slot>
             </x-admin.card>
