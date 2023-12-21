@@ -32,9 +32,12 @@
     --color-orange-3: #f79459;
     --color-brown: #735732;
     --color-github: #171515;
-    --color-twitter: #33CCFF;
+    --color-facebook: #4267B2;
+    --color-instagram: #C13584;
+    --color-twitter: #1DA1F2;
+    --color-pinterest: #E60023;
     --color-linkedin: #0072b1;
-    --color-instagram: #d62976;
+    --color-youtube: #ff0000;
     --transition: all .3s ease-in-out;
 }
 

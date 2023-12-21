@@ -53,6 +53,40 @@
                             </div>
                             <div class="share-wrap">
                                 <h4 class="mb-2">Share:</h4>
+                                <div class="social-list">
+                                    <ul>
+                                        <li class="facebook">
+                                            <a aria-label="Learn more from Facebook" href="https://facebook.com/">
+                                                <i class="fa-brands fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="instagram">
+                                            <a aria-label="Learn more from Instagram" href="https://instagram.com/">
+                                                <i class="fa-brands fa-instagram"></i>
+                                            </a>
+                                        </li>
+                                        <li class="twitter">
+                                            <a aria-label="Learn more from Twitter" href="https://twitter.com/">
+                                                <i class="fa-brands fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="pinterest">
+                                            <a aria-label="Learn more from Pinterest" href="https://pinterest.com/">
+                                                <i class="fa-brands fa-pinterest-p"></i>
+                                            </a>
+                                        </li>
+                                        <li class="linkedin">
+                                            <a aria-label="Learn more from Linkedin" href="https://linkedin.com/">
+                                                <i class="fa-brands fa-linkedin-in"></i>
+                                            </a>
+                                        </li>
+                                        <li class="youtube">
+                                            <a aria-label="Learn more from Youtube" href="https://youtube.com/">
+                                                <i class="fa-brands fa-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
