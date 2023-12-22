@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\ArticleStoreRequest;
 use App\Http\Requests\Admin\ArticleUpdateRequest;
-use App\Models\Articles;
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class ArticleController extends BaseController
         $this->data['categories'] = $categories;
         $users = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['users'] = $users;
-        $records = Articles::query()->with(['category:id,name', 'user:id,name'])->select([
+        $records = Article::query()->with(['category:id,name', 'user:id,name'])->select([
             'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
             'publish_date', 'category_id', 'user_id', 'created_at'
         ])
@@ -88,7 +88,7 @@ class ArticleController extends BaseController
     public function store(ArticleStoreRequest $request)
     {
         $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
-        if (!is_null($this->check_slug(Articles::class, $slug))) {
+        if (!is_null($this->check_slug(Article::class, $slug))) {
             $slug = Str::slug($slug.'-'.random_int(1, 9999));
         }
         $data = [
@@ -135,7 +135,7 @@ class ArticleController extends BaseController
             }
         }
         try {
-            Articles::create($data);
+            Article::create($data);
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
             //alert()->error("Error", $e->getMessage())->showConfirmButton("OK");
@@ -162,7 +162,7 @@ class ArticleController extends BaseController
      */
     public function edit(string $id)
     {
-        $article = Articles::where('id', $id)->first();
+        $article = Article::where('id', $id)->first();
         if (is_null($article)) {
             alert()->error("Error", "Record not found.")->showConfirmButton("OK");
             return redirect()->route('admin.article.index');
@@ -194,9 +194,9 @@ class ArticleController extends BaseController
             'user_id'         => auth()->id()
         ];
         try {
-            Articles::query()->where('id', $id)->update($data);
+            Article::query()->where('id', $id)->update($data);
             if ($request->file('image')) {
-                $record = Articles::query()->where('id', $id)->first();
+                $record = Article::query()->where('id', $id)->first();
                 $folder = 'articles';
                 $public_path = 'storage/'.$folder;
                 $image_file = $request->file('image');
@@ -204,7 +204,7 @@ class ArticleController extends BaseController
                 $image_file_name = $data['slug'].'.'.$image_original_extension;
                 try {
                     $image_file->storeAs($folder, $image_file_name);
-                    Articles::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
+                    Article::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
                     if (file_exists(public_path($record->image))) {
                         //Storage::delete($record->image); // DB'de image değerleri storage/... olarak tutulduğu için çalışmadı.
                         File::delete(public_path($record->image));
@@ -240,7 +240,7 @@ class ArticleController extends BaseController
         }
         try {
             $record_id = $request->id;
-            Articles::where("id", $record_id)->delete();
+            Article::where("id", $record_id)->delete();
             $response['status'] = true;
             $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
             $response['notify'] = [
@@ -278,7 +278,7 @@ class ArticleController extends BaseController
             return response()->json($response);
         }
         $record_id = $request->id;
-        $article = Articles::query()->where("id", $record_id)->first();
+        $article = Article::query()->where("id", $record_id)->first();
         if (!empty($article)) {
             try {
                 $type = $request->type;

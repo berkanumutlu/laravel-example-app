@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function articles(): HasMany
     {
-        return $this->hasMany(Articles::class, 'user_id', 'id');
+        return $this->hasMany(Article::class, 'user_id', 'id');
     }
 
     public function articleComments(): HasMany

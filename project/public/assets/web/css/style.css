@@ -321,7 +321,6 @@ section.author .author-card .author-content .socials ul li a:hover i {
     [Comments]
 ------------------------------------------------------------*/
 .comments {
-    margin-bottom: 16px;
     padding: 20px;
     color: var(--color-gray-5);
     background-color: var(--color-white);
@@ -427,6 +426,7 @@ section.author .author-card .author-content .socials ul li a:hover i {
 }
 
 .comment-form {
+    margin-bottom: 16px;
     padding: 20px;
     color: var(--color-gray-5);
     background-color: var(--color-white);

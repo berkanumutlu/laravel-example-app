@@ -12,18 +12,20 @@ return new class extends Migration {
     {
         Schema::create('article_comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("parent_id")->nullable();
             $table->unsignedBigInteger("article_id");
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("parent_id")->nullable();
             $table->text("comment");
-            $table->tinyInteger("status")->default(0);
             $table->integer("like_count")->default(0);
             $table->integer("dislike_count")->default(0);
-            $table->softDeletes(); // deleted_at
+            $table->ipAddress();
+            $table->string('user_agent')->nullable();
+            $table->boolean("status")->default(0);
             $table->timestamps();
-            $table->foreign("parent_id")->on("article_comments")->references("id");
+            $table->softDeletes(); // deleted_at
             $table->foreign("article_id")->on("articles")->references("id");
             $table->foreign("user_id")->on("users")->references("id");
+            $table->foreign("parent_id")->on("article_comments")->references("id");
         });
     }
 

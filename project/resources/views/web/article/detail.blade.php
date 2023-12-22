@@ -5,6 +5,7 @@
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/highlight/styles/default.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/waitMe/waitMe.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <main class="py-5">
@@ -150,6 +151,39 @@
                             </div>
                         </div>
                     </section>
+                    <section class="comment-form" data-aos="fade-up">
+                        <div class="header">
+                            <h3 class="title">Post a Comment</h3>
+                            <p class="description">In maximus faucibus mi sed accumsan. Suspendisse ut mi facilisis,
+                                pharetra ante ac, dapibus massa. Morbi aliquam magna erat, quis feugiat enim rhoncus
+                                eget. Maecenas et sagittis augue.</p>
+                        </div>
+                        <div class="form">
+                            <form action="{{ route('article.post.comment', ['article' => $record->slug]) }}"
+                                  method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <input type="text" name="fullname" id="fullname" class="form-control mb-3"
+                                               placeholder="Full Name" required>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <input type="text" name="email" id="email" class="form-control mb-3"
+                                               placeholder="Email" required>
+                                    </div>
+                                    <div class="col-12">
+                                            <textarea name="comment" id="comment" rows="5" class="form-control mb-3"
+                                                      placeholder="Comment" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-comment">
+                                            <i class="material-icons-outlined">send</i>Post Comment
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
                     <section class="comments" data-aos="fade-up">
                         <h3 class="title">5 comments</h3>
                         <div class="list">
@@ -260,38 +294,6 @@
                             </ul>
                         </div>
                     </section>
-                    <section class="comment-form" data-aos="fade-up">
-                        <div class="header">
-                            <h3 class="title">Post a Comment</h3>
-                            <p class="description">In maximus faucibus mi sed accumsan. Suspendisse ut mi facilisis,
-                                pharetra ante ac,
-                                dapibus massa. Morbi aliquam magna erat, quis feugiat enim rhoncus eget. Maecenas et
-                                sagittis augue.</p>
-                        </div>
-                        <div class="form">
-                            <form action="#" method="POST">
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <input type="text" name="fullname" id="fullname" class="form-control mb-3"
-                                               placeholder="Full Name">
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <input type="text" name="email" id="email" class="form-control mb-3"
-                                               placeholder="Email">
-                                    </div>
-                                    <div class="col-12">
-                                            <textarea name="comment" id="comment" rows="5" class="form-control mb-3"
-                                                      placeholder="Comment"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-comment">
-                                            <i class="material-icons-outlined">send</i>Post Comment
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </section>
                 </div>
                 <div class="col-xl-3">
                     @include('web.layouts.sidebar')
@@ -305,10 +307,43 @@
     <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script src="{{ asset("assets/plugins/highlight/highlight.min.js") }}"></script>
+    <script src="{{ asset("assets/plugins/waitMe/waitMe.min.js") }}"></script>
     <script>
         $(document).ready(function () {
             AOS.init();
             hljs.highlightAll();
+            $(".comment-form .form form").on("submit", function (e) {
+                e.preventDefault();
+                let $this = $(this);
+                showWaitMe($this);
+                $.ajax({
+                    url: $this.attr('action'),
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {'X-CSRF-TOKEN': $this.find('input[name="_token"]').val()},
+                    data: $this.serializeArray()
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.hasOwnProperty('message')) {
+                            Swal.fire({
+                                html: response.message,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                allowEnterKey: false,
+                                icon: response.status ? 'success' : 'error'
+                            });
+                        }
+                        if (response.status) {
+                            resetForm($this);
+                        } else {
+                            if (response.hasOwnProperty('token')) {
+                                $this.find('input[name="_token"]').val(response.token)
+                            }
+                        }
+                    }
+                    hideWaitMe($this);
+                });
+            });
         });
     </script>
 @endsection

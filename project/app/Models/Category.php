@@ -30,12 +30,12 @@ class Category extends Model
 
     public function articles(): HasMany
     {
-        return $this->hasMany(Articles::class, 'category_id', 'id');
+        return $this->hasMany(Article::class, 'category_id', 'id');
     }
 
     public function articlesActive(): HasMany
     {
-        return $this->hasMany(Articles::class, 'category_id', 'id')
+        return $this->hasMany(Article::class, 'category_id', 'id')
             ->where('status', 1)
             ->whereNotNull('publish_date')
             //->where('publish_date', '<=', now())
