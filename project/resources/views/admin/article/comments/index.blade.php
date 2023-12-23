@@ -32,6 +32,7 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
+                                        :approveURL="route('admin.article.comments.approve')"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach

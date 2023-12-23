@@ -156,4 +156,36 @@ $(document).ready(function () {
             }
         });
     });
+    $('.btnApprove').on("click", function (e) {
+        e.preventDefault();
+        let $this = $(this);
+        Swal.fire({
+            text: 'Do you want to approve this comment?',
+            icon: 'error',
+            showCancelButton: true,
+            cancelButtonColor: '#ff6673',
+            confirmButtonColor: '#2269f5',
+            confirmButtonText: 'Yes',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = $this.attr('href');
+                let recordId = $this.data('id');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {'id': recordId}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            $this.parents('tr').remove();
+                        }
+                    }
+                });
+            }
+        });
+    });
 });
