@@ -45,6 +45,11 @@
                            class="{{ Route::is('admin.article.add') ? 'active' : '' }} has-icon">
                             <i class="material-icons">add</i>Add</a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.article.comments.pending') }}"
+                           class="{{ Route::is('admin.article.comments.pending') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">pending</i>Pending</a>
+                    </li>
                 </ul>
             </li>
             <li class="{{ Route::is('admin.category.index') || Route::is('admin.category.add') ? 'open' : '' }}">

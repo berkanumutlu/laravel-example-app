@@ -32,6 +32,10 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
         Route::post('change-status', "change_status")->name('change_status');
         Route::post('delete', "destroy")->name('delete');
     });
+Route::prefix("article/comments")->name("article.comments.")->controller('ArticleCommentController')
+    ->group(function () {
+        Route::get('pending', "pending_comments")->name('pending');
+    });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {
         Route::get('', "index")->name('index');
