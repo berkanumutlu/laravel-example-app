@@ -10,7 +10,9 @@
                     <h1 class="card-title">{{ $title }}</h1>
                 </x-slot>
                 <x-slot name="body">
-                    <form action="{{ route('admin.article.comments.pending') }}" id="formFilter">
+                    <form
+                        action="{{ isset($page) && $page == 'list' ? route('admin.article.comments.index') : route('admin.article.comments.pending') }}"
+                        id="formFilter">
                         <div class="row">
                             <div class="col-3 my-2">
                                 @if(!empty($users))
@@ -68,8 +70,17 @@
                                     <td>{{ $item->user?->name }}</td>
                                     <td>{{ $item->parent?->comment }}</td>
                                     <td>{{ Str::limit(strip_tags($item->comment), 40) }}</td>
+                                    @if(isset($item->like_count))
+                                        <td>{{ $item->like_count }}</td>
+                                    @endif
+                                    @if(isset($item->dislike_count))
+                                        <td>{{ $item->dislike_count }}</td>
+                                    @endif
                                     <td>{{ $item->ip_address }}</td>
                                     <td>{{ $item->user_agent }}</td>
+                                    @if(isset($item->status))
+                                        <td></td>
+                                    @endif
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"

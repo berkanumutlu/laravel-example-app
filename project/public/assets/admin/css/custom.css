@@ -17,6 +17,10 @@
     background-color: #6799FA;
 }
 
+.app-sidebar .logo {
+    padding: 20px 23px 15px;
+}
+
 .app-menu > ul > li ul li a.has-icon:hover i, .app-menu > ul > li ul li a.has-icon.active i {
     color: #1e1e24;
     font-weight: 500;

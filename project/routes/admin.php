@@ -34,8 +34,9 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
     });
 Route::prefix("article/comments")->name("article.comments.")->controller('ArticleCommentController')
     ->group(function () {
-        Route::get('pending', "pending_comments")->name('pending');
-        Route::post('approve', "approve_comment")->name('approve');
+        Route::get('', "index")->name('index');
+        Route::get('pending', "pending")->name('pending');
+        Route::post('approve', "approve")->name('approve');
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {

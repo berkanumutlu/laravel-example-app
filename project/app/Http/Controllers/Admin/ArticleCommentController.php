@@ -9,11 +9,37 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleCommentController extends BaseController
 {
-    public function pending_comments(Request $request)
+    public function index(Request $request)
     {
-        $this->data['users'] = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['records'] = ArticleComments::query()
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
+            ->select([
+                'id', 'article_id', 'user_id', 'parent_id', 'comment', 'like_count', 'dislike_count', 'ip_address',
+                'user_agent', 'status', 'created_at'
+            ])
+            ->user($request->user_id)
+            ->createdAt($request->created_at)
+            ->comment($request->comment)
+            ->ipAddress($request->ip_address)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+        $this->data['columns'] = [
+            'Id', 'Article', 'User', 'Parent Comment', 'Comment', 'Likes', 'Dislikes', 'IP Address',
+            'User Agent', 'Status', 'Creation Time',
+            'Actions'
+        ];
+        $this->data['page'] = 'list';
+        $this->data['title'] = 'Article Comment List';
+        return view('admin.article.comments.index', $this->data);
+    }
+
+    public function pending(Request $request)
+    {
+        $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['records'] = ArticleComments::query()
+            ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
+            ->select(['id', 'article_id', 'user_id', 'parent_id', 'comment', 'ip_address', 'user_agent', 'created_at'])
             ->Pending()
             ->user($request->user_id)
             ->createdAt($request->created_at)
@@ -24,11 +50,12 @@ class ArticleCommentController extends BaseController
         $this->data['columns'] = [
             'Id', 'Article', 'User', 'Parent Comment', 'Comment', 'IP Address', 'User Agent', 'Creation Time', 'Actions'
         ];
+        $this->data['page'] = 'pending';
         $this->data['title'] = 'Pending Article Comment List';
         return view('admin.article.comments.index', $this->data);
     }
 
-    public function approve_comment(Request $request)
+    public function approve(Request $request)
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [

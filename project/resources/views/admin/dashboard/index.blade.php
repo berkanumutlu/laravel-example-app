@@ -678,5 +678,6 @@
     </div>
 @endsection
 @section("scripts")
+    <script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/dashboard.js') }}"></script>
 @endsection

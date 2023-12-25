@@ -31,7 +31,7 @@
                     <i class="material-icons-two-tone">settings</i>Settings</a>
             </li>
             <li class="sidebar-title">Records</li>
-            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') || Route::is('admin.article.comments.pending') ? 'open' : '' }}">
+            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') ? 'open' : '' }}">
                 <a href="javascript:;"><i class="material-icons-two-tone">article</i>Article
                     <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
@@ -44,11 +44,6 @@
                         <a href="{{ route('admin.article.add') }}"
                            class="{{ Route::is('admin.article.add') ? 'active' : '' }} has-icon">
                             <i class="material-icons">add</i>Add</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.article.comments.pending') }}"
-                           class="{{ Route::is('admin.article.comments.pending') ? 'active' : '' }} has-icon">
-                            <i class="material-icons">pending</i>Pending</a>
                     </li>
                 </ul>
             </li>
@@ -65,6 +60,23 @@
                         <a href="{{ route('admin.category.add') }}"
                            class="{{ Route::is('admin.category.add') ? 'active' : '' }} has-icon">
                             <i class="material-icons">add</i>Add</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-title">Web</li>
+            <li class="{{ Route::is('admin.article.comments.index') || Route::is('admin.article.comments.pending') ? 'open' : '' }}">
+                <a href="javascript:;"><i class="material-icons-two-tone">comment</i>Article Comments
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('admin.article.comments.index') }}"
+                           class="{{ Route::is('admin.article.comments.index') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">list</i>List</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.article.comments.pending') }}"
+                           class="{{ Route::is('admin.article.comments.pending') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">pending</i>Pending</a>
                     </li>
                 </ul>
             </li>
