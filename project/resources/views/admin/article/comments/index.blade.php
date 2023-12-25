@@ -1,6 +1,6 @@
 @extends("admin.layouts.index")
 @section("style")
-
+    <link href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="row">
@@ -10,6 +10,47 @@
                     <h1 class="card-title">{{ $title }}</h1>
                 </x-slot>
                 <x-slot name="body">
+                    <form action="{{ route('admin.article.comments.pending') }}" id="formFilter">
+                        <div class="row">
+                            <div class="col-3 my-2">
+                                @if(!empty($users))
+                                    <select class="form-select" name="user_id">
+                                        <option value="{{ null }}">Users</option>
+                                        <option
+                                            value="0" {{ !is_null(request()->get('user_id')) && request()->get('user_id') == 0 ? "selected" : "" }}
+                                        >Not Registered Users
+                                        </option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ request()->get('user_id') == $user->id ? "selected" : "" }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text"
+                                       class="form-control form-control-solid-bordered flatpickr3 bg-light"
+                                       name="created_at" placeholder="Created Date"
+                                       value="{{ request()->get("created_at") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text" name="comment" class="form-control" placeholder="Comment"
+                                       value="{{ request()->get("comment") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text" name="ip_address" class="form-control" placeholder="IP Address"
+                                       value="{{ request()->get("ip_address") }}">
+                            </div>
+                            <hr>
+                            <div class="col-6 mb-2 d-flex">
+                                <button class="btn btn-primary w-50 me-4" type="submit">Search</button>
+                                <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Reset</button>
+                            </div>
+                            <hr>
+                        </div>
+                    </form>
                     <x-admin.table :class="'table-striped table-hover'" :responsive="true">
                         <x-slot name="columns">
                             @foreach($columns as $item)
@@ -44,5 +85,6 @@
     </div>
 @endsection
 @section("scripts")
-
+    <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/datepickers.js') }}"></script>
 @endsection

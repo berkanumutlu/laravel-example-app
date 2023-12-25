@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\ArticleComments;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleCommentController extends BaseController
 {
-    public function pending_comments()
+    public function pending_comments(Request $request)
     {
+        $this->data['users'] = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['records'] = ArticleComments::query()
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
-            ->Pending()->orderBy('article_id', 'asc')
+            ->Pending()
+            ->user($request->user_id)
+            ->createdAt($request->created_at)
+            ->comment($request->comment)
+            ->ipAddress($request->ip_address)
+            ->orderBy('created_at', 'desc')
             ->paginate(20);
         $this->data['columns'] = [
             'Id', 'Article', 'User', 'Parent Comment', 'Comment', 'IP Address', 'User Agent', 'Creation Time', 'Actions'

@@ -31,7 +31,7 @@
                     <i class="material-icons-two-tone">settings</i>Settings</a>
             </li>
             <li class="sidebar-title">Records</li>
-            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') ? 'open' : '' }}">
+            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') || Route::is('admin.article.comments.pending') ? 'open' : '' }}">
                 <a href="javascript:;"><i class="material-icons-two-tone">article</i>Article
                     <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
