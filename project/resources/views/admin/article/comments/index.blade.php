@@ -79,7 +79,14 @@
                                     <td>{{ $item->ip_address }}</td>
                                     <td>{{ $item->user_agent }}</td>
                                     @if(isset($item->status))
-                                        <td></td>
+                                        <td>
+                                            <x-admin.change-status
+                                                :recordId="$item->id"
+                                                :url="route('admin.article.comments.change.status')"
+                                                :recordType="'status'" :recordTypeText="'Status'"
+                                                :recordStatus="$item->status">
+                                            </x-admin.change-status>
+                                        </td>
                                     @endif
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
