@@ -96,6 +96,7 @@
                                         :userFullName="$item->user?->name"
                                         :creationDate="$item->created_at"
                                         :approveURL="$page == 'pending' ? route('admin.article.comments.approve') : ''"
+                                        :deleteURL="route('admin.article.comments.delete')"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach

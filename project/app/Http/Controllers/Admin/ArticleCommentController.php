@@ -56,11 +56,15 @@ class ArticleCommentController extends BaseController
         return view('admin.article.comments.index', $this->data);
     }
 
-    public function approve(Request $request)
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function approve(Request $request): \Illuminate\Http\JsonResponse
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:article_comments']
+            'id' => ['required', 'integer', 'exists:article_comments,id']
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
@@ -108,7 +112,7 @@ class ArticleCommentController extends BaseController
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
-            'id'   => ['required', 'integer', 'exists:article_comments'],
+            'id'   => ['required', 'integer', 'exists:article_comments,id'],
             'type' => ['required', 'string', Rule::in(['status'])]
         ]);
         if ($validator->fails()) {
@@ -152,6 +156,44 @@ class ArticleCommentController extends BaseController
             $response['message'] = "Comment not found.";
             $response['notify'] = [
                 'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:article_comments,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $record_id = $request->id;
+            ArticleComments::where("id", $record_id)->delete();
+            $response['status'] = true;
+            $response['message'] = "Comment(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
                 'icon'    => 'error'
             ];
         }

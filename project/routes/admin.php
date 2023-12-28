@@ -38,6 +38,7 @@ Route::prefix("article/comments")->name("article.comments.")->controller('Articl
         Route::get('pending', "pending")->name('pending');
         Route::post('approve', "approve")->name('approve');
         Route::post('change-status', "changeStatus")->name('change.status');
+        Route::post('delete', "destroy")->name('delete');
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {
