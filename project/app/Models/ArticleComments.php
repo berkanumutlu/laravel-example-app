@@ -65,4 +65,9 @@ class ArticleComments extends Model
             return $query->where('ip_address', $ip_address);
         }
     }
+
+    public function getCreatedAtAttribute($value): string
+    {
+        return \Carbon\Carbon::parse($value)->format('d M Y H:i');
+    }
 }

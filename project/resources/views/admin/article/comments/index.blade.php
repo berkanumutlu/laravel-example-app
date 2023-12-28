@@ -77,7 +77,8 @@
                                         <td>{{ $item->dislike_count }}</td>
                                     @endif
                                     <td>{{ $item->ip_address }}</td>
-                                    <td>{{ $item->user_agent }}</td>
+                                    <td data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="{{ $item->user_agent }}">{{ Str::limit($item->user_agent, 30) }}</td>
                                     @if(isset($item->status))
                                         <td>
                                             <x-admin.change-status
@@ -91,7 +92,10 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
-                                        :approveURL="route('admin.article.comments.approve')"
+                                        :viewModalContent="$item->comment"
+                                        :userFullName="$item->user?->name"
+                                        :creationDate="$item->created_at"
+                                        :approveURL="$page == 'pending' ? route('admin.article.comments.approve') : ''"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach
@@ -101,6 +105,9 @@
             </x-admin.card>
         </div>
     </div>
+    <x-admin.modal
+        :modalId="'viewModal'" :headerTitle="'Article Comment'"
+        :modalDialogClass="'modal-xl'"></x-admin.modal>
 @endsection
 @section("scripts")
     <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>

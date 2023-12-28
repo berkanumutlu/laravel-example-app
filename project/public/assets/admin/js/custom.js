@@ -45,9 +45,9 @@ jQuery(function ($) {
 });
 
 $(document).ready(function () {
-    $('form').submit(function() {
+    $('form').submit(function () {
         $(this).find('input[type=checkbox]').each(function (i, el) {
-            if(!el.checked) {
+            if (!el.checked) {
                 var hidden_el = $(el).clone();
                 hidden_el[0].checked = true;
                 hidden_el[0].value = '0';
@@ -187,5 +187,15 @@ $(document).ready(function () {
                 });
             }
         });
+    });
+    $('.btnViewModal').on("click", function (e) {
+        e.preventDefault();
+        let content = $(this).data('content');
+        $('#viewModal .modal-body').text(content);
+        let recordId = $(this).data('id');
+        $('#viewModal .modal-header .modal-title').text('Article Comment #' + recordId);
+        let userFullname =$(this).data('user-fullname');
+        let creationDate =$(this).data('creation-date');
+        $('#viewModal .modal-footer').text('by ' + userFullname + ' - ' + creationDate);
     });
 });

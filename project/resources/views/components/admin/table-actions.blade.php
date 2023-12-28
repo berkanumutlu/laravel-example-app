@@ -1,5 +1,13 @@
 <td class="align-middle">
     <div class="d-flex align-items-center">
+        @if(!empty($viewModalContent))
+            <a data-id="{{ $recordId ?? '' }}" data-content="{!! htmlentities($viewModalContent) ?? '' !!}"
+               data-user-fullname="{{ $userFullName ?? '' }}" data-creation-date="{{ $creationDate ?? '' }}"
+               class="btnViewModal btn btn-light px-2 py-1 me-2" title="View"
+               data-bs-toggle="modal" data-bs-target="#viewModal">
+                <i class="material-icons m-0">visibility</i>
+            </a>
+        @endif
         @if(!empty($approveURL))
             <a href="{{ $approveURL }}" data-id="{{ $recordId ?? '' }}"
                class="btnApprove btn btn-success px-2 py-1 me-2"
