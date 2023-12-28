@@ -14,10 +14,11 @@ class ArticleCommentController extends BaseController
     {
         $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['records'] = ArticleComments::query()
+            ->withTrashed()
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
             ->select([
                 'id', 'article_id', 'user_id', 'parent_id', 'comment', 'like_count', 'dislike_count', 'ip_address',
-                'user_agent', 'status', 'created_at'
+                'user_agent', 'status', 'created_at', 'deleted_at'
             ])
             ->user($request->user_id)
             ->createdAt($request->created_at)
@@ -190,10 +191,49 @@ class ArticleCommentController extends BaseController
                 'icon'    => 'success',
                 'timer'   => 4000
             ];
+            $response['hideButton'] = true;
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
             $response['notify'] = [
                 'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:article_comments,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $record_id = $request->id;
+            ArticleComments::withTrashed()->where("id", $record_id)->restore();
+            $response['status'] = true;
+            $response['message'] = "Comment(<strong>#".$record_id."</strong>) successfully restored.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not restore.",
                 'icon'    => 'error'
             ];
         }

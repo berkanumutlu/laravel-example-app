@@ -39,6 +39,7 @@ Route::prefix("article/comments")->name("article.comments.")->controller('Articl
         Route::post('approve', "approve")->name('approve');
         Route::post('change-status', "changeStatus")->name('change.status');
         Route::post('delete', "destroy")->name('delete');
+        Route::post('restore', "restore")->name('restore');
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {

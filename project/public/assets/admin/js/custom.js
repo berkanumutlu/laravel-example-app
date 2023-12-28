@@ -149,7 +149,50 @@ $(document).ready(function () {
                 }).done(function (response) {
                     if (response.hasOwnProperty('status')) {
                         if (response.status) {
+                            if (response.hasOwnProperty('hideButton') && response.hideButton) {
+                                $this.addClass('d-none');
+                                $this.next('.btnRestore').removeClass('d-none');
+                                return;
+                            } else {
+                                $this.next('.btnRestore').addClass('d-none');
+                            }
                             $this.parents('tr').remove();
+                        }
+                    }
+                });
+            }
+        });
+    });
+    $('.btnRestore').on("click", function (e) {
+        e.preventDefault();
+        let $this = $(this);
+        Swal.fire({
+            text: 'Do you want to restore this record?',
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonColor: '#ff6673',
+            confirmButtonColor: '#22c74e',
+            confirmButtonText: 'Yes',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = $this.attr('href');
+                let recordId = $this.data('id');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {'id': recordId}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            $this.addClass('d-none');
+                            $this.prev('.btnDelete').removeClass('d-none');
+                        } else {
+                            $this.removeClass('d-none');
+                            $this.prev('.btnDelete').addClass('d-none');
                         }
                     }
                 });
@@ -194,8 +237,8 @@ $(document).ready(function () {
         $('#viewModal .modal-body').text(content);
         let recordId = $(this).data('id');
         $('#viewModal .modal-header .modal-title').text('Article Comment #' + recordId);
-        let userFullname =$(this).data('user-fullname');
-        let creationDate =$(this).data('creation-date');
+        let userFullname = $(this).data('user-fullname');
+        let creationDate = $(this).data('creation-date');
         $('#viewModal .modal-footer').text('by ' + userFullname + ' - ' + creationDate);
     });
 });

@@ -68,7 +68,12 @@
                                            target="_blank">{{ $item->article?->title }}</a>
                                     </td>
                                     <td>{{ $item->user?->name }}</td>
-                                    <td>{{ $item->parent?->comment }}</td>
+                                    @if(!is_null($item->parent?->comment))
+                                        <td data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="{{ $item->parent?->comment }}">{{ !is_null($item->parent?->comment) ? Str::limit($item->parent?->comment, 30) : '' }}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
                                     <td>{{ Str::limit(strip_tags($item->comment), 40) }}</td>
                                     @if(isset($item->like_count))
                                         <td>{{ $item->like_count }}</td>
@@ -97,6 +102,9 @@
                                         :creationDate="$item->created_at"
                                         :approveURL="$page == 'pending' ? route('admin.article.comments.approve') : ''"
                                         :deleteURL="route('admin.article.comments.delete')"
+                                        :deleteURLClass="is_null($item->deleted_at) ? '' : 'd-none'"
+                                        :restoreURL="route('admin.article.comments.restore')"
+                                        :restoreURLClass="is_null($item->deleted_at) ? 'd-none' : ''"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach
