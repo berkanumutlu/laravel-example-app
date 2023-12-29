@@ -368,12 +368,11 @@ section.author .author-card .author-content .socials ul li a:hover i {
     margin-bottom: 0;
 }
 
-.comments .list .comment-item .image {
+.comments .list .comment-item .header {
     flex: 1;
-    align-self: center;
 }
 
-.comments .list .comment-item .image img {
+.comments .list .comment-item .header .image img {
     width: 100px;
     border: 3px solid var(--color-black-5);
     border-radius: 50%;
@@ -385,7 +384,6 @@ section.author .author-card .author-content .socials ul li a:hover i {
 
 .comments .list .comment-item .content .header {
     display: flex;
-    align-items: center;
     flex-direction: column;
 }
 
@@ -565,8 +563,8 @@ section.author .author-card .author-content .socials ul li a:hover i {
         gap: 20px;
     }
 
-    .comments .list .comment-item .image {
-        align-self: unset;
+    .comments .list .comment-item .header .image {
+
     }
 
     .comments .list .comment-item .content .header {

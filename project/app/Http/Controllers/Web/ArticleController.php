@@ -43,7 +43,7 @@ class ArticleController extends BaseController
         if (empty($record)) {
             abort(404);
         }
-        $record->commentsTotal = $record->comments?->count();
+        $record->commentsCount = $record->comments?->count();
         $record->comments?->map(function ($item) use ($record) {
             if (!is_null($item->deleted_at)) {
                 $item->comment = '(This message has been deleted.)';
@@ -60,7 +60,7 @@ class ArticleController extends BaseController
             } else {
                 $item->user->image = asset($this->data['settings']->image_default_author);
             }
-            $record->commentsTotal += $item->children?->count();
+            $record->commentsCount += $item->children?->count();
             if ($item->children?->count() > 0) {
                 $item->children->map(function ($child) {
                     if (!is_null($child->deleted_at)) {
