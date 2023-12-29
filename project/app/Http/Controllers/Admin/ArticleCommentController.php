@@ -39,10 +39,9 @@ class ArticleCommentController extends BaseController
     public function pending(Request $request)
     {
         $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
-        $this->data['records'] = ArticleComments::query()
+        $this->data['records'] = ArticleComments::query()->status(0)
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
             ->select(['id', 'article_id', 'user_id', 'parent_id', 'comment', 'ip_address', 'user_agent', 'created_at'])
-            ->Pending()
             ->user($request->user_id)
             ->createdAt($request->created_at)
             ->comment($request->comment)

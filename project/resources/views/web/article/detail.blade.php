@@ -18,7 +18,8 @@
                             <ul class="meta">
                                 <li class="author">by <a href="#">{{ $record->user?->name }}</a></li>
                                 <li class="date">
-                                    <time datetime="26-11-2023 20:00">{{ $record->publish_date ?? '' }}</time>
+                                    <time
+                                        datetime="{{ $record->publish_date ?? '' }}">{{ $record->publish_date ?? '' }}</time>
                                 </li>
                                 <li class="favorite-count">
                                     <a href="#" class="btn btn-favorite"><span class="material-icons-outlined">favorite_border</span></a>
@@ -185,114 +186,108 @@
                         </div>
                     </section>
                     <section class="comments" data-aos="fade-up">
-                        <h3 class="title">5 comments</h3>
-                        <div class="list">
-                            <ul>
-                                <li>
-                                    <div class="comment-item has-child" data-aos="fade-up">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
-                                        </div>
-                                        <div class="content">
-                                            <div class="header">
-                                                <h4 class="title">Berkan Ümütlü</h4>
-                                                <a href="#" class="btn btn-reply">Reply</a>
-                                            </div>
-                                            <div class="meta">
-                                                <span class="date">Dec 1, 2023</span>
-                                            </div>
-                                            <p class="comment">Suspendisse arcu erat, blandit nec tellus sed,
-                                                pellentesque ultricies nibh. Donec sit amet nibh in sapien fermentum
-                                                tempus. Curabitur lorem arcu, finibus non dictum in, convallis eu erat.
-                                                Nulla sit amet quam eros. Integer faucibus et enim nec suscipit.</p>
-                                        </div>
-                                    </div>
-                                    <ul class="child" data-aos="fade-up" data-aos-duration="1000">
+                        <h3 class="title {{ !empty($record->commentsTotal) ? '' : 'no-comment' }}"
+                        >{{ !empty($record->commentsTotal) ? $record->commentsTotal.' comments' : '0 comment' }}</h3>
+                        @if(!empty($record->commentsTotal))
+                            <div class="list">
+                                <ul>
+                                    @foreach($record->comments as $item)
                                         <li>
-                                            <div class="comment-item">
+                                            <div
+                                                class="comment-item {{ $item->children?->count() > 0 ? 'has-child' : '' }} {{ $item->is_deleted ? 'deleted' : '' }}"
+                                                data-aos="fade-up">
                                                 <div class="image">
-                                                    <img src="https://via.placeholder.com/100x100"
-                                                         alt="User Profile Image">
+                                                    <img src="{{ $item->user->image }}"
+                                                         alt="{{ $item->user->name }} Profile Image">
                                                 </div>
                                                 <div class="content">
                                                     <div class="header">
-                                                        <h4 class="title">Berkan Ümütlü</h4>
-                                                        <a href="#" class="btn btn-reply">Reply</a>
+                                                        <h4 class="title">{{ $item->user->name }}</h4>
+                                                        <div class="btn-actions">
+                                                            <div class="action-like-comment">
+                                                                <a href="javascript:;" class="btn btn-like-comment"
+                                                                   {{ $item->is_deleted ? '' : 'data-id='.$item->id }} rel="nofollow">
+                                                                    <span
+                                                                        class="material-icons-outlined">thumb_up</span></a>
+                                                                <span class="number">{{ $item->like_count ?? 0 }}</span>
+                                                            </div>
+                                                            <div class="action-dislike-comment">
+                                                                <a href="javascript:;" class="btn btn-dislike-comment"
+                                                                   {{ $item->is_deleted ? '' : 'data-id='.$item->id }} rel="nofollow">
+                                                                    <span
+                                                                        class="material-icons-outlined">thumb_down</span></a>
+                                                                <span
+                                                                    class="number">{{ $item->dislike_count ?? 0 }}</span>
+                                                            </div>
+                                                            <div class="action-reply-comment">
+                                                                <a href="javascript:;" class="btn btn-reply-comment"
+                                                                   {{ $item->is_deleted ? '' : 'data-id='.$item->id }} rel="nofollow">
+                                                                    <span
+                                                                        class="material-icons align-middle">reply</span>Reply</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="meta">
-                                                        <span class="date">Dec 4, 2023</span>
+                                                        <span class="date">{{ $item->created_at }}</span>
                                                     </div>
-                                                    <p class="comment">Curabitur vel dignissim felis. Donec laoreet
-                                                        consequat nulla vel sodales. Quisque sed faucibus dolor.
-                                                        Maecenas in ligula id turpis facilisis consequat a quis tellus.
-                                                        Duis id dui nec sem venenatis suscipit.</p>
+                                                    <p class="comment">{{ $item->comment }}</p>
                                                 </div>
                                             </div>
+                                            @if($item->children?->count() > 0)
+                                                <ul class="child" data-aos="fade-up" data-aos-duration="1000">
+                                                    @foreach($item->children as $child)
+                                                        <li>
+                                                            <div
+                                                                class="comment-item {{ $child->is_deleted ? 'deleted' : '' }}"
+                                                                data-aos="fade-up">
+                                                                <div class="image">
+                                                                    <img src="{{ $child->user->image }}"
+                                                                         alt="{{ $child->user->name }} Profile Image">
+                                                                </div>
+                                                                <div class="content">
+                                                                    <div class="header">
+                                                                        <h4 class="title">{{ $child->user->name ?? 'Guest' }}</h4>
+                                                                        <div class="btn-actions">
+                                                                            <div class="action-like-comment">
+                                                                                <a href="javascript:;"
+                                                                                   class="btn btn-like-comment"
+                                                                                   {{ $child->is_deleted ? '' : 'data-id='.$child->id }} rel="nofollow"><span
+                                                                                        class="material-icons-outlined">thumb_up</span></a>
+                                                                                <span
+                                                                                    class="number">{{ $child->like_count ?? 0 }}</span>
+                                                                            </div>
+                                                                            <div class="action-dislike-comment">
+                                                                                <a href="javascript:;"
+                                                                                   class="btn btn-dislike-comment"
+                                                                                   {{ $child->is_deleted ? '' : 'data-id='.$child->id }} rel="nofollow"><span
+                                                                                        class="material-icons-outlined">thumb_down</span></a>
+                                                                                <span
+                                                                                    class="number">{{ $child->dislike_count ?? 0 }}</span>
+                                                                            </div>
+                                                                            <div class="action-reply-comment">
+                                                                                <a href="javascript:;"
+                                                                                   class="btn btn-reply-comment"
+                                                                                   {{ $child->is_deleted ? '' : 'data-id='.$child->id }} rel="nofollow"><span
+                                                                                        class="material-icons align-middle">reply</span>Reply</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="meta">
+                                                                        <span
+                                                                            class="date">{{ $child->created_at }}</span>
+                                                                    </div>
+                                                                    <p class="comment">{{ $child->comment }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </li>
-                                        <li>
-                                            <div class="comment-item">
-                                                <div class="image">
-                                                    <img src="https://via.placeholder.com/100x100"
-                                                         alt="User Profile Image">
-                                                </div>
-                                                <div class="content">
-                                                    <div class="header">
-                                                        <h4 class="title">Berkan Ümütlü</h4>
-                                                        <a href="#" class="btn btn-reply">Reply</a>
-                                                    </div>
-                                                    <div class="meta">
-                                                        <span class="date">Dec 9, 2023</span>
-                                                    </div>
-                                                    <p class="comment">Maecenas sit amet vulputate velit, sit amet
-                                                        tempor ante. Donec pulvinar enim nec nibh varius semper. Proin
-                                                        sollicitudin ante justo. Suspendisse ultricies posuere lacus a
-                                                        pulvinar. In facilisis erat sapien, id malesuada mauris aliquet
-                                                        a.</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="comment-item" data-aos="fade-up">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
-                                        </div>
-                                        <div class="content">
-                                            <div class="header">
-                                                <h4 class="title">Berkan Ümütlü</h4>
-                                                <a href="#" class="btn btn-reply">Reply</a>
-                                            </div>
-                                            <div class="meta">
-                                                <span class="date">Oct 14, 2023</span>
-                                            </div>
-                                            <p class="comment">Quisque ut justo a massa mollis tincidunt. In viverra
-                                                felis mauris, vel lobortis lectus finibus ac. Fusce bibendum lacus
-                                                tincidunt felis porta, eu laoreet purus aliquam.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="comment-item" data-aos="fade-up">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/100x100" alt="User Profile Image">
-                                        </div>
-                                        <div class="content">
-                                            <div class="header">
-                                                <h4 class="title">Berkan Ümütlü</h4>
-                                                <a href="#" class="btn btn-reply">Reply</a>
-                                            </div>
-                                            <div class="meta">
-                                                <span class="date">Sep 25, 2023</span>
-                                            </div>
-                                            <p class="comment">Vestibulum interdum, erat sed interdum ullamcorper, diam
-                                                lacus commodo arcu, sed molestie diam diam at eros. Vestibulum fermentum
-                                                neque ut metus faucibus facilisis ut non turpis.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </section>
                 </div>
                 <div class="col-xl-3">

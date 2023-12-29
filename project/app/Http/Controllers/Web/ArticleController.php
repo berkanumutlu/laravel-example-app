@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Models\Article;
 use App\Models\ArticleComments;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ArticleController extends BaseController
@@ -18,7 +19,7 @@ class ArticleController extends BaseController
 
     public function index()
     {
-        $this->data['records'] = Article::query()->where('status', 1)
+        $this->data['records'] = Article::query()->status(1)
             ->with(['category:id,name,slug', 'user:id,name,username'])
             ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->orderBy('publish_date', 'desc')
@@ -29,8 +30,11 @@ class ArticleController extends BaseController
 
     public function show(string $slug)
     {
-        $record = Article::query()->where('slug', $slug)
-            ->with(['category:id,name,slug', 'user:id,name,username,title,description,image'])
+        $record = Article::query()->where('slug', $slug)->status(1)
+            ->with([
+                'category:id,name,slug', 'user:id,name,username,title,description,image',
+                'comments', 'comments.user:id,name,image', 'comments.children', 'comments.children.user:id,name,image'
+            ])
             ->select([
                 'id', 'title', 'slug', 'body', 'image', 'tags', 'read_time', 'view_count', 'like_count', 'publish_date',
                 'category_id', 'user_id'
@@ -39,6 +43,44 @@ class ArticleController extends BaseController
         if (empty($record)) {
             abort(404);
         }
+        $record->commentsTotal = $record->comments?->count();
+        $record->comments?->map(function ($item) use ($record) {
+            if (!is_null($item->deleted_at)) {
+                $item->comment = '(This message has been deleted.)';
+                $item->is_deleted = true;
+            } else {
+                $item->is_deleted = false;
+            }
+            if (is_null($item->user?->name)) {
+                $item->user = new User();
+                $item->user->name = 'Guest';
+            }
+            if (!is_null($item->user?->image)) {
+                $item->user->image = asset($item->user?->image);
+            } else {
+                $item->user->image = asset($this->data['settings']->image_default_author);
+            }
+            $record->commentsTotal += $item->children?->count();
+            if ($item->children?->count() > 0) {
+                $item->children->map(function ($child) {
+                    if (!is_null($child->deleted_at)) {
+                        $child->comment = '(This message has been deleted.)';
+                        $child->is_deleted = true;
+                    } else {
+                        $child->is_deleted = false;
+                    }
+                    if (is_null($child->user?->name)) {
+                        $child->user = new User();
+                        $child->user->name = 'Guest';
+                    }
+                    if (!is_null($child->user?->image)) {
+                        $child->user->image = asset($child->user?->image);
+                    } else {
+                        $child->user->image = asset($this->data['settings']->image_default_author);
+                    }
+                });
+            }
+        });
         $this->data['record'] = $record;
         $this->data['title'] = $record->title;
         return view('web.article.detail', $this->data);

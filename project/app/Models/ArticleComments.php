@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
-class ArticleComments extends Model
+class ArticleComments extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
@@ -29,16 +29,17 @@ class ArticleComments extends Model
         return $this->hasOne(ArticleComments::class, 'id', 'parent_id');
     }
 
-    public function scopePending($query)
+    public function children(): HasMany
     {
-        return $query->where('status', 0);
+        return $this->hasMany(ArticleComments::class, 'parent_id', 'id')
+            ->where('status', 1)->withTrashed();
     }
 
-    public function scopeUser($query, $user_id)
+    public function scopeUser($query, $value = null)
     {
-        if (!empty($user_id)) {
-            return $query->where('user_id', $user_id);
-        } elseif (isset($user_id) && empty($user_id)) {
+        if (!empty($value)) {
+            return $query->where('user_id', $value);
+        } elseif (isset($value)) {
             return $query->where('user_id', null);
         }
     }

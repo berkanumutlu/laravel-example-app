@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Article extends BaseModel
@@ -20,6 +21,13 @@ class Article extends BaseModel
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ArticleComments::class, 'article_id', 'id')
+            ->where('status', 1)->where('parent_id', null)->withTrashed()
+            ->orderBy('created_at', 'desc')->orderBy('like_count', 'desc');
     }
 
     public function scopeTitle($query, $title)
