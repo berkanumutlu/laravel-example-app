@@ -10,7 +10,9 @@
                             <ul class="child" data-aos="fade-up" data-aos-duration="1000">
                                 @foreach($item->children as $child)
                                     <li>
-                                        <x-web.item-comment :item="$child"></x-web.item-comment>
+                                        <x-web.item-comment
+                                            :item="$child"
+                                            :commentItemAOS="'fade-left'"></x-web.item-comment>
                                     </li>
                                 @endforeach
                             </ul>

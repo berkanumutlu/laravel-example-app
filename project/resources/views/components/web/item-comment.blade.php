@@ -1,6 +1,6 @@
 <div
     class="comment-item {{ $item->children?->count() > 0 ? 'has-child' : '' }} {{ $item->is_deleted ? 'deleted' : '' }}"
-    data-aos="fade-up">
+    data-aos="{{ $commentItemAOS ?? 'fade-up' }}">
     <div class="header">
         <div class="image">
             <img src="{{ $item->user->image }}" alt="{{ $item->user->name }} Profile Image">
