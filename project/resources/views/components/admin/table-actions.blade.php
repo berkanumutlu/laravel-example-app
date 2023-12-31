@@ -29,7 +29,7 @@
         @endif
         @if(!empty($restoreURL))
             <a href="{{ $restoreURL }}" data-id="{{ $recordId ?? '' }}"
-               class="btnRestore btn btn-light px-2 py-1 ms-2 {{ $restoreURLClass ?? '' }}"
+               class="btnRestore btn btn-info px-2 py-1 ms-2 {{ $restoreURLClass ?? '' }}"
                data-bs-toggle="tooltip" data-bs-placement="top" title="Restore">
                 <i class="material-icons m-0">undo</i></a>
         @endif
