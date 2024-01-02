@@ -7,6 +7,7 @@ use App\Models\ArticleComments;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends BaseController
 {
@@ -116,10 +117,28 @@ class ArticleController extends BaseController
     public function post_comment(Request $request, Article $article)
     {
         $response = ['status' => false, 'message' => null];
+        $response['token'] = csrf_token();
+        $validator = Validator::make($request->all(), [
+            'email'      => ['required', 'email'],
+            'fullname'   => ['required', 'string'],
+            'comment_id' => ['nullable', 'integer'],
+            'comment'    => ['required', 'string'],
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
         try {
             $data = $request->except('_token');
             if (auth()->guard('web')->check()) {
                 $data['user_id'] = auth()->id();
+            }
+            if (isset($request->comment_id)) {
+                $data['parent_id'] = $request->comment_id;
             }
             $data['article_id'] = $article->id;
             $data['ip_address'] = $request->ip();
@@ -129,7 +148,6 @@ class ArticleController extends BaseController
             $response['message'] = 'Your comment has been sent successfully. Your comment will be published after the checks.';
         } catch (\Exception $e) {
             $response['message'] = 'An error occurred while submitting your comment.';
-            $response['token'] = csrf_token();
         }
         return response()->json($response);
     }

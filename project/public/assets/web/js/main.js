@@ -2,6 +2,11 @@ function resetForm(form){
     let $this = form instanceof jQuery ? form: $(form);
     $this.find(':input').val('');
     $this.find(':input').filter('textarea').html('');
+    if ($this.find('.reply-comment .comment-item').length > 0)
+    {
+        $('.reply-comment').hide(1000);
+        $('.reply-comment .comment-item').html('');
+    }
 }
 
 function showWaitMe(form, text = 'Please wait...') {

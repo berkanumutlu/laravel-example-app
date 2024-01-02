@@ -52,6 +52,10 @@ pre {
     white-space: pre-line;
 }
 
+.btn:focus {
+    box-shadow: none;
+}
+
 header {
     background-color: var(--color-white);
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -352,7 +356,7 @@ section.author .author-card .author-content .socials ul li a:hover i {
     padding-left: 50px;
 }
 
-.comments .list .comment-item {
+.comment-item {
     margin-bottom: 24px;
     gap: 6px;
     display: flex;
@@ -368,26 +372,26 @@ section.author .author-card .author-content .socials ul li a:hover i {
     margin-bottom: 0;
 }
 
-.comments .list .comment-item .header {
+.comment-item .header {
     flex: 1;
 }
 
-.comments .list .comment-item .header .image img {
+.comment-item .header .image img {
     width: 100px;
     border: 3px solid var(--color-black-5);
     border-radius: 50%;
 }
 
-.comments .list .comment-item .content {
+.comment-item .content {
     flex: 11;
 }
 
-.comments .list .comment-item .content .header {
+.comment-item .content .header {
     display: flex;
     flex-direction: column;
 }
 
-.comments .list .comment-item .content .header .title {
+.comment-item .content .header .title {
     margin-bottom: 12px;
     color: var(--color-black-5);
     font-size: 18px;
@@ -395,28 +399,28 @@ section.author .author-card .author-content .socials ul li a:hover i {
     line-height: 1.5;
 }
 
-.comments .list .comment-item .content .header .btn-actions {
+.comment-item .content .header .btn-actions {
     display: flex;
     flex-direction: row;
     align-items: center;
     color: var(--color-black-5);
 }
 
-.comments .list .comment-item.deleted .content .header .btn-actions .btn,
-.comments .list .comment-item.deleted .content .header .btn-actions span {
+.comment-item.deleted .content .header .btn-actions .btn,
+.comment-item.deleted .content .header .btn-actions span {
     pointer-events: none;
     opacity: .65;
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-like-comment,
-.comments .list .comment-item .content .header .btn-actions .action-dislike-comment {
+.comment-item .content .header .btn-actions .action-like-comment,
+.comment-item .content .header .btn-actions .action-dislike-comment {
     margin-right: 12px;
     display: flex;
     align-items: center;
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-like-comment .btn-like-comment,
-.comments .list .comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment {
+.comment-item .content .header .btn-actions .action-like-comment .btn-like-comment,
+.comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment {
     padding: 0 6px 0 0;
     display: inline-flex;
     color: black;
@@ -427,21 +431,21 @@ section.author .author-card .author-content .socials ul li a:hover i {
     transition: var(--transition);
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-like-comment .btn-like-comment:hover {
+.comment-item .content .header .btn-actions .action-like-comment .btn-like-comment:hover {
     color: var(--color-green);
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment:hover {
+.comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment:hover {
     color: var(--color-red);
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-like-comment span.number,
-.comments .list .comment-item .content .header .btn-actions .action-dislike-comment span.number {
+.comment-item .content .header .btn-actions .action-like-comment span.number,
+.comment-item .content .header .btn-actions .action-dislike-comment span.number {
     min-width: 18px;
     user-select: none;
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment {
+.comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment {
     padding: 3px 12px;
     display: flex;
     align-items: self-end;
@@ -454,27 +458,27 @@ section.author .author-card .author-content .socials ul li a:hover i {
     transition: var(--transition);
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment:hover {
+.comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment:hover {
     color: var(--color-white);
     background-color: var(--color-orange-3);
 }
 
-.comments .list .comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment span {
+.comment-item .content .header .btn-actions .action-reply-comment .btn-reply-comment span {
     margin-right: 3px;
 }
 
-.comments .list .comment-item .content .meta {
+.comment-item .content .meta {
     margin: 12px 0;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.55;
 }
 
-.comments .list .comment-item .content .meta .date {
+.comment-item .content .meta .date {
     color: var(--color-gray-7);
 }
 
-.comments .list .comment-item .content .comment {
+.comment-item .content .comment {
     margin: 0;
     color: var(--color-black-5);
     font-size: 16px;
@@ -482,7 +486,7 @@ section.author .author-card .author-content .socials ul li a:hover i {
     line-height: 1.67;
 }
 
-.comments .list .comment-item.deleted .content .comment {
+.comment-item.deleted .content .comment {
     color: var(--color-gray-5);
     font-size: 14px;
 }
@@ -539,6 +543,49 @@ section.author .author-card .author-content .socials ul li a:hover i {
     transform: rotate(320deg) translateY(-1px);
 }
 
+.comment-form .reply-comment {
+    display: none;
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: var(--bs-light);
+    border-radius: 4px;
+}
+
+.comment-form .reply-comment .header {
+    margin-bottom: 16px;
+}
+
+.comment-form .reply-comment .header .title {
+    margin: 0;
+    display: flex;
+    align-items: end;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-secondary);
+}
+
+.comment-form .reply-comment .comment-item,
+.comment-form .reply-comment .comment-item .header {
+    margin-bottom: 0;
+}
+
+.comment-form .reply-comment .comment-item .content .header .title {
+    font-size: 16px;
+}
+
+.comment-form .reply-comment .comment-item .content .header .btn-actions {
+    display: none;
+}
+
+.comment-form .reply-comment .comment-item .content .meta {
+    margin: 0 0 6px;
+    font-size: 11px;
+}
+
+.comment-form .reply-comment .comment-item .content .comment {
+    font-size: 14px;
+}
+
 /*#endregion */
 /*#region Responsive*/
 /*------------------------------------------------------------
@@ -549,7 +596,7 @@ section.author .author-card .author-content .socials ul li a:hover i {
         padding: 95px 30px 30px;
     }
 
-    .comments .list .comment-item {
+    .comment-item {
         flex-direction: row;
     }
 }
@@ -559,24 +606,24 @@ section.author .author-card .author-content .socials ul li a:hover i {
         padding: 95px 100px 30px;
     }
 
-    .comments .list .comment-item {
+    .comment-item {
         gap: 20px;
     }
 
-    .comments .list .comment-item .header .image {
+    .comment-item .header .image {
 
     }
 
-    .comments .list .comment-item .content .header {
+    .comment-item .content .header {
         justify-content: space-between;
         flex-direction: row;
     }
 
-    .comments .list .comment-item .content .header .title {
+    .comment-item .content .header .title {
         margin-bottom: 6px;
     }
 
-    .comments .list .comment-item .content .meta {
+    .comment-item .content .meta {
         margin: 0 0 12px 0;
     }
 }
