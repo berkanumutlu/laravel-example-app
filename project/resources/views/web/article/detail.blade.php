@@ -18,8 +18,13 @@
                             <ul class="meta">
                                 <li class="author">by <a href="#">{{ $record->user?->name }}</a></li>
                                 <li class="date">
+                                    <span class="material-icons-outlined">calendar_month</span>
                                     <time
                                         datetime="{{ $record->publish_date ?? '' }}">{{ $record->publish_date ?? '' }}</time>
+                                </li>
+                                <li class="view-count">
+                                    <span
+                                        class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
                                 </li>
                                 <li class="favorite-count">
                                     <a href="#" class="btn btn-favorite"><span class="material-icons-outlined">favorite_border</span></a>

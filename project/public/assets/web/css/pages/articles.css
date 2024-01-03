@@ -173,7 +173,8 @@
     color: initial;
 }
 
-.article-detail .article-header .favorite-count {
+.article-detail .article-header .favorite-count,
+.article-detail .article-header .view-count {
     display: flex;
     align-items: center;
     user-select: none;
