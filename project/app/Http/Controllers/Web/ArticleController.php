@@ -82,6 +82,12 @@ class ArticleController extends BaseController
                 });
             }
         });
+        try {
+            $record->increment('view_count');
+            $record->save();
+        } catch (\Exception $e) {
+
+        }
         $this->data['record'] = $record;
         $this->data['title'] = $record->title;
         return view('web.article.detail', $this->data);
