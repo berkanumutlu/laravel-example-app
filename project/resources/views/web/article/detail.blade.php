@@ -22,6 +22,10 @@
                                     <time
                                         datetime="{{ $record->publish_date ?? '' }}">{{ $record->publish_date ?? '' }}</time>
                                 </li>
+                                <li class="read_time">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    {{ $record->read_time ?? '' }} min.
+                                </li>
                                 <li class="view-count">
                                     <span
                                         class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}

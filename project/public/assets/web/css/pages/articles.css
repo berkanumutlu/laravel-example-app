@@ -138,6 +138,7 @@
     -ms-flex-align: center;
     align-items: center;
     gap: 5px;
+    line-height: 26px;
 }
 
 .article-detail .article-header ul.meta > li:before {
@@ -154,33 +155,26 @@
     z-index: 0;
 }
 
-.article-detail .article-header .date {
-    display: flex;
-    align-items: center;
-}
-
-.article-detail .article-header .author {
+.article-detail .article-header ul.meta li.author {
     text-align: start;
 }
 
-.article-detail .article-header .author a {
+.article-detail .article-header ul.meta li.author a {
     color: inherit;
     text-decoration: none;
     letter-spacing: 0.03em;
 }
 
-.article-detail .article-header .author a:hover {
+.article-detail .article-header ul.meta li.author a:hover {
     color: initial;
 }
 
-.article-detail .article-header .like-count,
-.article-detail .article-header .view-count {
-    display: flex;
-    align-items: center;
+.article-detail .article-header ul.meta li.like-count,
+.article-detail .article-header ul.meta li.view-count {
     user-select: none;
 }
 
-.article-detail .article-header .like-count .btn-like {
+.article-detail .article-header ul.meta li.like-count .btn-like {
     padding: 0;
     display: flex;
     align-items: center;
@@ -191,11 +185,11 @@
     transition: var(--transition);
 }
 
-.article-detail .article-header .like-count .btn-like:hover {
+.article-detail .article-header ul.meta li.like-count .btn-like:hover {
     color: var(--color-primary);
 }
 
-.article-detail .article-header .like-count .number {
+.article-detail .article-header ul.meta li.like-count .number {
     font-weight: 300;
 }
 
