@@ -40,5 +40,12 @@ $(".btn-reply-comment").on("click", function (e) {
         duration: 800
     });
     commentForm.find('.reply-comment .comment-item').html($(this).parents('.comment-item').html());
+    commentForm.find('.reply-comment .comment-item .btn-actions').html('');
     commentForm.find('.reply-comment').show(1000);
+});
+$(".btn-remove-reply-comment").on("click", function (e) {
+    e.preventDefault();
+    let commentForm = $(".comment-form .form form");
+    commentForm.find('.reply-comment').hide(1000);
+    commentForm.find('.reply-comment .comment-item').html('');
 });

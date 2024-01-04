@@ -553,6 +553,9 @@ section.author .author-card .author-content .socials ul li a:hover i {
 
 .comment-form .reply-comment .header {
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .comment-form .reply-comment .header .title {
@@ -564,6 +567,15 @@ section.author .author-card .author-content .socials ul li a:hover i {
     color: var(--color-secondary);
 }
 
+.comment-form .reply-comment .header .action-remove-reply-comment .btn-remove-reply-comment {
+    color: var(--color-secondary);
+    transition: var(--transition);
+}
+
+.comment-form .reply-comment .header .action-remove-reply-comment .btn-remove-reply-comment:hover {
+    color: var(--color-primary);
+}
+
 .comment-form .reply-comment .comment-item,
 .comment-form .reply-comment .comment-item .header {
     margin-bottom: 0;
@@ -571,10 +583,6 @@ section.author .author-card .author-content .socials ul li a:hover i {
 
 .comment-form .reply-comment .comment-item .content .header .title {
     font-size: 16px;
-}
-
-.comment-form .reply-comment .comment-item .content .header .btn-actions {
-    display: none;
 }
 
 .comment-form .reply-comment .comment-item .content .meta {

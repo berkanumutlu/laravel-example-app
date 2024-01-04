@@ -11,11 +11,15 @@
         <form action="{{ $formAction ?? '' }}" method="{{ $formMethod ?? 'GET' }}">
             @csrf
             <input type="hidden" name="comment_id" value="">
-            <div class="reply-comment">
+            <div class="reply-comment" data-aos="fade-left">
                 <div class="header">
                     <h3 class="title"><i class="material-icons-outlined me-1">reply</i>Reply</h3>
+                    <div class="action-remove-reply-comment">
+                        <a href="javascript:;" class="btn btn-remove-reply-comment" rel="nofollow">
+                            <span class="material-icons align-middle">cancel</span></a>
+                    </div>
                 </div>
-                <div class="comment-item" data-aos="fade-left"></div>
+                <div class="comment-item"></div>
             </div>
             <div class="row">
                 <div class="col-xl-6">
