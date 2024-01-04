@@ -26,8 +26,14 @@ class Article extends BaseModel
     public function comments(): HasMany
     {
         return $this->hasMany(ArticleComments::class, 'article_id', 'id')
-            ->where('status', 1)->where('parent_id', null)->withTrashed()
+            ->withTrashed()
+            ->where('status', 1)->where('parent_id', null)
             ->orderBy('created_at', 'desc')->orderBy('like_count', 'desc');
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(ArticleUserLikes::class, 'article_id', 'id');
     }
 
     public function scopeTitle($query, $title)

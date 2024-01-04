@@ -173,14 +173,14 @@
     color: initial;
 }
 
-.article-detail .article-header .favorite-count,
+.article-detail .article-header .like-count,
 .article-detail .article-header .view-count {
     display: flex;
     align-items: center;
     user-select: none;
 }
 
-.article-detail .article-header .favorite-count .btn-favorite {
+.article-detail .article-header .like-count .btn-like {
     padding: 0;
     display: flex;
     align-items: center;
@@ -191,11 +191,11 @@
     transition: var(--transition);
 }
 
-.article-detail .article-header .favorite-count .btn-favorite:hover {
+.article-detail .article-header .like-count .btn-like:hover {
     color: var(--color-primary);
 }
 
-.article-detail .article-header .favorite-count .number {
+.article-detail .article-header .like-count .number {
     font-weight: 300;
 }
 

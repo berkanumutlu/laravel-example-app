@@ -37,3 +37,36 @@ function hideWaitMe(form) {
         $(form).waitMe('hide');
     }
 }
+
+jQuery(function ($) {
+    $.ajaxSetup({
+        success: function (response, status, xhr) {
+            let hasMessage = (response.hasOwnProperty('notify') && response.notify.message !== null && response.notify.message !== '') || (response.hasOwnProperty('message') && response.message !== null && response.message !== '');
+            let hasRedirect = response.hasOwnProperty('redirect');
+            if (hasMessage) {
+                let $swalProps = {
+                    html: response.notify.message ?? response.message,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                };
+                if (response.notify.hasOwnProperty('icon')) {
+                    $swalProps['icon'] = response.notify.icon;
+                }
+                if (response.notify.hasOwnProperty('timer')) {
+                    $swalProps['timer'] = response.notify.timer;
+                }
+                if (hasRedirect) {
+                    return Swal.fire($swalProps).then((result) => {
+                        return window.location.replace(response.redirect);
+                    });
+                } else {
+                    Swal.fire($swalProps);
+                }
+            }
+            if (hasRedirect) {
+                return window.location.replace(response.redirect);
+            }
+        }
+    });
+});

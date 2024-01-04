@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\Article;
 use App\Models\ArticleComments;
+use App\Models\ArticleUserLikes;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +35,8 @@ class ArticleController extends BaseController
         $record = Article::query()->where('slug', $slug)->status(1)
             ->with([
                 'category:id,name,slug', 'user:id,name,username,title,description,image',
-                'comments', 'comments.user:id,name,image', 'comments.children', 'comments.children.user:id,name,image'
+                'comments', 'comments.user:id,name,image', 'comments.children', 'comments.children.user:id,name,image',
+                'likes:id,user_id'
             ])
             ->select([
                 'id', 'title', 'slug', 'body', 'image', 'tags', 'read_time', 'view_count', 'like_count', 'publish_date',
@@ -43,6 +45,11 @@ class ArticleController extends BaseController
             ->first();
         if (empty($record)) {
             abort(404);
+        }
+        if (auth()->guard('web')->check()) {
+            $this->data['userLike'] = $record->likes()->where('user_id', auth()->guard('web')->id())->exists();
+        } else {
+            $this->data['userLike'] = false;
         }
         $record->commentsCount = $record->comments?->count();
         $record->comments?->map(function ($item) use ($record) {
@@ -120,7 +127,12 @@ class ArticleController extends BaseController
         return view('web.article.index', $this->data);
     }
 
-    public function post_comment(Request $request, Article $article)
+    /**
+     * @param  Request  $request
+     * @param  Article  $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function post_comment(Request $request, Article $article): \Illuminate\Http\JsonResponse
     {
         $response = ['status' => false, 'message' => null];
         $response['token'] = csrf_token();
@@ -141,7 +153,7 @@ class ArticleController extends BaseController
         try {
             $data = $request->except('_token');
             if (auth()->guard('web')->check()) {
-                $data['user_id'] = auth()->id();
+                $data['user_id'] = auth()->guard('web')->id();
             }
             if (isset($request->comment_id)) {
                 $data['parent_id'] = $request->comment_id;
@@ -152,8 +164,73 @@ class ArticleController extends BaseController
             ArticleComments::create($data);
             $response['status'] = true;
             $response['message'] = 'Your comment has been sent successfully. Your comment will be published after the checks.';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
         } catch (\Exception $e) {
             $response['message'] = 'An error occurred while submitting your comment.';
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function like(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        if (!auth()->guard('web')->check()) {
+            $response['notify'] = [
+                'message' => 'You need to log in to like the article.',
+                'icon'    => 'warning'
+            ];
+            return response()->json($response);
+        }
+        $validator = Validator::make($request->all(), [
+            'recordId' => ['required', 'integer']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        $article_id = $request->recordId;
+        $user_id = auth()->guard('web')->id();
+        $article = Article::query()->with([
+            'likes' => function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            }
+        ])->where('id', $article_id)->where('status', 1)->select(['id', 'like_count'])->first();
+        try {
+            if ($article->likes->count() > 0) {
+                //$article->likes()->delete();
+                ArticleUserLikes::query()->where([['article_id', $article_id], ['user_id', $user_id]])->delete();
+                $article->like_count--;
+                $response['data']['icon'] = 'favorite_border';
+            } else {
+                $article->like_count++;
+                $data = [
+                    'article_id' => $article_id,
+                    'user_id'    => $user_id
+                ];
+                ArticleUserLikes::create($data);
+                $response['data']['icon'] = 'favorite';
+            }
+            $article->save();
+            $response['status'] = true;
+            $response['data']['like_count'] = $article->like_count;
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => 'An error occurred while liking the article.',
+                'icon'    => 'error'
+            ];
         }
         return response()->json($response);
     }

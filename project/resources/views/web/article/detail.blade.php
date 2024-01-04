@@ -26,8 +26,12 @@
                                     <span
                                         class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
                                 </li>
-                                <li class="favorite-count">
-                                    <a href="#" class="btn btn-favorite"><span class="material-icons-outlined">favorite_border</span></a>
+                                <li class="like-count">
+                                    @csrf
+                                    <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
+                                       class="btn btn-like">
+                                        <span
+                                            class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
                                     <span class="number">{{ $record->like_count ?? 0 }}</span>
                                 </li>
                             </ul>
@@ -185,6 +189,40 @@
         $(document).ready(function () {
             AOS.init();
             hljs.highlightAll();
+            $('.btn-like').on("click", function (e) {
+                e.preventDefault();
+                let self = $(this);
+                @if(!auth()->guard('web')->check())
+                $.ajax({
+                    url: self.attr('href'),
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': self.prev('input[name="_token"]').val()},
+                    dataType: "JSON",
+                    data: {recordId: self.data('id')}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            if (response.hasOwnProperty('data')) {
+                                if (response.data.hasOwnProperty('like_count')) {
+                                    self.next('.number').text(response.data.like_count);
+                                }
+                                if (response.data.hasOwnProperty('icon')) {
+                                    self.find('span').text(response.data.icon);
+                                }
+                            }
+                        }
+                    }
+                });
+                @else
+                Swal.fire({
+                    html: 'You need to log in to like the article.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    icon: 'warning'
+                });
+                @endif
+            });
         });
     </script>
 @endsection
