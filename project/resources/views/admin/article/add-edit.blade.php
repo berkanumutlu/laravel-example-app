@@ -55,8 +55,10 @@
                                         </a>
                                     @endif
                                 </div>
-                                <div class="m-b-sm bg-light">
-                                    <select class="form-select" name="category_id" aria-label="Category">
+                                <div class="m-b-sm">
+                                    <label for="category_id" class="form-label mb-0">Category</label>
+                                    <select class="form-select" name="category_id" id="category_id" class="bg-light"
+                                            aria-label="Category">
                                         <option value="{{ null }}">Category</option>
                                         @if(!empty($category_list))
                                             @foreach($category_list as $item)
@@ -67,13 +69,19 @@
                                         @endif
                                     </select>
                                 </div>
-                                <input type="number" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="read_time" placeholder="Article Read Time"
-                                       value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
-                                <input type="text"
-                                       class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
-                                       name="publish_date" placeholder="Publish Date"
-                                       value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
+                                <div class="m-b-sm">
+                                    <label for="read_time" class="form-label mb-0">Read Time (minute)</label>
+                                    <input type="number" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="read_time" id="read_time" placeholder="Article Read Time"
+                                           value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="publish_date" class="form-label mb-0">Publish Date</label>
+                                    <input type="text"
+                                           class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
+                                           name="publish_date" id="publish_date" placeholder="Publish Date"
+                                           value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
+                                </div>
                                 {{--<textarea class="form-control form-control-solid-bordered m-b-sm" name="tags"
                                           rows="2" placeholder="Tags">{{ $record->tags ?? '' }}</textarea>--}}
                                 <div class="m-b-sm">
@@ -92,12 +100,18 @@
                                         @endif
                                     </select>
                                 </div>
-                                <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
-                                          rows="5"
-                                          placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
-                                <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_description"
-                                          rows="5"
-                                          placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
+                                <div class="m-b-sm">
+                                    <label for="seo_keywords" class="form-label mb-0">SEO Keywords</label>
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm"
+                                              name="seo_keywords" id="seo_keywords" rows="5"
+                                              placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="seo_description" class="form-label mb-0">SEO Description</label>
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm"
+                                              name="seo_description" id="seo_description" rows="5"
+                                              placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
+                                </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status"
                                            name="status" {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
