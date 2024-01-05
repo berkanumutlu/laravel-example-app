@@ -18,6 +18,8 @@ Route::prefix('article')->name('article.')->controller('ArticleController')->gro
     Route::get('list', "index")->name('index');
     Route::get('category/{slug:categories}', "category")->name('category');
     Route::get('detail/{slug:articles}', "show")->name('detail');
-    Route::post('detail/{article:slug}/post-comment', "post_comment")->name('post.comment');
+    Route::post('detail/{article:slug}/post-comment', "post_comment")->name('comment.post');
     Route::post('like', "like")->name('like');
+    Route::post('comment/like', "comment_like")->name('comment.like');
+    Route::post('comment/dislike', "comment_like")->name('comment.dislike');
 });

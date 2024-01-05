@@ -431,10 +431,12 @@ section.author .author-card .author-content .socials ul li a:hover i {
     transition: var(--transition);
 }
 
+.comment-item .content .header .btn-actions .action-like-comment .btn-like-comment.active,
 .comment-item .content .header .btn-actions .action-like-comment .btn-like-comment:hover {
     color: var(--color-green);
 }
 
+.comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment.active,
 .comment-item .content .header .btn-actions .action-dislike-comment .btn-dislike-comment:hover {
     color: var(--color-red);
 }

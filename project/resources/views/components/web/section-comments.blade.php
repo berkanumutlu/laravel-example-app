@@ -5,7 +5,7 @@
             <ul>
                 @foreach($comments as $item)
                     <li>
-                        <x-web.item-comment :item="$item"></x-web.item-comment>
+                        <x-web.item-comment :item="$item" :commentItemAOS="'fade-up'"></x-web.item-comment>
                         @if($item->children?->count() > 0)
                             <ul class="child" data-aos="fade-up" data-aos-duration="1000">
                                 @foreach($item->children as $child)

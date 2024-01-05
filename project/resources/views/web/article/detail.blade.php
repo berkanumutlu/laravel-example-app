@@ -168,7 +168,7 @@
                     <x-web.section-comment-form
                         :headerTitle="'Post a Comment'"
                         :headerDescription="'In maximus faucibus mi sed accumsan. Suspendisse ut mi facilisis, pharetra ante ac, dapibus massa. Morbi aliquam magna erat, quis feugiat enim rhoncus eget. Maecenas et sagittis augue.'"
-                        :formAction="route('article.post.comment', ['article' => $record->slug])"
+                        :formAction="route('article.comment.post', ['article' => $record->slug])"
                         :formMethod="'POST'"
                     ></x-web.section-comment-form>
                     <x-web.section-comments
@@ -196,7 +196,7 @@
             $('.btn-like').on("click", function (e) {
                 e.preventDefault();
                 let self = $(this);
-                @if(!auth()->guard('web')->check())
+                @if(auth()->guard('web')->check())
                 $.ajax({
                     url: self.attr('href'),
                     type: "POST",
@@ -220,6 +220,53 @@
                 @else
                 Swal.fire({
                     html: 'You need to log in to like the article.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    icon: 'warning'
+                });
+                @endif
+            });
+            $('.btn-like-comment, .btn-dislike-comment').on("click", function (e) {
+                e.preventDefault();
+                let self = $(this);
+                self.attr('disabled', true);
+                @if(auth()->guard('web')->check())
+                $.ajax({
+                    url: self.attr('href'),
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': self.prev('input[name="_token"]').val()},
+                    dataType: "JSON",
+                    data: {recordId: self.data('id'), type: self.data('type')}
+                }).done(function (response) {
+                    if (response.hasOwnProperty('status')) {
+                        if (response.status) {
+                            if (response.hasOwnProperty('data')) {
+                                if (response.data.hasOwnProperty('active')) {
+                                    self.parents('.btn-actions').find('.btn-like-comment, .btn-dislike-comment').removeClass('active');
+                                    self.parents('.btn-actions').find('.btn-like-comment, .btn-dislike-comment').find('span').removeClass().addClass('material-icons-outlined');
+                                    if (response.data.active) {
+                                        self.addClass('active');
+                                    } else {
+                                        self.removeClass('active');
+                                    }
+                                }
+                                if (response.data.hasOwnProperty('like_count')) {
+                                    self.parents('.btn-actions').find('.action-like-comment .number').text(response.data.like_count);
+                                }
+                                if (response.data.hasOwnProperty('dislike_count')) {
+                                    self.parents('.btn-actions').find('.action-dislike-comment .number').text(response.data.dislike_count);
+                                }
+                                if (response.data.hasOwnProperty('iconClass')) {
+                                    self.find('span').removeClass().addClass(response.data.iconClass);
+                                }
+                            }
+                        }
+                    }
+                });
+                @else
+                Swal.fire({
+                    html: 'You need to logged in to take any action on the comment.',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     allowEnterKey: false,
