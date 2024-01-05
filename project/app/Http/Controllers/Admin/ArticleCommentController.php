@@ -17,8 +17,8 @@ class ArticleCommentController extends BaseController
             ->withTrashed()
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
             ->select([
-                'id', 'article_id', 'user_id', 'parent_id', 'comment', 'like_count', 'dislike_count', 'ip_address',
-                'user_agent', 'status', 'created_at', 'deleted_at'
+                'id', 'article_id', 'user_id', 'parent_id', 'comment', 'like_count', 'dislike_count', 'user_full_name',
+                'user_email', 'ip_address', 'user_agent', 'status', 'created_at', 'deleted_at'
             ])
             ->user($request->user_id)
             ->createdAt($request->created_at)

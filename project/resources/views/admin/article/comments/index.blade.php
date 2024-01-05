@@ -20,7 +20,7 @@
                                         <option value="{{ null }}">Users</option>
                                         <option
                                             value="0" {{ !is_null(request()->get('user_id')) && request()->get('user_id') == 0 ? "selected" : "" }}
-                                        >Not Registered Users
+                                        >Guests
                                         </option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}"
@@ -67,7 +67,7 @@
                                         <a href="{{ route('article.detail', ['slug' => $item->article?->slug]) }}"
                                            target="_blank">{{ $item->article?->title }}</a>
                                     </td>
-                                    <td>{{ $item->user?->name }}</td>
+                                    <td>{!! $item->user?->name ?? 'Guest<br>('.$item->user_full_name.'<br>'.$item->user_email.')' !!}</td>
                                     @if(!is_null($item->parent?->comment))
                                         <td data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ $item->parent?->comment }}">{{ !is_null($item->parent?->comment) ? Str::limit($item->parent?->comment, 30) : '' }}</td>

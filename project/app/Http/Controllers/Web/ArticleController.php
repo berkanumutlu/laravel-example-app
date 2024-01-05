@@ -167,6 +167,8 @@ class ArticleController extends BaseController
             $data['article_id'] = $article->id;
             $data['ip_address'] = $request->ip();
             $data['user_agent'] = $request->userAgent();
+            $data['user_full_name'] = $request->fullname;
+            $data['user_email'] = $request->email;
             ArticleComments::create($data);
             $response['status'] = true;
             $response['message'] = 'Your comment has been sent successfully. Your comment will be published after the checks.';
