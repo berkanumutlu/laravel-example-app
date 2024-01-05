@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->text("comment");
             $table->integer("like_count")->default(0);
             $table->integer("dislike_count")->default(0);
+            $table->string('user_full_name')->nullable();
+            $table->string('user_email')->nullable();
             $table->ipAddress();
             $table->string('user_agent')->nullable();
             $table->boolean("status")->default(0);
