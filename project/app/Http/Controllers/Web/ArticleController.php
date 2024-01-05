@@ -274,15 +274,15 @@ class ArticleController extends BaseController
                 ->select(['id', 'user_id', 'type'])->get();
             $user_id = auth()->guard('web')->id();
             $type_id = $type == 'like' ? 1 : 0;
-            $user_like = $comment_actions->where('user_id', $user_id)->first();
-            if (!empty($user_like)) {
-                if ($user_like->type == $type_id) {
-                    $user_like->delete();
+            $user_action = $comment_actions->where('user_id', $user_id)->first();
+            if (!empty($user_action)) {
+                if ($user_action->type == $type_id) {
+                    $user_action->delete();
                     $response['data']['iconClass'] = 'material-icons-outlined';
                     $response['data']['active'] = false;
                 } else {
-                    $user_like->type = $type_id;
-                    $user_like->save();
+                    $user_action->type = $type_id;
+                    $user_action->save();
                     $response['data']['iconClass'] = 'material-icons';
                     $response['data']['active'] = true;
                 }

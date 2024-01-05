@@ -37,19 +37,15 @@ class ArticleComments extends BaseModel
 
     public function currentUserLiked(): hasOne
     {
-        if (auth()->guard('web')->check()) {
-            return $this->hasOne(ArticleCommentsUserLikes::class, 'comment_id', 'id')
-                ->where([['type', 1], ['user_id', auth()->guard('web')->id()]])->select(['comment_id', 'user_id']);
-        }
+        return $this->hasOne(ArticleCommentsUserLikes::class, 'comment_id', 'id')
+            ->where([['type', 1], ['user_id', auth()->guard('web')->id()]])->select(['comment_id', 'user_id']);
     }
 
 
     public function currentUserDisliked(): hasOne
     {
-        if (auth()->guard('web')->check()) {
-            return $this->hasOne(ArticleCommentsUserLikes::class, 'comment_id', 'id')
-                ->where([['type', 0], ['user_id', auth()->guard('web')->id()]])->select(['comment_id', 'user_id']);
-        }
+        return $this->hasOne(ArticleCommentsUserLikes::class, 'comment_id', 'id')
+            ->where([['type', 0], ['user_id', auth()->guard('web')->id()]])->select(['comment_id', 'user_id']);
     }
 
     public function scopeUser($query, $value = null)
