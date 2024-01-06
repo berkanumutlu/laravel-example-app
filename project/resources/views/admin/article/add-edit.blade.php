@@ -29,22 +29,30 @@
                                 action="{{ isset($record) ? route('admin.article.edit', ['id' => $record->id]) : route('admin.article.add') }}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm
-                                {{ $errors->has('title') ? 'border-danger mb-0' : '' }}"
-                                       name="title" placeholder="Article Title" required
-                                       value="{{ old('title') ?? ($record->title ?? '') }}">
-                                @if($errors->has('title'))
-                                    <p>{{ $errors->first('title') }}</p>
-                                @endif
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="slug" placeholder="Article Slug"
-                                       value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <div class="m-b-sm">
+                                    <label for="title" class="form-label mb-0">Title</label>
+                                    <input type="text"
+                                           class="form-control form-control-solid-bordered m-b-sm {{ $errors->has('title') ? 'border-danger mb-0' : '' }}"
+                                           name="title" id="title" placeholder="Article Title" required
+                                           value="{{ old('title') ?? ($record->title ?? '') }}">
+                                    @if($errors->has('title'))
+                                        <p>{{ $errors->first('title') }}</p>
+                                    @endif
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="slug" class="form-label mb-0">Slug</label>
+                                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="slug" id="slug" placeholder="Article Slug"
+                                           value="{{ old('slug') ?? ($record->slug ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="body" class="form-label mb-0">Description</label>
                                     <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
-                                              name="body" rows="3" placeholder="Description"
+                                              name="body" id="body" rows="3" placeholder="Description"
                                               required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
                                 </div>
                                 <div class="m-b-sm">
+                                    <label for="image" class="form-label mb-0">Image</label>
                                     <input type="file" name="image" id="image"
                                            class="form-control form-control-solid-bordered"
                                            accept="image/png, image/jpeg, image/jpg">
@@ -113,8 +121,8 @@
                                               placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
                                 </div>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="status"
-                                           name="status" {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="status" id="status"
+                                        {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status">Status</label>
                                 </div>
                                 <hr>

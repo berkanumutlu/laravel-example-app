@@ -27,22 +27,36 @@
                                 action="{{ isset($record) ? route('admin.user.edit', ['user' => $record->id]) : route('admin.user.add') }}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="text"
-                                       class="form-control form-control-solid-bordered m-b-sm {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
-                                       name="name" placeholder="Full Name" required
-                                       value="{{ old('name') ?? ($record->name ?? '') }}">
-                                @if($errors->has('name'))
-                                    <p>{{ $errors->first('name') }}</p>
-                                @endif
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="email" placeholder="Email" required
-                                       value="{{ old('email') ?? ($record->email ?? '') }}">
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="username" placeholder="Username"
-                                       value="{{ old('username') ?? ($record->username ?? '') }}">
-                                <input type="password" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="password" placeholder="Password" {{ isset($record) ? '' : 'required' }}>
                                 <div class="m-b-sm">
+                                    <label for="name" class="form-label mb-0">Full Name</label>
+                                    <input type="text"
+                                           class="form-control form-control-solid-bordered m-b-sm {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
+                                           name="name" id="name" placeholder="Full Name" required
+                                           value="{{ old('name') ?? ($record->name ?? '') }}">
+                                    @if($errors->has('name'))
+                                        <p>{{ $errors->first('name') }}</p>
+                                    @endif
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="email" class="form-label mb-0">Email</label>
+                                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="email" id="email" placeholder="Email" required
+                                           value="{{ old('email') ?? ($record->email ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="username" class="form-label mb-0">Username</label>
+                                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="username" id="username" placeholder="Username"
+                                           value="{{ old('username') ?? ($record->username ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="password" class="form-label mb-0">Password</label>
+                                    <input type="password" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="password" id="password" placeholder="Password"
+                                        {{ isset($record) ? '' : 'required' }}>
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="image" class="form-label mb-0">Image</label>
                                     <input type="file" name="image" id="image"
                                            class="form-control form-control-solid-bordered"
                                            accept="image/png, image/jpeg, image/jpg">
@@ -53,13 +67,16 @@
                                         </a>
                                     @endif
                                 </div>
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="title" placeholder="Title"
-                                       value="{{ old('title') ?? ($record->title ?? '') }}">
+                                <div class="m-b-sm">
+                                    <label for="title" class="form-label mb-0">Title</label>
+                                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="title" id="title" placeholder="Title"
+                                           value="{{ old('title') ?? ($record->title ?? '') }}">
+                                </div>
                                 <div class="m-b-sm">
                                     <label for="description" class="form-label mb-0">Description</label>
                                     <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
-                                              name="description" rows="3"
+                                              name="description" id="description" rows="3"
                                               placeholder="Description">{!! old('description') ?? ($record->description ?? '') !!}</textarea>
                                 </div>
                                 <hr>

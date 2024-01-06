@@ -27,22 +27,30 @@
                                 action="{{ isset($record) ? route('admin.category.edit', ['id' => $record->id]) : route('admin.category.add') }}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm
-                                {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
-                                       name="name" placeholder="Category Name" required
-                                       value="{{ old('name') ?? ($record->name ?? '') }}">
-                                @if($errors->has('name'))
-                                    <p>{{ $errors->first('name') }}</p>
-                                @endif
-                                <input type="text" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="slug" placeholder="Category Slug"
-                                       value="{{ old('slug') ?? ($record->slug ?? '') }}">
                                 <div class="m-b-sm">
+                                    <label for="name" class="form-label mb-0">Name</label>
+                                    <input type="text"
+                                           class="form-control form-control-solid-bordered m-b-sm {{ $errors->has('name') ? 'border-danger mb-0' : '' }}"
+                                           name="name" id="name" placeholder="Category Name" required
+                                           value="{{ old('name') ?? ($record->name ?? '') }}">
+                                    @if($errors->has('name'))
+                                        <p>{{ $errors->first('name') }}</p>
+                                    @endif
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="slug" class="form-label mb-0">Slug</label>
+                                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="slug" id="slug" placeholder="Category Slug"
+                                           value="{{ old('slug') ?? ($record->slug ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="description" class="form-label mb-0">Description</label>
                                     <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
-                                              name="description" rows="3"
+                                              name="description" id="description" rows="3"
                                               placeholder="Description">{!! old('description') ?? ($record->description ?? '') !!}</textarea>
                                 </div>
                                 <div class="m-b-sm">
+                                    <label for="image" class="form-label mb-0">Image</label>
                                     <input type="file" name="image" id="image"
                                            class="form-control form-control-solid-bordered"
                                            accept="image/png, image/jpeg, image/jpg">
@@ -53,31 +61,43 @@
                                         </a>
                                     @endif
                                 </div>
-                                <input type="number" class="form-control form-control-solid-bordered m-b-sm"
-                                       name="order" min="0" placeholder="Order"
-                                       value="{{ old('order') ?? ($record->order ?? '') }}">
-                                <select class="form-select m-b-sm bg-light" name="parent_id"
-                                        aria-label="Parent Category">
-                                    <option value="{{ null }}">Parent Category</option>
-                                    @if(!empty($category_list))
-                                        @foreach($category_list as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ (old('parent_id') && old('parent_id') == $item->id) || (isset($record) && $record->parent_id == $item->id) ? 'selected' : '' }}
-                                            >{{ $item->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                <div class="m-b-sm">
+                                    <label for="order" class="form-label mb-0">Order</label>
+                                    <input type="number" class="form-control form-control-solid-bordered m-b-sm"
+                                           name="order" id="order" min="0" placeholder="Order"
+                                           value="{{ old('order') ?? ($record->order ?? '') }}">
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="parent_id" class="form-label mb-0">Parent Category</label>
+                                    <select class="form-select m-b-sm bg-light" name="parent_id" id="parent_id"
+                                            aria-label="Parent Category">
+                                        <option value="{{ null }}">Parent Category</option>
+                                        @if(!empty($category_list))
+                                            @foreach($category_list as $item)
+                                                <option value="{{ $item->id }}"
+                                                    {{ (old('parent_id') && old('parent_id') == $item->id) || (isset($record) && $record->parent_id == $item->id) ? 'selected' : '' }}
+                                                >{{ $item->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
                                 <div class="m-b-sm d-flex align-items-center">
                                     <label for="color" class="form-label mb-0">Category Color</label>
                                     <input type="color" name="color" id="color" class="ms-2"
                                            value="{{ ($record->color ?? '') }}">
                                 </div>
-                                <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_keywords"
-                                          rows="5"
-                                          placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
-                                <textarea class="form-control form-control-solid-bordered m-b-sm" name="seo_description"
-                                          rows="5"
-                                          placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
+                                <div class="m-b-sm">
+                                    <label for="seo_keywords" class="form-label mb-0">SEO Keywords</label>
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm"
+                                              name="seo_keywords" id="seo_keywords" rows="5"
+                                              placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
+                                </div>
+                                <div class="m-b-sm">
+                                    <label for="seo_description" class="form-label mb-0">SEO Description</label>
+                                    <textarea class="form-control form-control-solid-bordered m-b-sm"
+                                              name="seo_description" id="seo_description" rows="5"
+                                              placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
+                                </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status"
                                            name="status" {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
