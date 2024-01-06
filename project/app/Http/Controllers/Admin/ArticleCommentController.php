@@ -41,7 +41,10 @@ class ArticleCommentController extends BaseController
         $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['records'] = ArticleComments::query()->status(0)
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
-            ->select(['id', 'article_id', 'user_id', 'parent_id', 'comment', 'ip_address', 'user_agent', 'created_at'])
+            ->select([
+                'id', 'article_id', 'user_id', 'parent_id', 'comment', 'user_full_name', 'user_email', 'ip_address',
+                'user_agent', 'created_at'
+            ])
             ->user($request->user_id)
             ->createdAt($request->created_at)
             ->comment($request->comment)

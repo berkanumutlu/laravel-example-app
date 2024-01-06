@@ -110,6 +110,7 @@
                             @endforeach
                         </x-slot>
                     </x-admin.table>
+                    <x-admin.table-pagination :records="$records"></x-admin.table-pagination>
                 </x-slot>
             </x-admin.card>
         </div>
