@@ -31,13 +31,13 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="{{ route('home') }}" class="header-logo-link">
-                            @if(!empty($settings->image_logo))
-                                <img src="{{ asset($settings->image_logo) }}" class="img-fluid" alt="Logo">
+                            @if(!empty($site_image))
+                                <img src="{{ $site_image }}" class="img-fluid" alt="{{ $site_name }} Logo">
                             @else
                                 <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid"
-                                     alt="Logo">
+                                     alt="Site Logo">
                                 <img src="{{ asset('assets/web/images/logotype.min.svg') }}" class="img-fluid ms-4"
-                                     alt="Logo Text">
+                                     alt="Site Logo Text">
                             @endif
                         </a>
                     </div>

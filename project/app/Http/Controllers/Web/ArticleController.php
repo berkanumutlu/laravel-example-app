@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleComments;
 use App\Models\ArticleCommentsUserLikes;
@@ -12,24 +13,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ArticleController extends BaseController
+class ArticleController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
-        parent::__construct();
-    }
+        $categories = Category::query()->where('status', 1)
+            ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
+        View::share(compact('categories'));
+    }*/
 
     public function index()
     {
-        $this->data['records'] = Article::query()->status(1)
+        $records = Article::query()->status(1)
             ->with(['category:id,name,slug', 'user:id,name,username'])
             ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->orderBy('publish_date', 'desc')
             ->paginate(15);
-        $this->data['categories'] = Category::query()->where('status', 1)
-            ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
-        $this->data['title'] = 'Article List';
-        return view('web.article.index', $this->data);
+        $title = 'Article List';
+        return view('web.article.index', compact(['title', 'records']));
     }
 
     public function show(string $slug)
@@ -49,9 +50,9 @@ class ArticleController extends BaseController
             abort(404);
         }
         if (auth()->guard('web')->check()) {
-            $this->data['userLike'] = $record->likes()->where('user_id', auth()->guard('web')->id())->exists();
+            $userLike = $record->likes()->where('user_id', auth()->guard('web')->id())->exists();
         } else {
-            $this->data['userLike'] = false;
+            $userLike = false;
         }
         $record->commentsCount = $record->comments?->count();
         $record->comments?->map(function ($item) use ($record) {
@@ -67,8 +68,6 @@ class ArticleController extends BaseController
             }
             if (!is_null($item->user?->image)) {
                 $item->user->image = asset($item->user?->image);
-            } else {
-                $item->user->image = asset($this->data['settings']->image_default_author);
             }
             $record->commentsCount += $item->children?->count();
             if ($item->children?->count() > 0) {
@@ -85,8 +84,6 @@ class ArticleController extends BaseController
                     }
                     if (!is_null($child->user?->image)) {
                         $child->user->image = asset($child->user?->image);
-                    } else {
-                        $child->user->image = asset($this->data['settings']->image_default_author);
                     }
                 });
             }
@@ -97,11 +94,8 @@ class ArticleController extends BaseController
         } catch (\Exception $e) {
 
         }
-        $this->data['record'] = $record;
-        $this->data['categories'] = Category::query()->where('status', 1)
-            ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
-        $this->data['title'] = $record->title;
-        return view('web.article.detail', $this->data);
+        $title = $record->title;
+        return view('web.article.detail', compact(['title', 'record', 'userLike']));
     }
 
     //public function category(string $slug)
@@ -126,11 +120,8 @@ class ArticleController extends BaseController
             ->whereHas('category', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             })->paginate(15);*/
-        $this->data['records'] = $records;
-        $this->data['categories'] = Category::query()->where('status', 1)
-            ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
-        $this->data['title'] = $category->name.'  Article List';
-        return view('web.article.index', $this->data);
+        $title = $category->name.'  Article List';
+        return view('web.article.index', compact(['title', 'records']));
     }
 
     /**

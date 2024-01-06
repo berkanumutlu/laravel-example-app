@@ -1,4 +1,4 @@
-<form action="{{ route('search') }}">
+<form action="#">
     <div class="input-group search-group {{ $class ?? '' }}">
         <input type="text" name="search" autocomplete="off" class="form-control search-input" placeholder="Search"
                required>

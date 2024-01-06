@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\Category;
+//use Barryvdh\Debugbar\Facades\Debugbar;
+use App\Http\Controllers\Controller;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
     public function index()
     {
-        $this->data['categories'] = Category::query()->where('status', 1)->orderBy('order', 'asc')
-            ->orderBy('created_at', 'desc')->get();
-        return view('web.home.index', $this->data);
+        //Debugbar::startMeasure('render', 'Time for HomeController rendering');
+        //Debugbar::stopMeasure('render');
+        return view('web.home.index');
     }
 }
