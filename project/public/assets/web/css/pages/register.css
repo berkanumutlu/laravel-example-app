@@ -4,13 +4,43 @@
 }
 
 .register-page .register-form-section {
-    display: flex;
-    align-items: center;
+    padding: 15px;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .register-page .register-form-section .register-form {
     margin: 0 auto;
+}
+
+.register-page .register-form-section .register-form .input-group {
+    flex-wrap: unset;
+}
+
+.register-page .register-form-section .register-form .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    width: 100%;
+}
+
+.register-page .register-form-section .register-form .input-group.input-group-full-name .form-floating-first-name {
+    flex: 1;
+}
+
+.register-page .register-form-section .register-form .input-group.input-group-full-name .form-floating-first-name input#first_name {
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.register-page .register-form-section .register-form .input-group.input-group-full-name .form-floating-last-name {
+    flex: 1.2;
+}
+
+.register-page .register-form-section .register-form .input-group.input-group-full-name .form-floating-last-name input#last_name {
+    flex: 1.2;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .register-page .register-form-section .register-form .input-group .input-group-text {
