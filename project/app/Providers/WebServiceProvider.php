@@ -23,7 +23,7 @@ class WebServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('web.layouts.*', function ($view) {
+        View::composer(['web.layouts.*', 'web.home.index'], function ($view) {
             $settings = $this->get_settings();
             $favicon = asset('assets/web/images/logomark.min.svg');
             $site_name = config('app.name');

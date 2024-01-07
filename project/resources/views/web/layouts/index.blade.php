@@ -86,6 +86,21 @@
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 user-actions-navbar">
+                        @if(auth()->guard('web')->check())
+
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link {{ Route::is('register') ? 'active' : '' }}"
+                                   href="{{ route('register') }}">
+                                    <span class="material-icons-outlined me-1">person_add</span>Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span class="material-icons-outlined me-1">login</span>Login</a>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
             </nav>
             <x-web.search-group :class="'d-lg-none'"></x-web.search-group>
