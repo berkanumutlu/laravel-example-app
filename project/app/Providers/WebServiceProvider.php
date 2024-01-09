@@ -23,12 +23,13 @@ class WebServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['web.layouts.*', 'web.home.index'], function ($view) {
+        View::composer(['web.layouts.*', 'web.home.index', 'layouts.email', 'web.email.*'], function ($view) {
             $settings = $this->get_settings();
             $favicon = asset('assets/web/images/logomark.min.svg');
-            $site_name = config('app.name');
-            $site_image = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
-            $view->with(compact(['site_name', 'site_image', 'favicon', 'settings']));
+            $site_name = $settings->site_name;
+            $site_slogan = $settings->site_slogan;
+            $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
+            $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
         });
         View::composer('web.layouts.sidebar', function ($view) {
             $categories = Category::query()->where('status', 1)
@@ -42,13 +43,13 @@ class WebServiceProvider extends ServiceProvider
         if (Cache::has('settings')) {
             return Cache::get('settings');
         }
-        $formatted_settings = new \stdClass();
+        $settings_formatted = new \stdClass();
         $settings = Settings::query()->where('status', 1)->select(['key_name', 'key_value'])->get();
         foreach ($settings as $item) {
             $key_name = $item->key_name;
-            $formatted_settings->$key_name = $item->key_value;
+            $settings_formatted->$key_name = $item->key_value;
         }
-        Cache::set('settings', $formatted_settings);
-        return $formatted_settings;
+        Cache::set('settings', $settings_formatted);
+        return $settings_formatted;
     }
 }

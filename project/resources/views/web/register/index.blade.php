@@ -29,7 +29,7 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <form action="{{ route('register') }}" method="POST">
+                                <form action="{{ route('register.index') }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">

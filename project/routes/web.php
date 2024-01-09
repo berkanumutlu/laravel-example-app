@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"])->name('home');
-Route::get('register', [\App\Http\Controllers\Web\RegisterController::class, "index"])->name('register');
+Route::get('register', [\App\Http\Controllers\Web\RegisterController::class, "index"])->name('register.index');
 Route::post('register', [\App\Http\Controllers\Web\RegisterController::class, "store"]);
+Route::get('auth/verify/{token}',
+    [\App\Http\Controllers\Web\RegisterController::class, "verify"])->name('auth.verify.token');
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');

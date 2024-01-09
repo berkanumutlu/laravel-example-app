@@ -59,7 +59,7 @@ class UserController extends BaseController
                 $public_path = 'storage/'.$folder;
                 $image_file = $request->file('image');
                 $image_original_extension = $image_file->getClientOriginalExtension();
-                $image_file_name = $user->id.'.'.$image_original_extension;
+                $image_file_name = $user->username.'.'.$image_original_extension;
                 $image_file_path = public_path($public_path.'/'.$image_file_name);
                 try {
                     $image_file->storeAs($folder, $image_file_name);

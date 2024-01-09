@@ -8,7 +8,7 @@
     <meta name="description" content="Laravel Example App">
     <meta name="keywords" content="web,laravel, laravel example app">
     <meta name="author" content="Berkan Ümütlü">
-    <title>{{ isset($title) ? $title . ' - '.$site_name : $site_name }}</title>
+    <title>{{ isset($title) ? $title . ' - '.$site_name : $site_slogan.' - '.$site_name }}</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon }}"/>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon }}"/>
     @yield("head")
@@ -27,8 +27,8 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="{{ route('home') }}" class="header-logo-link">
-                            @if(!empty($site_image))
-                                <img src="{{ $site_image }}" class="img-fluid" alt="{{ $site_name }} Logo">
+                            @if(!empty($site_logo))
+                                <img src="{{ $site_logo }}" class="img-fluid" alt="{{ $site_name }} Logo">
                             @else
                                 <img src="{{ asset('assets/web/images/logomark.min.svg') }}" class="img-fluid"
                                      alt="{{ $site_name }} Logo">
@@ -91,8 +91,8 @@
 
                         @else
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::is('register') ? 'active' : '' }}"
-                                   href="{{ route('register') }}">
+                                <a class="nav-link {{ Route::is('register.index') ? 'active' : '' }}"
+                                   href="{{ route('register.index') }}">
                                     <span class="material-icons-outlined me-1">person_add</span>Register</a>
                             </li>
                             <li class="nav-item">
