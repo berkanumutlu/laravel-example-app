@@ -59,7 +59,7 @@
                     </section>
                 </div>
                 <div class="col-xl-3">
-                    @include('web.layouts.sidebar')
+                    @include('components.web.sidebar')
                 </div>
             </div>
         </div>
