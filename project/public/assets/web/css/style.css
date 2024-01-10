@@ -27,6 +27,7 @@
     --color-gray-7: #6b7074;
     --color-gray-8: #f5f5f5;
     --color-gray-9: #e7ecf8;
+    --color-gray-10: #c7c8c9;
     --color-blue: #073c8a;
     --color-orange: #ee8606;
     --color-orange-2: #fdeddd;
@@ -35,6 +36,8 @@
     --color-brown: #735732;
     --color-green: #31A364;
     --color-red: #EC4134;
+    --color-gradient-hover: linear-gradient(rgb(0 0 0/30%) 0 0);
+    --color-gradient-bg-black-hover: linear-gradient(rgb(255 255 255/15%) 0 0);
     --color-github: #171515;
     --color-google: #ea4335;
     --color-facebook: #4267B2;
@@ -98,11 +101,7 @@ header .header-bottom .navbar .navbar-toggler:focus {
 }
 
 header .header-bottom .navbar .navbar-collapse .navbar-nav {
-    width: 200%;
-}
-
-header .header-bottom .navbar .navbar-collapse .navbar-nav .nav-item:first-child a {
-    padding-left: unset !important;
+    width: 100%;
 }
 
 footer {

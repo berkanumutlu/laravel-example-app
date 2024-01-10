@@ -98,6 +98,29 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            <div class="mb-5 text-center">
+                                                <p class="social-list-description">Or sign in with</p>
+                                                <ul class="social-list list-unstyled list-group list-group-horizontal">
+                                                    <li>
+                                                        <a href="#" class="google">
+                                                            <i class="fa-brands fa-google"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="facebook">
+                                                            <i class="fa-brands fa-facebook"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="twitter">
+                                                            <i class="fa-brands fa-twitter"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="github">
+                                                            <i class="fa-brands fa-github"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
                                             <div class="mb-3 d-flex justify-content-center">
                                                 <button type="submit" class="btn btn-register">
                                                     <i class="material-icons-outlined">check</i>Sign In

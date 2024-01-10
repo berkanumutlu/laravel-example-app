@@ -27,7 +27,11 @@ class User extends Authenticatable
         'image',
         'title',
         'description',
-        'status'
+        'status',
+        'social_login_google',
+        'social_login_facebook',
+        'social_login_twitter',
+        'social_login_github'
     ];
 
     /**

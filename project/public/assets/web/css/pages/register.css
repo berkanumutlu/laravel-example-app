@@ -46,7 +46,10 @@
 .register-page .register-form-section .register-form .input-group .input-group-text {
     color: var(--color-white);
     background-color: var(--color-primary);
-    /*border-color: var(--color-primary);*/
+}
+
+.register-page .register-form-section .register-form .input-group:hover .input-group-text {
+    background-image: var(--color-gradient-hover);
 }
 
 .register-page .register-form-section .register-form .input-group .form-floating input.form-control:focus {
@@ -84,4 +87,73 @@
 
 .register-page .register-form-section .register-form .btn-register i {
     font-size: 20px;
+}
+
+.register-page .register-form-section .register-form .social-list-description {
+    margin-top: 12px;
+    display: table;
+    white-space: nowrap;
+}
+
+.register-page .register-form-section .register-form .social-list-description:before {
+    content: "";
+    width: 45%;
+    display: table-cell;
+    position: relative;
+    top: 0.65em;
+    right: 1.5%;
+    border-top: 1px solid var(--color-gray-10);
+}
+
+.register-page .register-form-section .register-form .social-list-description:after {
+    content: "";
+    width: 45%;
+    display: table-cell;
+    position: relative;
+    top: 0.65em;
+    left: 1.5%;
+    border-top: 1px solid var(--color-gray-10);
+}
+
+.register-page .register-form-section .register-form .social-list {
+    justify-content: center;
+    gap: 12px;
+}
+
+.register-page .register-form-section .register-form .social-list li a {
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    font-size: 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.register-page .register-form-section .register-form .social-list li a:hover {
+    background-image: var(--color-gradient-hover);
+}
+
+.register-page .register-form-section .register-form .social-list li a.google {
+    background-color: var(--color-google);
+}
+
+.register-page .register-form-section .register-form .social-list li a.facebook {
+    background-color: var(--color-facebook);
+}
+
+.register-page .register-form-section .register-form .social-list li a.twitter {
+    background-color: var(--color-twitter);
+}
+
+.register-page .register-form-section .register-form .social-list li a.github {
+    background-color: var(--color-github);
+}
+
+.register-page .register-form-section .register-form .social-list li a.github:hover {
+    background-image: var(--color-gradient-bg-black-hover);
 }
