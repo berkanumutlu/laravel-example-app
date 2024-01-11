@@ -21,6 +21,7 @@ class LoginController extends Controller
         $email = $request->email;
         $password = $request->password;
         $remember_me = isset($request->remember_me);
+        //$user = User::query()->where("email", $email)->withTrashed()->first();
         $user = User::query()->where("email", $email)->first();
         if (!empty($user)) {
             if ($user->deleted_at) {

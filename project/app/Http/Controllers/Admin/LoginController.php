@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\LoginRequest;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends BaseController
 {
@@ -33,14 +35,26 @@ class LoginController extends BaseController
             //Auth::loginUsingId($user->id, $remember_me);
             return redirect()->route('admin.dashboard');
         }*/
-        /*$admin = Admin::where("email", $email)->where("status", 1)->first();
-        if (!empty($admin) && Hash::check($password, $admin->password)) {
-            Auth::guard('admin')->login($admin, $remember_me);
-            //Auth::guard('admin')->loginUsingId($admin->id, $remember_me);
+        /*if (Auth::guard('admin')->attempt(['email' => $email, 'password' => $password], $remember_me)) {
             return redirect()->route('admin.dashboard');
         }*/
-        if (Auth::guard('admin')->attempt(['email' => $email, 'password' => $password], $remember_me)) {
-            return redirect()->route('admin.dashboard');
+        $admin = Admin::query()->where("email", $email)->withTrashed()->first();
+        if (!empty($admin)) {
+            if ($admin->deleted_at) {
+                return redirect()->route('admin.login.index')->withErrors([
+                    "deleted_at" => "Your account has been blocked."
+                ])->onlyInput("email", "remember_me");
+            }
+            if ($admin->status != 1) {
+                return redirect()->route('admin.login.index')->withErrors([
+                    "status" => "Your account has not been approved."
+                ])->onlyInput("email", "remember_me");
+            }
+            if (Hash::check($password, $admin->password)) {
+                Auth::guard('admin')->login($admin, $remember_me);
+                //Auth::guard('admin')->loginUsingId($admin->id, $remember_me);
+                return redirect()->route('admin.dashboard');
+            }
         }
         return redirect()->route('admin.login.index')->withErrors([
             "email" => "Email or password is incorrect."
