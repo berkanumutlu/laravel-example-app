@@ -25,7 +25,7 @@ class LoginController extends Controller
         if (!empty($user)) {
             if ($user->deleted_at) {
                 return redirect()->route('login.index')->withErrors([
-                    "status" => "Your account has been blocked."
+                    "deleted_at" => "Your account has been blocked."
                 ])->onlyInput("email", "remember_me");
             }
             if ($user->status != 1) {
