@@ -42,4 +42,24 @@ class LoginController extends Controller
             "email" => "Email or password is incorrect."
         ])->onlyInput("email", "remember_me");
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        if (Auth::guard('web')->check()) {
+            try {
+                Auth::guard('web')->logout();
+                //$request->session()->invalidate();
+                //$request->session()->regenerate();
+                $response['status'] = true;
+                $response['refreshPage'] = true;
+            } catch (\Exception $e) {
+                $response['message'] = 'An error occurred while logging out.';
+            }
+        }
+        return response()->json($response);
+    }
 }

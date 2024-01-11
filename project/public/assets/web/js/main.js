@@ -1,9 +1,8 @@
-function resetForm(form){
-    let $this = form instanceof jQuery ? form: $(form);
+function resetForm(form) {
+    let $this = form instanceof jQuery ? form : $(form);
     $this.find(':input').val('');
     $this.find(':input').filter('textarea').html('');
-    if ($this.find('.reply-comment .comment-item').length > 0)
-    {
+    if ($this.find('.reply-comment .comment-item').length > 0) {
         $('.reply-comment').hide(1000);
         $('.reply-comment .comment-item').html('');
     }
@@ -68,5 +67,22 @@ jQuery(function ($) {
                 return window.location.replace(response.redirect);
             }
         }
+    });
+});
+
+$(document).ready(function () {
+    $('.btnUserLogout').on("click", function (e) {
+        e.preventDefault();
+        let url = $(this).attr("href");
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            headers: {'X-CSRF-TOKEN': $(this).prev('input[name="_token"]').val()},
+        }).done(function (response) {
+            if (response.hasOwnProperty('refreshPage') && response.refreshPage) {
+                return window.location.reload(true);
+            }
+        });
     });
 });

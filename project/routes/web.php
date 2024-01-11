@@ -13,10 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"])->name('home');
-Route::get('login', [\App\Http\Controllers\Web\LoginController::class, "index"])->name('login.index');
-Route::post('login', [\App\Http\Controllers\Web\LoginController::class, "login"]);
-Route::get('register', [\App\Http\Controllers\Web\RegisterController::class, "index"])->name('register.index');
-Route::post('register', [\App\Http\Controllers\Web\RegisterController::class, "store"]);
+Route::prefix('login')->name('login.')->controller('LoginController')
+    ->middleware('guest:web')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::post('', "login");
+    });
+Route::post('logout', [\App\Http\Controllers\Web\LoginController::class, "logout"])->name('logout');
+Route::prefix('register')->name('register.')->controller('RegisterController')
+    ->middleware('guest:web')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::post('', "store");
+    });
 Route::get('auth/verify/{token}',
     [\App\Http\Controllers\Web\RegisterController::class, "verify"])->name('auth.verify.token');
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {

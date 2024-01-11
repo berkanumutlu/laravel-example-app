@@ -31,7 +31,7 @@ class WebServiceProvider extends ServiceProvider
             $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
             $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
         });
-        View::composer('web.layouts.sidebar', function ($view) {
+        View::composer('components.web.sidebar', function ($view) {
             $categories = Category::query()->where('status', 1)
                 ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
             $view->with(compact('categories'));
