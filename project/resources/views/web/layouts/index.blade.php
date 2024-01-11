@@ -88,7 +88,19 @@
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 user-actions-navbar">
                         @if(auth()->guard('web')->check())
-
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ auth()->guard('web')->user()->username }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                                </ul>
+                            </li>
                         @else
                             <li class="nav-item">
                                 <a class="nav-link {{ Route::is('register.index') ? 'active' : '' }}"
@@ -96,7 +108,8 @@
                                     <span class="material-icons-outlined me-1">person_add</span>Register</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link {{ Route::is('login.index') ? 'active' : '' }}"
+                                   href="{{ route('login.index') }}">
                                     <span class="material-icons-outlined me-1">login</span>Login</a>
                             </li>
                         @endif

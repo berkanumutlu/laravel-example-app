@@ -8,28 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends BaseController
 {
-    /**
-     * @var string|null
-     */
-    private $favicon;
-    /**
-     * @var string|null
-     */
-    private $title;
-
-    public function __construct()
-    {
-        parent::__construct();
-        if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.dashboard');
-        }
-        $this->favicon = asset('assets/auth/images/neptune.png');
-        $this->title = 'Login';
-    }
-
     public function index()
     {
-        return view('admin.login.index', ['favicon' => $this->favicon, 'title' => $this->title]);
+        $favicon = asset('assets/auth/images/neptune.png');
+        $title = 'Login';
+        return view('admin.login.index', compact(['favicon', 'title']));
     }
 
     public function login(LoginRequest $request)
@@ -50,7 +33,7 @@ class LoginController extends BaseController
             //Auth::loginUsingId($user->id, $remember_me);
             return redirect()->route('admin.dashboard');
         }*/
-        /*$admin = Admin::where("email", $email)->first();
+        /*$admin = Admin::where("email", $email)->where("status", 1)->first();
         if (!empty($admin) && Hash::check($password, $admin->password)) {
             Auth::guard('admin')->login($admin, $remember_me);
             //Auth::guard('admin')->loginUsingId($admin->id, $remember_me);
@@ -64,7 +47,11 @@ class LoginController extends BaseController
         ])->onlyInput("email", "remember_me");
     }
 
-    public function logout(Request $request)
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request): \Illuminate\Http\JsonResponse
     {
         $result = ['status' => false, 'message' => null];
         if (Auth::guard('admin')->check()) {

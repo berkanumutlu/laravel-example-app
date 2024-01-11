@@ -1,0 +1,139 @@
+.login-page {
+    background-color: var(--color-white);
+    border-radius: 4px;
+}
+
+.login-page .login-form-section {
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-page .login-form-section .login-form {
+    margin: 0 auto;
+}
+
+.login-page .login-form-section .login-form .input-group {
+    flex-wrap: unset;
+}
+
+.login-page .login-form-section .login-form .input-group .input-group-text {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.login-page .login-form-section .login-form .input-group:hover .input-group-text {
+    background-image: var(--color-gradient-hover);
+}
+
+.login-page .login-form-section .login-form .input-group:hover .form-floating input {
+    border-color: var(--color-gray-11);
+}
+
+.login-page .login-form-section .login-form .input-group .form-floating input.form-control:focus {
+    border-color: var(--color-orange-2-hover);
+    box-shadow: 0 0 0 0.25rem var(--color-orange-2-hover);
+}
+
+.login-page .login-form-section .login-form .input-group .form-floating > label {
+    font-size: 13px;
+}
+
+.login-page .login-form-section .login-form .input-group .form-floating > .form-control:-webkit-autofill ~ label {
+    transform: scale(.8) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.login-page .login-form-section .login-form .btn-login {
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: inherit;
+    border: 1px solid var(--color-gray-6);
+    border-radius: 5px;
+    text-decoration: none;
+    -webkit-transition: var(--transition);
+    -moz-transition: var(--transition);
+    -o-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.login-page .login-form-section .login-form .btn-login:hover {
+    color: var(--color-white);
+    background-color: var(--color-orange);
+}
+
+.login-page .login-form-section .login-form .btn-login i {
+    font-size: 20px;
+}
+
+.login-page .login-form-section .login-form .social-list-description {
+    margin-top: 12px;
+    display: table;
+    white-space: nowrap;
+}
+
+.login-page .login-form-section .login-form .social-list-description:before {
+    content: "";
+    width: 45%;
+    display: table-cell;
+    position: relative;
+    top: 0.65em;
+    right: 1.5%;
+    border-top: 1px solid var(--color-gray-10);
+}
+
+.login-page .login-form-section .login-form .social-list-description:after {
+    content: "";
+    width: 45%;
+    display: table-cell;
+    position: relative;
+    top: 0.65em;
+    left: 1.5%;
+    border-top: 1px solid var(--color-gray-10);
+}
+
+.login-page .login-form-section .login-form .social-list {
+    justify-content: center;
+    gap: 12px;
+}
+
+.login-page .login-form-section .login-form .social-list li a {
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    font-size: 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.login-page .login-form-section .login-form .social-list li a:hover {
+    background-image: var(--color-gradient-hover);
+}
+
+.login-page .login-form-section .login-form .social-list li a.google {
+    background-color: var(--color-google);
+}
+
+.login-page .login-form-section .login-form .social-list li a.facebook {
+    background-color: var(--color-facebook);
+}
+
+.login-page .login-form-section .login-form .social-list li a.twitter {
+    background-color: var(--color-twitter);
+}
+
+.login-page .login-form-section .login-form .social-list li a.github {
+    background-color: var(--color-github);
+}
+
+.login-page .login-form-section .login-form .social-list li a.github:hover {
+    background-image: var(--color-gradient-bg-black-hover);
+}

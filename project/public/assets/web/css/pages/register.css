@@ -52,6 +52,10 @@
     background-image: var(--color-gradient-hover);
 }
 
+.register-page .register-form-section .register-form .input-group:hover .form-floating input {
+    border-color: var(--color-gray-11);
+}
+
 .register-page .register-form-section .register-form .input-group .form-floating input.form-control:focus {
     border-color: var(--color-orange-2-hover);
     box-shadow: 0 0 0 0.25rem var(--color-orange-2-hover);
