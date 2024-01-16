@@ -27,7 +27,13 @@ Route::prefix('register')->name('register.')->controller('RegisterController')
         Route::post('', "store");
     });
 Route::get('auth/verify/{token}',
-    [\App\Http\Controllers\Web\RegisterController::class, "verify"])->name('auth.verify.token');
+    [\App\Http\Controllers\Web\AuthController::class, "verify"])->name('auth.verify.token');
+Route::get('auth/social/{social}/redirect',
+    [\App\Http\Controllers\Web\AuthController::class, "social_redirect"])->name('auth.social.redirect')
+    ->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+Route::get('auth/social/{social}/callback',
+    [\App\Http\Controllers\Web\AuthController::class, "social_callback"])->name('auth.social.callback')
+    ->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');

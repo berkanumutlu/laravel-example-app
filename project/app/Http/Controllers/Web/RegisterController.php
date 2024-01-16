@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\UserStoreRequest;
 use App\Models\User;
 use App\Models\UserVerification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -55,26 +54,5 @@ class RegisterController extends Controller
             "You have successfully registered. A verification email has been sent to your email address.")
             ->showConfirmButton("OK");
         return redirect()->route('register.index');
-    }
-
-    public function verify(Request $request)
-    {
-        $user_verification = UserVerification::query()->where('token', $request->token)->first();
-        if (empty($user_verification)) {
-            abort(404);
-        }
-        $user = $user_verification->user;
-        if (is_null($user->email_verified_at)) {
-            $user->email_verified_at = now();
-            $user->status = 1;
-            $user->save();
-            $user_verification->delete();
-            alert()->success("Success",
-                "Your account has been verified. You can log in to your account by going to the login page.")
-                ->showConfirmButton("OK");
-        } else {
-            alert()->info("Info", "This account has been previously verified.")->showConfirmButton("OK");
-        }
-        return redirect()->route('login.index');
     }
 }

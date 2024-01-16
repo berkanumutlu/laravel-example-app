@@ -102,7 +102,8 @@
                                                 <p class="social-list-description">Or sign up with</p>
                                                 <ul class="social-list list-unstyled list-group list-group-horizontal">
                                                     <li>
-                                                        <a href="#" class="google">
+                                                        <a href="{{ route('auth.social.redirect', ['social' => 'google']) }}"
+                                                           class="google">
                                                             <i class="fa-brands fa-google"></i></a>
                                                     </li>
                                                     <li>
