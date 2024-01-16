@@ -38,7 +38,7 @@ class AuthController extends Controller
         return Socialite::driver($driver)->redirect();
     }
 
-    public function social_callback($driver)
+    public function social_callback($driver, Request $request)
     {
         try {
             $social_user = Socialite::driver($driver)->user();
@@ -81,6 +81,12 @@ class AuthController extends Controller
             if (!empty($social_user->attributes['avatar_original'])) {
                 $data['image'] = $social_user->attributes['avatar_original'];
             }
+            /*
+             * For Github user description
+             */
+            if (!empty($social_user->user['bio'])) {
+                $data['description'] = $social_user->user['bio'];
+            }
             $data['username'] = Str::slug($data['name']);
             if ($social_user->getNickname()) {
                 $data['username'] = $social_user->getNickname();
@@ -100,7 +106,20 @@ class AuthController extends Controller
             //return redirect()->route('user.profile.index');
         } catch (\Exception $e) {
             //abort(404, $e->getMessage());
-            alert()->error("Error", "Invalid url.")->showConfirmButton("OK");
+            $error_message = "Invalid url.";
+            /*
+             * For Github
+             */
+            if (!empty($request->error)) {
+                $error_message = $request->error;
+            }
+            /*
+             * For Twitter
+             */
+            if (!empty($request->denied)) {
+                $error_message = "access_denied";
+            }
+            alert()->error("Error", $error_message)->showConfirmButton("OK");
             return redirect()->route('register.index');
         }
     }

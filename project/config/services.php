@@ -36,10 +36,14 @@ return [
         'client_secret' => env('AUTH_SOCIAL_GOOGLE_CLIENT_SECRET'),
         'redirect'      => env('AUTH_SOCIAL_GOOGLE_CLIENT_REDIRECT')
     ],
-
     'twitter' => [
         'client_id'     => env('AUTH_SOCIAL_TWITTER_CLIENT_ID'),
         'client_secret' => env('AUTH_SOCIAL_TWITTER_CLIENT_SECRET'),
         'redirect'      => env('AUTH_SOCIAL_TWITTER_CLIENT_REDIRECT')
+    ],
+    'github' => [
+        'client_id'     => env('AUTH_SOCIAL_GITHUB_CLIENT_ID'),
+        'client_secret' => env('AUTH_SOCIAL_GITHUB_CLIENT_SECRET'),
+        'redirect'      => env('AUTH_SOCIAL_GITHUB_CLIENT_REDIRECT')
     ]
 ];

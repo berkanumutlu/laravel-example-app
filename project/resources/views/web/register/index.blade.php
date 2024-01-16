@@ -116,7 +116,8 @@
                                                             <i class="fa-brands fa-twitter"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" class="github">
+                                                        <a href="{{ route('auth.social.redirect', ['social' => 'github']) }}"
+                                                           class="github">
                                                             <i class="fa-brands fa-github"></i></a>
                                                     </li>
                                                 </ul>
