@@ -28,10 +28,8 @@ class User extends Authenticatable
         'title',
         'description',
         'status',
-        'social_login_google',
-        'social_login_facebook',
-        'social_login_twitter',
-        'social_login_github'
+        'oauth_type',
+        'oauth_id'
     ];
 
     /**

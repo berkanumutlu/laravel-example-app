@@ -58,15 +58,28 @@ class AuthController extends Controller
                 return redirect()->route('home');
             }
             $data = [
-                'name'                  => $social_user->user['given_name'].' '.$social_user->user['family_name'],
-                'email'                 => $social_user->getEmail(),
-                'password'              => bcrypt(''),
-                'status'                => 1,
-                'email_verified_at'     => now(),
-                'social_login_'.$driver => $social_user->getId()
+                'name'              => $social_user->getName(),
+                'email'             => $social_user->getEmail(),
+                'password'          => bcrypt(Str::random(16)),
+                'status'            => 1,
+                'email_verified_at' => now(),
+                'oauth_type'        => $driver,
+                'oauth_id'          => $social_user->getId()
             ];
+            /*
+             * For Google full name without username
+             */
+            if (!empty($social_user->user['given_name'])) {
+                $data['name'] = $social_user->user['given_name'].' '.$social_user->user['family_name'];
+            }
             if ($social_user->getAvatar()) {
                 $data['image'] = $social_user->getAvatar();
+            }
+            /*
+             * For Twitter original size avatar
+             */
+            if (!empty($social_user->attributes['avatar_original'])) {
+                $data['image'] = $social_user->attributes['avatar_original'];
             }
             $data['username'] = Str::slug($data['name']);
             if ($social_user->getNickname()) {
@@ -84,7 +97,7 @@ class AuthController extends Controller
                 ->showConfirmButton("OK");
             return redirect()->route('login.index');
             //Auth::guard('web')->login($user_create);
-            //return redirect()->route('home');
+            //return redirect()->route('user.profile.index');
         } catch (\Exception $e) {
             //abort(404, $e->getMessage());
             alert()->error("Error", "Invalid url.")->showConfirmButton("OK");

@@ -22,10 +22,8 @@ return new class extends Migration {
             $table->boolean("status")->default(0);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('social_login_google')->nullable();
-            $table->string('social_login_facebook')->nullable();
-            $table->string('social_login_twitter')->nullable();
-            $table->string('social_login_github')->nullable();
+            $table->string('oauth_type')->nullable();
+            $table->string('oauth_id')->nullable();
             $table->timestamps();
         });
     }
