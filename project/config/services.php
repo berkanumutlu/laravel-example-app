@@ -45,5 +45,10 @@ return [
         'client_id'     => env('AUTH_SOCIAL_GITHUB_CLIENT_ID'),
         'client_secret' => env('AUTH_SOCIAL_GITHUB_CLIENT_SECRET'),
         'redirect'      => env('AUTH_SOCIAL_GITHUB_CLIENT_REDIRECT')
+    ],
+    'facebook' => [
+        'client_id'     => env('AUTH_SOCIAL_FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('AUTH_SOCIAL_FACEBOOK_CLIENT_SECRET'),
+        'redirect'      => env('AUTH_SOCIAL_FACEBOOK_CLIENT_REDIRECT')
     ]
 ];

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserVerification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -45,12 +44,12 @@ class AuthController extends Controller
             $user = User::query()->where('email', $social_user->getEmail())->first();
             if (!empty($user)) {
                 if ($user->deleted_at) {
-                    return redirect()->route('register.index')->withErrors([
+                    return redirect()->route('login.index')->withErrors([
                         "deleted_at" => "Your account has been blocked."
                     ]);
                 }
                 if ($user->status != 1) {
-                    return redirect()->route('register.index')->withErrors([
+                    return redirect()->route('login.index')->withErrors([
                         "status" => "Your account has not been approved."
                     ]);
                 }
@@ -120,7 +119,7 @@ class AuthController extends Controller
                 $error_message = "access_denied";
             }
             alert()->error("Error", $error_message)->showConfirmButton("OK");
-            return redirect()->route('register.index');
+            return redirect()->route('login.index');
         }
     }
 }

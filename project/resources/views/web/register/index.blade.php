@@ -107,7 +107,8 @@
                                                             <i class="fa-brands fa-google"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" class="facebook">
+                                                        <a href="{{ route('auth.social.redirect', ['social' => 'facebook']) }}"
+                                                           class="facebook">
                                                             <i class="fa-brands fa-facebook"></i></a>
                                                     </li>
                                                     <li>
