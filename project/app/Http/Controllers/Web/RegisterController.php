@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\UserStoreRequest;
 use App\Models\User;
@@ -27,16 +28,17 @@ class RegisterController extends Controller
         $user->status = 0;
         try {
             $user->save();
-            $token = Str::random(60);
+            event(new UserRegistered($user));
+            /*$token = Str::random(60);
             $data = [
                 'user_id' => $user->id,
                 'token'   => $token
             ];
-            UserVerification::create($data);
+            UserVerification::create($data);*/
             /*
              * Onay maili gönderme işlemi
              */
-            $title = 'Verify Your Account';
+            /*$title = 'Verify Your Account';
             Mail::send('web.email.verify', compact(['token', 'user', 'title']), function ($mail) use ($user, $title) {
                 $mail->to($user->email);
                 $settings = cache('settings');
@@ -45,7 +47,7 @@ class RegisterController extends Controller
                 } else {
                     $mail->subject($title);
                 }
-            });
+            });*/
         } catch (\Exception $e) {
             alert()->error("Error", "An error occurred while registering.")->showConfirmButton("OK");
             return redirect()->back()->exceptInput("_token", "password", "password_confirmation");
