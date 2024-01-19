@@ -42,9 +42,10 @@ class UserVerificationMail extends Mailable
      */
     public function content(): Content
     {
+        $title = 'Verify Your Account';
         return new Content(
             view: 'web.email.verify',
-            with: ['user' => $this->user, 'token', $this->token]
+            with: ['title' => $title, 'token', $this->token, 'user' => $this->user]
         );
     }
 

@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\UserRegistered;
 use App\Mail\UserVerificationMail;
 use App\Models\UserVerification;
+use App\Notifications\UserVerificationNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
@@ -31,6 +32,7 @@ class SendEmailUserVerificationListener
             'token'   => $token,
         ];
         UserVerification::create($data);
-        Mail::to($event->user->email)->send(new UserVerificationMail($event->user, $token));
+        //Mail::to($event->user->email)->send(new UserVerificationMail($event->user, $token));
+        $event->user->notify(new UserVerificationNotification($token));
     }
 }
