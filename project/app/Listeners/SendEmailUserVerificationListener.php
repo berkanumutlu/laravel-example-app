@@ -29,7 +29,7 @@ class SendEmailUserVerificationListener
         $token = Str::random(60);
         $data = [
             'user_id' => $event->user->id,
-            'token'   => $token,
+            'token'   => $token
         ];
         UserVerification::create($data);
         //Mail::to($event->user->email)->send(new UserVerificationMail($event->user, $token));
