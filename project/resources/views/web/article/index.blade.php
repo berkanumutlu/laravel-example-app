@@ -16,35 +16,12 @@
                                 <h2 class="mb-3 font-weight-bold">{{ $title ?? '' }}</h2>
                             </div>
                             @if(!empty($records))
-                                @foreach($records as $item)
-                                    @php
-                                        $item_url = route('article.detail', ['slug' => $item->slug]);
-                                    @endphp
+                                @foreach($records as $record)
                                     <div class="col-xl-4">
-                                        <div class="article-item" data-aos="flip-down">
-                                            <div class="article-item-image-section">
-                                                <a href="{{ $item_url }}" class="article-item-image-link">
-                                                    <img src="{{ asset($item->image) }}"
-                                                         class="article-item-image img-fluid" alt="{{ $item->title }}">
-                                                </a>
-                                                <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"
-                                                   class="btn btn-danger article-item-category"
-                                                   data-aos="flip-right" data-aos-easing="ease-out-cubic"
-                                                   data-aos-duration="2500">{{ $item->category?->name }}</a>
-                                            </div>
-                                            <div class="article-item-body">
-                                                <div class="author">
-                                                    Author: <a href="#">{{ $item->user?->name }}</a>
-                                                </div>
-                                                <div class="title">
-                                                    <a href="{{ $item_url }}"><h4>{{ $item->title }}</h4></a>
-                                                </div>
-                                                <div class="date">
-                                                    <p>{{ $item->publish_date }}</p>
-                                                    <p class="ms-3">&#x25CF;{{ $item->read_time }} min</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <x-web.item-article
+                                            :record="$record"
+                                            :articleItemAttributes="'data-aos=flip-down'"
+                                            :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
                                     </div>
                                 @endforeach
                                 @if($records->lastPage() > 1)

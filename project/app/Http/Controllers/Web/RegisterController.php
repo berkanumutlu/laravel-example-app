@@ -28,7 +28,7 @@ class RegisterController extends Controller
         $user->status = 0;
         try {
             $user->save();
-            event(new UserRegistered($user));
+            //event(new UserRegistered($user));
             /*$token = Str::random(60);
             $data = [
                 'user_id' => $user->id,

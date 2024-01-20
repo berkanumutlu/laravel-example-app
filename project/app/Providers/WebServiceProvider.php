@@ -32,9 +32,10 @@ class WebServiceProvider extends ServiceProvider
             $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
         });
         View::composer('components.web.sidebar', function ($view) {
+            $settings = $this->get_settings();
             $categories = Category::query()->where('status', 1)
                 ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
-            $view->with(compact('categories'));
+            $view->with(compact(['settings', 'categories']));
         });
     }
 
