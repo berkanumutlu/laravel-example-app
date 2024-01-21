@@ -49,6 +49,14 @@ class ArticleController extends Controller
         if (empty($record)) {
             abort(404);
         }
+        $visited_articles = session()->get('visited_articles', []);
+        $visited_articles[] = $record->id;
+        session()->put('visited_articles', $visited_articles);
+        $visited_article_categories = Article::query()->whereIn('id', $visited_articles)->pluck('category_id');
+        $suggested_articles = Article::query()->with(['category:id,name,slug', 'user:id,name,username'])
+            ->status(1)
+            ->whereIn('category_id', $visited_article_categories)
+            ->whereNotIn('id', $visited_articles)->limit(6)->inRandomOrder()->get();
         if (auth()->guard('web')->check()) {
             $userLike = $record->likes()->where('user_id', auth()->guard('web')->id())->exists();
         } else {
@@ -95,7 +103,7 @@ class ArticleController extends Controller
 
         }
         $title = $record->title;
-        return view('web.article.detail', compact(['title', 'record', 'userLike']));
+        return view('web.article.detail', compact(['title', 'record', 'userLike', 'suggested_articles']));
     }
 
     //public function category(string $slug)

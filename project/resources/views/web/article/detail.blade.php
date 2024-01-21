@@ -2,6 +2,8 @@
 @section("style")
     <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/pages/article-detail.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/highlight/styles/default.min.css') }}" rel="stylesheet">
@@ -165,6 +167,36 @@
                             </div>
                         </div>
                     </section>
+                    @if(!empty($suggested_articles))
+                        <section class="suggested-article-list" data-aos="fade-up">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h2 class="fs-4 fw-bold">Recommended for you</h2>
+                                        <div class="custom-pagination">
+                                        <span
+                                            class="custom-swiper-button-prev material-icons-outlined btn btn-secondary"
+                                            data-aos="fade-right">arrow_back</span>
+                                            <span
+                                                class="custom-swiper-button-next material-icons-outlined btn btn-secondary"
+                                                data-aos="fade-left">arrow_forward</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="swiper">
+                                        <div class="swiper-wrapper">
+                                            @foreach($suggested_articles as $item)
+                                                <div class="swiper-slide" data-aos="zoom-in-up">
+                                                    <x-web.item-article :item="$item"></x-web.item-article>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    @endif
                     <x-web.section-comment-form
                         :headerTitle="'Post a Comment'"
                         :headerDescription="'In maximus faucibus mi sed accumsan. Suspendisse ut mi facilisis, pharetra ante ac, dapibus massa. Morbi aliquam magna erat, quis feugiat enim rhoncus eget. Maecenas et sagittis augue.'"
@@ -193,6 +225,54 @@
         $(document).ready(function () {
             AOS.init();
             hljs.highlightAll();
+            let suggestedArticleList = new Swiper('.suggested-article-list .swiper', {
+                speed: 400,
+                spaceBetween: 15,
+                slidesPerView: 3,
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                },
+                navigation: {
+                    nextEl: '.suggested-article-list .custom-pagination .custom-swiper-button-next',
+                    prevEl: '.suggested-article-list .custom-pagination .custom-swiper-button-prev'
+                },
+                /*autoplay: {
+                    delay: 5000,
+                },
+                rewind: true*/
+                breakpoints: {
+                    // when window width is >= 320px
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 10
+                    },
+                    480: {
+                        slidesPerView: 2,
+                        spaceBetween: 10
+                    },
+                    576: {
+                        slidesPerView: 2,
+                        spaceBetween: 10
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 10
+                    },
+                    992: {
+                        slidesPerView: 3,
+                        spaceBetween: 15
+                    },
+                    1200: {
+                        slidesPerView: 3,
+                        spaceBetween: 15
+                    },
+                    1400: {
+                        slidesPerView: 3,
+                        spaceBetween: 15
+                    }
+                },
+            });
             $('.btn-like').on("click", function (e) {
                 e.preventDefault();
                 let self = $(this);

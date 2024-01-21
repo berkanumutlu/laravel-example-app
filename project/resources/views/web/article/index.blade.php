@@ -2,6 +2,7 @@
 @section("style")
     <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection
@@ -16,10 +17,10 @@
                                 <h2 class="mb-3 font-weight-bold">{{ $title ?? '' }}</h2>
                             </div>
                             @if(!empty($records))
-                                @foreach($records as $record)
+                                @foreach($records as $item)
                                     <div class="col-xl-4">
                                         <x-web.item-article
-                                            :record="$record"
+                                            :item="$item"
                                             :articleItemAttributes="'data-aos=flip-down'"
                                             :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
                                     </div>
