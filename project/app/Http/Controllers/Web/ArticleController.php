@@ -35,23 +35,11 @@ class ArticleController extends Controller
 
     public function show(string $slug)
     {
-        $record = Article::query()->where('slug', $slug)->status(1)
-            ->with([
-                'category:id,name,slug', 'user:id,name,username,title,description,image', 'likes:id,user_id',
-                'comments', 'comments.user:id,name,image', 'comments.children', 'comments.children.user:id,name,image',
-                'comments.currentUserLiked', 'comments.currentUserDisliked'
-            ])
-            ->select([
-                'id', 'title', 'slug', 'body', 'image', 'tags', 'read_time', 'view_count', 'like_count', 'publish_date',
-                'category_id', 'user_id'
-            ])
-            ->first();
+        $record = session()->get('last_article');
         if (empty($record)) {
             abort(404);
         }
-        $visited_articles = session()->get('visited_articles', []);
-        $visited_articles[] = $record->id;
-        session()->put('visited_articles', $visited_articles);
+        $visited_articles = session()->get('visited_articles');
         $visited_article_categories = Article::query()->whereIn('id', $visited_articles)->pluck('category_id');
         $suggested_articles = Article::query()->with(['category:id,name,slug', 'user:id,name,username'])
             ->status(1)

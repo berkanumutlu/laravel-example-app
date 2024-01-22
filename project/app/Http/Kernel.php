@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\VisitedArticle;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -75,5 +76,6 @@ class Kernel extends HttpKernel
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'language'         => \App\Http\Middleware\Language::class,
+        'visitedArticle'   => \App\Http\Middleware\VisitedArticle::class
     ];
 }
