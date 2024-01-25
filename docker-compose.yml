@@ -43,7 +43,7 @@ services:
     image: phpmyadmin:5.2.1
     container_name: ${PROJECT_NAME}-phpmyadmin
     ports:
-      - 8080:80
+      - "8080:80"
     environment:
       PMA_HOST: mysql
       PMA_ARBITRARY: 1
@@ -58,3 +58,12 @@ services:
     command: redis-server
     ports:
       - "6379:6379"
+    volumes:
+      - /docker/redis:/data
+  redisui:
+    image: patrikx3/p3x-redis-ui:latest
+    container_name: ${PROJECT_NAME}-redisui
+    ports:
+      - "7843:7843"
+    volumes:
+      - /docker/p3x-redis-ui-settings:/settings
