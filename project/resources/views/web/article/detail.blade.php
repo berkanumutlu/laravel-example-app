@@ -40,6 +40,12 @@
                                             class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
                                     <span class="number">{{ $record->like_count ?? 0 }}</span>
                                 </li>
+                                @if(!empty($record->category?->slug))
+                                    <li class="category">
+                                        In <a
+                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         <div class="article-content">
