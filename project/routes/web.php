@@ -37,6 +37,7 @@ Route::get('auth/social/{social}/callback',
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');
+    Route::get('author/{user:username}', "author")->name('author');
     Route::get('detail/{slug}', "show")->name('detail')->middleware('visitedArticle');
     Route::post('detail/{article:slug}/post-comment', "post_comment")->name('comment.post');
     Route::post('like', "like")->name('like');

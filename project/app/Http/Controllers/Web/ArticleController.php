@@ -132,7 +132,21 @@ class ArticleController extends Controller
             ->whereHas('category', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             })->paginate(15);*/
-        $title = $category->name.'  Article List';
+        $title = $category->name.' Article List';
+        return view('web.article.index', compact(['title', 'records']));
+    }
+
+    public function author(User $user)
+    {
+        $records = Article::query()->status(1)
+            ->with(['category:id,name,slug', 'user:id,name,username'])
+            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
+            ->whereHas('user', function ($query) use ($user) {
+                $query->where('username', $user->username);
+            })
+            ->orderBy('publish_date', 'desc')
+            ->paginate(15);
+        $title = $user->name.'\'s Articles';
         return view('web.article.index', compact(['title', 'records']));
     }
 

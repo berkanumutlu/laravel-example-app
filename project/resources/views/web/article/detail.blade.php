@@ -18,7 +18,9 @@
                         <div class="article-header">
                             <h1 class="title">{{ $record->title ?? '' }}</h1>
                             <ul class="meta">
-                                <li class="author">by <a href="#">{{ $record->user?->name }}</a></li>
+                                <li class="author">by <a
+                                        href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
+                                </li>
                                 <li class="date">
                                     <span class="material-icons-outlined">calendar_month</span>
                                     <time

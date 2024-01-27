@@ -71,3 +71,32 @@
 }
 
 /*#endregion */
+/*#region Responsive*/
+/*------------------------------------------------------------
+    [Responsive]
+------------------------------------------------------------*/
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+}
+
+@media screen and (min-width: 1400px) {
+    .article-item .article-item-image-section {
+        display: flex;
+        align-items: center;
+        min-height: 230px;
+    }
+}
+
+/*#endregion */
