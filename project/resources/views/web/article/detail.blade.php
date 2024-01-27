@@ -70,7 +70,9 @@
                                     <div class="tag-list">
                                         <ul class="nav list-unstyled">
                                             @foreach($record->tags as $item)
-                                                <li class="tag-item"><a href="#">{{ $item }}</a></li>
+                                                <li class="tag-item"><a
+                                                        href="{{ route('article.search', ['q' => $item]) }}">{{ $item }}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
