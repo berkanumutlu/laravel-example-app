@@ -43,4 +43,5 @@ Route::prefix('article')->name('article.')->controller('ArticleController')->gro
     Route::post('like', "like")->name('like');
     Route::post('comment/like', "comment_like")->name('comment.like');
     Route::post('comment/dislike', "comment_like")->name('comment.dislike');
+    Route::get('search', "search")->name('search');
 });

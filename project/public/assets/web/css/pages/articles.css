@@ -1,3 +1,8 @@
+.last-article-list .subtitle {
+    font-size: .8rem;
+    text-align: end;
+}
+
 .pagination-section {
     margin: 20px 0;
     padding: 40px 0;

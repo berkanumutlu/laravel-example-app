@@ -11,7 +11,7 @@
     </div>
     <div class="article-item-body">
         <div class="author">
-            by <a href="#">{{ $item->user?->name }}</a>
+            by <a href="{{ route('article.author', ['user' => $item->user]) }}">{{ $item->user?->name }}</a>
         </div>
         <div class="title">
             <a href="{{ $item_url }}"><h4>{{ $item->title }}</h4></a>

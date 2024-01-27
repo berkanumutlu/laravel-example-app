@@ -14,7 +14,16 @@
                     <section class="last-article-list" data-aos="flip-down">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="mb-3 font-weight-bold">{{ $title ?? '' }}</h2>
+                                @if(Route::is('article.search'))
+                                    <div class="d-flex align-items-end justify-content-between">
+                                        <h2 class="mb-0 font-weight-bold">{{ $title ?? '' }}</h2>
+                                        <h6 class="subtitle mb-0 text-muted">A total of {{ $records->total() }} records
+                                            were found.</h6>
+                                    </div>
+                                    <hr>
+                                @else
+                                    <h2 class="mb-3 font-weight-bold">{{ $title ?? '' }}</h2>
+                                @endif
                             </div>
                             @if(!empty($records))
                                 @foreach($records as $item)

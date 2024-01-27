@@ -152,56 +152,6 @@ class ArticleController extends Controller
 
     /**
      * @param  Request  $request
-     * @param  Article  $article
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function post_comment(Request $request, Article $article): \Illuminate\Http\JsonResponse
-    {
-        $response = ['status' => false, 'message' => null];
-        $response['token'] = csrf_token();
-        $validator = Validator::make($request->all(), [
-            'email'      => ['required', 'email'],
-            'fullname'   => ['required', 'string'],
-            'comment_id' => ['nullable', 'integer'],
-            'comment'    => ['required', 'string'],
-        ]);
-        if ($validator->fails()) {
-            $response['message'] = collect($validator->errors()->all())->implode('<br>');
-            $response['notify'] = [
-                'message' => $response['message'],
-                'icon'    => 'info'
-            ];
-            return response()->json($response);
-        }
-        try {
-            $data = $request->except('_token');
-            if (auth()->guard('web')->check()) {
-                $data['user_id'] = auth()->guard('web')->id();
-            }
-            if (isset($request->comment_id)) {
-                $data['parent_id'] = $request->comment_id;
-            }
-            $data['article_id'] = $article->id;
-            $data['ip_address'] = $request->ip();
-            $data['user_agent'] = $request->userAgent();
-            $data['user_full_name'] = $request->fullname;
-            $data['user_email'] = $request->email;
-            ArticleComments::create($data);
-            $response['status'] = true;
-            $response['message'] = 'Your comment has been sent successfully. Your comment will be published after the checks.';
-            $response['notify'] = [
-                'message' => $response['message'],
-                'icon'    => 'success',
-                'timer'   => 4000
-            ];
-        } catch (\Exception $e) {
-            $response['message'] = 'An error occurred while submitting your comment.';
-        }
-        return response()->json($response);
-    }
-
-    /**
-     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function like(Request $request): \Illuminate\Http\JsonResponse
@@ -256,6 +206,56 @@ class ArticleController extends Controller
                 'message' => 'An error occurred while liking the article.',
                 'icon'    => 'error'
             ];
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @param  Article  $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function post_comment(Request $request, Article $article): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $response['token'] = csrf_token();
+        $validator = Validator::make($request->all(), [
+            'email'      => ['required', 'email'],
+            'fullname'   => ['required', 'string'],
+            'comment_id' => ['nullable', 'integer'],
+            'comment'    => ['required', 'string'],
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $data = $request->except('_token');
+            if (auth()->guard('web')->check()) {
+                $data['user_id'] = auth()->guard('web')->id();
+            }
+            if (isset($request->comment_id)) {
+                $data['parent_id'] = $request->comment_id;
+            }
+            $data['article_id'] = $article->id;
+            $data['ip_address'] = $request->ip();
+            $data['user_agent'] = $request->userAgent();
+            $data['user_full_name'] = $request->fullname;
+            $data['user_email'] = $request->email;
+            ArticleComments::create($data);
+            $response['status'] = true;
+            $response['message'] = 'Your comment has been sent successfully. Your comment will be published after the checks.';
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = 'An error occurred while submitting your comment.';
         }
         return response()->json($response);
     }
@@ -333,5 +333,34 @@ class ArticleController extends Controller
             ];
         }
         return response()->json($response);
+    }
+
+    public function search(Request $request)
+    {
+        $search_text = $request->q;
+        $search_text_like = '%'.$search_text.'%';
+        $records = Article::query()->status(1)
+            ->with(['category', 'user'])
+            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
+            ->whereHas('user', function ($query) use ($search_text_like) {
+                $query->where('name', 'LIKE', $search_text_like)
+                    ->orWhere('username', 'LIKE', $search_text_like)
+                    ->orWhere('title', 'LIKE', $search_text_like)
+                    ->orWhere('description', 'LIKE', $search_text_like);
+            })
+            ->whereHas('category', function ($query) use ($search_text_like) {
+                $query->orWhere('name', 'LIKE', $search_text_like)
+                    ->orWhere('slug', 'LIKE', $search_text_like)
+                    ->orWhere('description', 'LIKE', $search_text_like);
+            })
+            ->orWhere('title', 'LIKE', $search_text_like)
+            ->orWhere('slug', 'LIKE', $search_text_like)
+            ->orWhere('body', 'LIKE', $search_text_like)
+            ->orWhere('tags', 'LIKE', $search_text_like)
+            ->orderBy('publish_date', 'desc')
+            ->paginate(15)
+            ->appends($request->query());
+        $title = '"'.$search_text.'" search results';
+        return view('web.article.index', compact(['title', 'records']));
     }
 }
