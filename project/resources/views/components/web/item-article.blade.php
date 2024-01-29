@@ -2,8 +2,8 @@
     $item_url = !empty($item->slug) ? route('article.detail', ['slug' => $item->slug]) : '';
     $item_image = $item->image;
     if (empty($item->image)) {
-        if (!empty($settings) && !empty($settings->image_default_author)) {
-            $item_image = $settings->image_default_author;
+        if (!empty($settings) && !empty($settings->image_default_article)) {
+            $item_image = $settings->image_default_article;
         }
     }
 @endphp

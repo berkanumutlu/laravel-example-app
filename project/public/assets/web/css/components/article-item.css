@@ -98,7 +98,8 @@
         min-height: 230px;
     }
 
-    .popular-article-list .article-item .article-item-image-section {
+    .popular-article-list .article-item .article-item-image-section,
+    .suggested-article-list .article-item .article-item-image-section {
         min-height: 208px;
     }
 }
