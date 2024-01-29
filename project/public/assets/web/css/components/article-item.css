@@ -97,6 +97,10 @@
         align-items: center;
         min-height: 230px;
     }
+
+    .popular-article-list .article-item .article-item-image-section {
+        min-height: 208px;
+    }
 }
 
 /*#endregion */
