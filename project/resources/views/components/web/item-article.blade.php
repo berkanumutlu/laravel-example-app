@@ -1,10 +1,16 @@
 @php
     $item_url = !empty($item->slug) ? route('article.detail', ['slug' => $item->slug]) : '';
+    $item_image = $item->image;
+    if (empty($item->image)) {
+        if (!empty($settings) && !empty($settings->image_default_author)) {
+            $item_image = $settings->image_default_author;
+        }
+    }
 @endphp
 <div class="article-item" {{ $articleItemAttributes ?? '' }}>
     <div class="article-item-image-section">
         <a href="{{ $item_url }}" class="article-item-image-link">
-            <img src="{{ asset($item->image) }}" class="article-item-image img-fluid" alt="{{ $item->title }}">
+            <img src="{{ asset($item_image) }}" class="article-item-image img-fluid" alt="{{ $item->title }}">
         </a>
         <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"
            class="btn btn-danger article-item-category" {{ $articleCategoryLinkAttributes ?? '' }}>{{ $item->category?->name }}</a>
