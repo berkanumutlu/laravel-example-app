@@ -10,50 +10,21 @@
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
-    @if(!empty($settings->show_feature_categories))
+    @if(!empty($settings->show_feature_categories) && !empty($feature_category_list))
         <div class="feature-category-list">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-xl-3">
-                        <div class="feature-category-item"
-                             style="background-image: url('{{ !empty($settings->image_default_category) ? asset($settings->image_default_category) : '' }}')"
-                             data-aos="flip-left">
-                            <h2 class="title">Feature Category Title</h2>
-                            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                                tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
-                            <p class="footer-text">Lorem ipsum dolor sit amet</p>
+                    @foreach($feature_category_list as $item)
+                        <div class="col-md-6 col-xl-3">
+                            <div class="feature-category-item"
+                                 style="background-image: url('{{ !empty($item->image) ? asset($item->image) : asset($settings->image_default_category) }}')"
+                                 data-aos="flip-left">
+                                <h2 class="title">{{ $item->name }}</h2>
+                                <p class="description">{!! $item->description !!}</p>
+                                <p class="footer-text">{{ $item->articlesActive?->count() ? $item->articlesActive?->count().' articles' : '0 article' }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="feature-category-item"
-                             style="background-image: url('{{ !empty($settings->image_default_category) ? asset($settings->image_default_category) : '' }}')"
-                             data-aos="flip-left">
-                            <h2 class="title">Feature Category Title</h2>
-                            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                                tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
-                            <p class="footer-text">Lorem ipsum dolor sit amet</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="feature-category-item"
-                             style="background-image: url('{{ !empty($settings->image_default_category) ? asset($settings->image_default_category) : '' }}')"
-                             data-aos="flip-right">
-                            <h2 class="title">Feature Category Title</h2>
-                            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                                tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
-                            <p class="footer-text">Lorem ipsum dolor sit amet</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="feature-category-item"
-                             style="background-image: url('{{ !empty($settings->image_default_category) ? asset($settings->image_default_category) : '' }}')"
-                             data-aos="flip-right">
-                            <h2 class="title">Feature Category Title</h2>
-                            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                                tincidunt odio a velit faucibus, in mattis quam laoreet.</p>
-                            <p class="footer-text">Lorem ipsum dolor sit amet</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
