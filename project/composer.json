@@ -15,6 +15,7 @@
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "predis/predis": "^2.2",
+        "rap2hpoutre/laravel-log-viewer": "^2.3",
         "realrashid/sweet-alert": "^7.1",
         "unisharp/laravel-filemanager": "^2.6"
     },

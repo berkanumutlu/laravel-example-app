@@ -22,6 +22,7 @@ Route::prefix("login")->name("login.")->controller('LoginController')
         Route::post('', "login");
     });
 Route::post('logout', [\App\Http\Controllers\Admin\LoginController::class, "logout"])->name('logout');
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
