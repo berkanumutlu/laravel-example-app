@@ -6,11 +6,13 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        Log::debug('test message');
         //Debugbar::startMeasure('render', 'Time for HomeController rendering');
         //Debugbar::stopMeasure('render');
         $feature_category_list = Category::query()
