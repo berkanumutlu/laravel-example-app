@@ -13,7 +13,7 @@ class LoginController extends BaseController
     public function index()
     {
         $favicon = asset('assets/auth/images/neptune.png');
-        $title = 'Login';
+        $title = 'Login - Admin Panel';
         return view('admin.login.index', compact(['favicon', 'title']));
     }
 

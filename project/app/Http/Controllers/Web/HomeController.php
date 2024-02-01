@@ -12,7 +12,14 @@ class HomeController extends Controller
 {
     public function index()
     {
-        Log::debug('test message');
+        //Log::debug('test debug message');
+        //Log::emergency('test emergency message');
+        //Log::alert('test alert message');
+        //Log::critical('test critical message');
+        //Log::error('test error message');
+        //Log::warning('test warning message');
+        //Log::notice('test notice message');
+        //Log::info('test info message');
         //Debugbar::startMeasure('render', 'Time for HomeController rendering');
         //Debugbar::stopMeasure('render');
         $feature_category_list = Category::query()
