@@ -34,6 +34,11 @@ Route::get('auth/social/{social}/redirect',
 Route::get('auth/social/{social}/callback',
     [\App\Http\Controllers\Web\AuthController::class, "social_callback"])->name('auth.social.callback')
     ->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+Route::get('reset-password',
+    [\App\Http\Controllers\Web\LoginController::class, 'reset_password_show'])->name('reset.password');
+Route::post('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password']);
+Route::post('reset-password/{token}',
+    [\App\Http\Controllers\Web\LoginController::class, 'reset_password'])->name('reset.password.token');
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');

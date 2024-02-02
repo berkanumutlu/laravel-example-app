@@ -63,4 +63,15 @@ class LoginController extends Controller
         }
         return response()->json($response);
     }
+
+    public function reset_password_show()
+    {
+        //return view('web.email.reset-password');
+        return view('web.login.reset-password');
+    }
+
+    public function reset_password()
+    {
+        return view('web.login.reset-password');
+    }
 }
