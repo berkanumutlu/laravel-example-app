@@ -137,3 +137,18 @@
 .login-page .login-form-section .login-form .social-list li a.github:hover {
     background-image: var(--color-gradient-bg-black-hover);
 }
+
+.login-page .login-form-section .login-form .input-group .reset-password-link {
+    color: var(--color-black-3);
+    text-decoration: none;
+}
+
+.login-page .login-form-section .login-form .input-group .reset-password-link:hover {
+    color: var(--color-primary);
+}
+
+@media screen and (min-width: 768px) {
+    .login-page .login-form-section .login-form .input-group .form-floating input.form-control {
+        min-width: 350px;
+    }
+}

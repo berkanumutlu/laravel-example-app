@@ -56,13 +56,15 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="input-group justify-content-center mb-3">
+                                            <div class="input-group justify-content-evenly mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="remember_me"
                                                            name="remember_me" {{ old('remember_me') ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="remember_me">Remember
                                                         me</label>
                                                 </div>
+                                                <a href="{{ route('reset.password') }}" class="reset-password-link">Forgot
+                                                    Password?</a>
                                             </div>
                                         </div>
                                         <div class="col-12">
