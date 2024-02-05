@@ -37,8 +37,9 @@ Route::get('auth/social/{social}/callback',
 Route::get('reset-password',
     [\App\Http\Controllers\Web\LoginController::class, 'reset_password_show'])->name('reset.password');
 Route::post('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password']);
-Route::post('reset-password/{token}',
-    [\App\Http\Controllers\Web\LoginController::class, 'reset_password'])->name('reset.password.token');
+Route::get('reset-password/{token}',
+    [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm_show'])->name('reset.password.confirm');
+Route::post('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm']);
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');

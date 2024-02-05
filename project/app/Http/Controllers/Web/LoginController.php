@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\LoginRequest;
+use App\Http\Requests\Web\PasswordResetRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -112,5 +113,63 @@ class LoginController extends Controller
         return redirect()->back()->withErrors([
             "email" => "Email not found."
         ])->onlyInput("email");
+    }
+
+    public function reset_password_confirm_show(Request $request)
+    {
+        $token_exist = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+        if ($token_exist) {
+            $token = $token_exist->token;
+            $email = $token_exist->email;
+            return view('web.login.reset-password', compact(['token', 'email']));
+        } else {
+            alert()->error("Error", "Invalid url.")->showConfirmButton("OK");
+        }
+        return view('web.login.reset-password');
+    }
+
+    public function reset_password_confirm(PasswordResetRequest $request, string $token)
+    {
+        $token_query = DB::table('password_reset_tokens')->where('token', $token);
+        $token_exist = $token_query->first();
+        if ($token_exist) {
+            $token = $token_exist->token;
+            $email = $token_exist->email;
+            $user = User::query()->where("email", $email)->first();
+            if (!empty($user)) {
+                if ($user->deleted_at) {
+                    return view('web.login.reset-password', compact(['token', 'email']))->withErrors([
+                        "deleted_at" => "Your account has been blocked."
+                    ]);
+                }
+                if ($user->status != 1) {
+                    return view('web.login.reset-password', compact(['token', 'email']))->withErrors([
+                        "status" => "Your account has not been approved."
+                    ]);
+                }
+                $password = $request->password;
+                if (Hash::check($password, $user->password)) {
+                    return view('web.login.reset-password', compact(['token', 'email']))->withErrors([
+                        "password" => "Your new password cannot be the same as your old password."
+                    ]);
+                }
+                try {
+                    $user->update(['password' => Hash::make($password)]);
+                    $token_query->delete();
+                    $token = null;
+                    alert()->success("Success",
+                        "Your password has been changed successfully.")->showConfirmButton("OK");
+                    return redirect()->route('login.index');
+                } catch (\Exception $e) {
+                    alert()->error("Error", "An error occurred while changing the password.")->showConfirmButton("OK");
+                }
+            } else {
+                alert()->error("Error", "User not found.")->showConfirmButton("OK");
+            }
+            return view('web.login.reset-password', compact(['token', 'email']));
+        } else {
+            alert()->error("Error", "Invalid url.")->showConfirmButton("OK");
+        }
+        return view('web.login.reset-password');
     }
 }

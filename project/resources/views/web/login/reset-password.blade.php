@@ -21,37 +21,76 @@
                                     industry.</p>
                             </div>
                             <div class="reset-password-form">
-                                @if($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul class="list-group list-unstyled">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                <form action="{{ route('reset.password') }}" method="POST">
+                                <x-web.errors :errors="$errors"></x-web.errors>
+                                <form
+                                    action="{{ !empty($token) ? route('reset.password.confirm', ['token' => $token]) : route('reset.password') }}"
+                                    method="POST">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-12">
-                                            <div class="input-group justify-content-center mb-4">
-                                                <span class="input-group-text"><span
-                                                        class="material-icons-outlined">email</span></span>
-                                                <div class="form-floating">
-                                                    <input type="email" name="email" id="email" class="form-control"
-                                                           placeholder="Email" required
-                                                           value="{{ old('email') ?? '' }}">
-                                                    <label for="email">Email</label>
+                                        @if(!empty($token))
+                                            <div class="col-12">
+                                                <div class="input-group justify-content-center mb-3">
+                                                    <span class="input-group-text"><span
+                                                            class="material-icons-outlined">email</span></span>
+                                                    <div class="form-floating">
+                                                        <input type="email" id="email" class="form-control" disabled
+                                                               value="{{ $email ?? '' }}">
+                                                        <label for="email">Email</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="mb-3 d-flex justify-content-center">
-                                                <button type="submit" class="btn btn-reset-password">
-                                                    <span class="material-icons-outlined">lock_reset</span>Reset
-                                                </button>
+                                            <div class="col-12">
+                                                <div class="input-group justify-content-center mb-3">
+                                                <span class="input-group-text"><span
+                                                        class="material-icons-outlined">lock</span></span>
+                                                    <div class="form-floating">
+                                                        <input type="password" name="password" id="password"
+                                                               class="form-control" placeholder="Password" required>
+                                                        <label for="password">Password</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div class="col-12">
+                                                <div class="input-group justify-content-center mb-4">
+                                                <span class="input-group-text"><span
+                                                        class="material-icons-outlined">sync_lock</span></span>
+                                                    <div class="form-floating">
+                                                        <input type="password" name="password_confirmation"
+                                                               id="password_confirmation"
+                                                               class="form-control" placeholder="Confirm Password"
+                                                               required>
+                                                        <label for="password_confirmation">Confirm Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-3 d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-reset-password">
+                                                        <span class="material-icons-outlined">done</span>Save
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="col-12">
+                                                <div class="input-group justify-content-center mb-4">
+                                                <span class="input-group-text"><span
+                                                        class="material-icons-outlined">email</span></span>
+                                                    <div class="form-floating">
+                                                        <input type="email" name="email" id="email" class="form-control"
+                                                               placeholder="Email" required
+                                                               value="{{ old('email') ?? '' }}">
+                                                        <label for="email">Email</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-3 d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-reset-password">
+                                                        <span class="material-icons-outlined">lock_reset</span>Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </form>
                             </div>

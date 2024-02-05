@@ -20,15 +20,7 @@
                                     industry.</p>
                             </div>
                             <div class="login-form">
-                                @if($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul class="list-group list-unstyled">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                <x-web.errors :errors="$errors"></x-web.errors>
                                 <form action="{{ route('login.index') }}" method="POST">
                                     @csrf
                                     <div class="row">
