@@ -104,10 +104,15 @@ class LoginController extends Controller
                     'created_at' => now()
                 ]);
             }
-            Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
-            alert()->success("Success",
-                "Your password has been reset. Follow the instructions in the e-mail sent to your e-mail address.")
-                ->showConfirmButton("OK");
+            if ($token_exist && now()->diffInHours($token_exist->created_at) < 2) {
+                alert()->info("Info", "A reset email has been sent before. You can try again in a few hours.")
+                    ->showConfirmButton("OK");
+            } else {
+                Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
+                alert()->success("Success",
+                    "Your password has been reset. Follow the instructions in the e-mail sent to your e-mail address.")
+                    ->showConfirmButton("OK");
+            }
             return redirect()->back();
         }
         return redirect()->back()->withErrors([
