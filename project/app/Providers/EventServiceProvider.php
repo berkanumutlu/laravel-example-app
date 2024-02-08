@@ -4,8 +4,10 @@ namespace App\Providers;
 
 //use App\Events\UserRegistered;
 //use App\Listeners\SendEmailUserVerificationListener;
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
+use App\Observers\ArticleObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -30,7 +32,8 @@ class EventServiceProvider extends ServiceProvider
 
     protected $observers = [
         User::class     => UserObserver::class,
-        Category::class => CategoryObserver::class
+        Category::class => CategoryObserver::class,
+        Article::class  => ArticleObserver::class
     ];
 
     /**

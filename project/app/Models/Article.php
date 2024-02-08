@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Article extends BaseModel
 {
@@ -34,6 +35,11 @@ class Article extends BaseModel
     public function likes(): HasMany
     {
         return $this->hasMany(ArticleUserLikes::class, 'article_id', 'id');
+    }
+
+    public function logs(): MorphMany
+    {
+        return $this->morphMany(Log::class, 'loggable');
     }
 
     public function scopeTitle($query, $title)
