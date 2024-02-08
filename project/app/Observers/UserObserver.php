@@ -9,7 +9,7 @@ use App\Notifications\UserResetPasswordNotification;
 use App\Notifications\UserVerificationNotification;
 use Illuminate\Support\Str;
 
-class UserRegisteredObserver
+class UserObserver
 {
     public function __construct(public Log $log)
     {
