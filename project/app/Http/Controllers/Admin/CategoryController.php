@@ -214,7 +214,7 @@ class CategoryController extends BaseController
         }
         try {
             $record_id = $request->id;
-            Category::where("id", $record_id)->delete();
+            Category::query()->where("id", $record_id)->first()->delete();
             $response['status'] = true;
             $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
             $response['notify'] = [

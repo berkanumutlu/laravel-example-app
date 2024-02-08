@@ -41,6 +41,7 @@ class LoginController extends Controller
                 ])->onlyInput("email", "remember_me");
             }
             if (Hash::check($password, $user->password)) {
+                \Illuminate\Support\Facades\Log::notice("User login:".$user->name, $user->toArray());
                 Auth::guard('web')->login($user, $remember_me);
                 return redirect()->route('home');
             }

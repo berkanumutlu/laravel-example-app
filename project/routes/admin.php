@@ -23,7 +23,8 @@ Route::prefix("login")->name("login.")->controller('LoginController')
     });
 Route::post('logout', [\App\Http\Controllers\Admin\LoginController::class, "logout"])->name('logout');
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-Route::get('log-viewer', [\Arcanedev\LogViewer\Http\Controllers\LogViewerController::class, 'index'])->name('log-viewer::dashboards');
+Route::get('log-viewer',
+    [\Arcanedev\LogViewer\Http\Controllers\LogViewerController::class, 'index'])->name('log-viewer::dashboards');
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
@@ -69,5 +70,6 @@ Route::prefix("user")->name("user.")->controller('UserController')
         Route::get('edit/{user:id}', "edit")->name('edit')->whereNumber('id');
         Route::post('edit/{id}', "update")->whereNumber('id');
         Route::post('delete', "destroy")->name('delete');
+        Route::post('restore', "restore")->name('restore');
         Route::post('change-status', "change_status")->name('change_status');
     });

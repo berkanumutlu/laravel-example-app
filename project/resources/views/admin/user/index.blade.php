@@ -44,6 +44,9 @@
                                         :recordId="$item->id"
                                         :editURL="route('admin.user.edit', ['user' => $item->id])"
                                         :deleteURL="route('admin.user.delete')"
+                                        :deleteURLClass="is_null($item->deleted_at) ? '' : 'd-none'"
+                                        :restoreURL="route('admin.user.restore')"
+                                        :restoreURLClass="is_null($item->deleted_at) ? 'd-none' : ''"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach

@@ -3,16 +3,18 @@
 namespace App\Observers;
 
 use App\Models\Category;
-use App\Models\Log;
+use App\Traits\Loggable;
 
 class CategoryObserver
 {
+    use Loggable;
+
     /**
      * Handle the Category "created" event.
      */
     public function created(Category $category): void
     {
-        $this->log('create', $category->id, $category->toArray());
+        $this->log('create', $category, $category->id, $category->toArray());
     }
 
     /**
@@ -25,28 +27,12 @@ class CategoryObserver
         }
     }
 
-    public function updateLog(Category $category): void
-    {
-        $change = $category->getDirty();
-        if (!empty($change)) {
-            $data = [];
-            foreach ($change as $key => $value) {
-                $data[$key]['old'] = $category->getOriginal($key);
-                $data[$key]['new'] = $value;
-            }
-            if (isset($data['updated_at']['old'])) {
-                $data['updated_at']['old'] = $data['updated_at']['old']->toDateTimeString();
-            }
-            $this->log('update', $category->id, $data);
-        }
-    }
-
     /**
      * Handle the Category "deleted" event.
      */
     public function deleted(Category $category): void
     {
-        $this->log('delete', $category->id, $category->toArray());
+        $this->log('delete', $category, $category->id, $category->toArray());
     }
 
     /**
@@ -54,7 +40,7 @@ class CategoryObserver
      */
     public function restored(Category $category): void
     {
-        $this->log('restore', $category->id, $category->toArray());
+        $this->log('restore', $category, $category->id, $category->toArray());
     }
 
     /**
@@ -62,17 +48,6 @@ class CategoryObserver
      */
     public function forceDeleted(Category $category): void
     {
-        $this->log('force_delete', $category->id, $category->toArray());
-    }
-
-    public function log(string $action, int $loggable_id, $data): void
-    {
-        Log::create([
-            'user_id'       => auth()->guard('web')->id(),
-            'action'        => $action,
-            'data'          => json_encode($data),
-            'loggable_id'   => $loggable_id,
-            'loggable_type' => Category::class
-        ]);
+        $this->log('force_delete', $category, $category->id, $category->toArray());
     }
 }

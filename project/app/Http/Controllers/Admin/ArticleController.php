@@ -194,9 +194,9 @@ class ArticleController extends BaseController
             'user_id'         => auth()->id()
         ];
         try {
-            Article::query()->where('id', $id)->update($data);
+            $record = Article::query()->where('id', $id)->first();
+            $record->update($data);
             if ($request->file('image')) {
-                $record = Article::query()->where('id', $id)->first();
                 $folder = 'articles';
                 $public_path = 'storage/'.$folder;
                 $image_file = $request->file('image');
@@ -240,7 +240,7 @@ class ArticleController extends BaseController
         }
         try {
             $record_id = $request->id;
-            Article::where("id", $record_id)->delete();
+            Article::query()->where('id', $record_id)->first()->delete();
             $response['status'] = true;
             $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
             $response['notify'] = [

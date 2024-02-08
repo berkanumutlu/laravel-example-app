@@ -2,19 +2,16 @@
 
 namespace App\Observers;
 
-use App\Models\Log;
 use App\Models\User;
 use App\Models\UserVerification;
 use App\Notifications\UserResetPasswordNotification;
 use App\Notifications\UserVerificationNotification;
+use App\Traits\Loggable;
 use Illuminate\Support\Str;
 
 class UserObserver
 {
-    public function __construct(public Log $log)
-    {
-
-    }
+    use Loggable;
 
     /**
      * Handle the User "created" event.
@@ -28,7 +25,7 @@ class UserObserver
         ];
         UserVerification::create($data);
         $user->notify(new UserVerificationNotification($token));
-        $this->log('create', $user->id, $user->toArray());
+        $this->log('create', $user, $user->id, $user->toArray());
     }
 
     /**
@@ -44,28 +41,12 @@ class UserObserver
         }
     }
 
-    public function updateLog(User $user): void
-    {
-        $change = $user->getDirty();
-        if (!empty($change)) {
-            $data = [];
-            foreach ($change as $key => $value) {
-                $data[$key]['old'] = $user->getOriginal($key);
-                $data[$key]['new'] = $value;
-            }
-            if (isset($data['updated_at']['old'])) {
-                $data['updated_at']['old'] = $data['updated_at']['old']->toDateTimeString();
-            }
-            $this->log('update', $user->id, $data);
-        }
-    }
-
     /**
      * Handle the User "deleted" event.
      */
     public function deleted(User $user): void
     {
-        $this->log('delete', $user->id, $user->toArray());
+        $this->log('delete', $user, $user->id, $user->toArray());
     }
 
     /**
@@ -73,7 +54,7 @@ class UserObserver
      */
     public function restored(User $user): void
     {
-        $this->log('restore', $user->id, $user->toArray());
+        $this->log('restore', $user, $user->id, $user->toArray());
     }
 
     /**
@@ -81,19 +62,6 @@ class UserObserver
      */
     public function forceDeleted(User $user): void
     {
-        $this->log('force_delete', $user->id, $user->toArray());
-    }
-
-    public function log(string $action, int $loggable_id, $data): void
-    {
-        $this->log::create([
-            'user_id'       => auth()->guard('web')->id(),
-            'action'        => $action,
-            //'data'          => $user->toJson(),
-            'data'          => json_encode($data),
-            'loggable_id'   => $loggable_id,
-            //'loggable_type' => get_class($user),
-            'loggable_type' => User::class
-        ]);
+        $this->log('force_delete', $user, $user->id, $user->toArray());
     }
 }

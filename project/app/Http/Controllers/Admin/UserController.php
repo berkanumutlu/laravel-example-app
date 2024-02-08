@@ -22,7 +22,7 @@ class UserController extends BaseController
         $this->data['records'] = User::query()
             //->withTrashed()
             ->select([
-                'id', 'name', 'email', 'username', 'image', 'title', 'description', 'status', 'created_at'
+                'id', 'name', 'email', 'username', 'image', 'title', 'description', 'status', 'created_at', 'deleted_at'
             ])->orderBy('id', 'desc')->get();
         $this->data['columns'] = [
             'Id', 'Image', 'Name', 'Email', 'Username', 'Title', 'Description', 'Status', 'Creation Time', 'Actions'

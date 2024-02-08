@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->morphs('loggable');
             $table->unsignedBigInteger('user_id');
-            $table->json('data')->nullable();
+            $table->morphs('loggable');
             $table->string('action')->nullable();
+            $table->json('data')->nullable();
             $table->timestamps();
         });
     }

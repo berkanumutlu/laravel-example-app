@@ -32,7 +32,7 @@
                                                      width="40"></a>
                                         @endif
                                     </td>
-                                    <td>{{ Str::limit($item->description, 50) }}</td>
+                                    <td>{{ Str::limit(strip_tags($item->description), 50) }}</td>
                                     <td>
                                         <x-admin.change-status
                                             :recordId="$item->id" :url="route('admin.category.change_status')"
