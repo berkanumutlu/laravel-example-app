@@ -9,7 +9,7 @@ trait Loggable
     public function log(string $action, $model, int $loggable_id, $data): void
     {
         Log::create([
-            'user_id'       => auth()->guard('web')->id(),
+            'user_id'       => auth()->guard('web')->id() ?? auth()->guard('admin')->id(),
             'action'        => $action,
             'data'          => json_encode($data),
             'loggable_id'   => $loggable_id,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Settings;
+use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class SettingsController extends BaseController
 {
+    use Loggable;
+
     public function index()
     {
         $this->data['settings'] = Settings::query()->orderBy('created_at', 'asc')->get();
@@ -22,13 +25,20 @@ class SettingsController extends BaseController
         try {
             DB::transaction(function () use ($request) {
                 $post_data = $request->except('_token');
+                $settings = Settings::all();
+                $settings_array = $settings->pluck('key_value', 'id')->toArray();
+                $changed_settings = [];
                 foreach ($post_data['settings'] as $id => $value) {
                     if (gettype($value) == 'object' && $request->hasFile('settings.'.$id)) {
                         $upload_image = $this->upload_setting_image($request->file('settings.'.$id), $id);
                         $value = $upload_image->status ? $upload_image->path : '';
                     }
+                    if (!isset($settings_array[$id]) || $settings_array[$id] !== $value) {
+                        $changed_settings[$id] = $value;
+                    }
                     Settings::query()->where('id', $id)->update(['key_value' => $value]);
                 }
+                $this->log('settings', $settings->first(), 0, $changed_settings);
             });
             Cache::forget('settings');
         } catch (\Exception $e) {

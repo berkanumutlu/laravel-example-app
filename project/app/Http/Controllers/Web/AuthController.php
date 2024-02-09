@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserVerification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -13,7 +14,7 @@ class AuthController extends Controller
 {
     public function verify(Request $request)
     {
-        $user_verification = UserVerification::query()->where('token', $request->token)->first();
+        $user_verification = UserVerification::query()->with('user')->where('token', $request->token)->first();
         if (empty($user_verification)) {
             abort(404);
         }
@@ -22,6 +23,7 @@ class AuthController extends Controller
             $user->email_verified_at = now();
             $user->status = 1;
             $user->save();
+            $this->log('verify_user', $user, $user->id, $user->toArray());
             $user_verification->delete();
             alert()->success("Success",
                 "Your account has been verified. You can log in to your account by going to the login page.")
@@ -54,6 +56,7 @@ class AuthController extends Controller
                     ]);
                 }
                 Auth::guard('web')->login($user);
+                $this->log('login_social_user', User::class, \auth()->id(), \auth()->user()->toArray());
                 return redirect()->route('home');
             }
             $data = [
