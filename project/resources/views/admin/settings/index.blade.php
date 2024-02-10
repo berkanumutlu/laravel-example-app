@@ -36,20 +36,23 @@
                                             <span class="input-group-text">{{ $item->key_name }}</span>
                                             @switch($item->type)
                                                 @case('input-text')
-                                                    <input type="text" name="settings[{{ $item->id }}]"
+                                                    <input type="text"
+                                                           name="settings[{{ $item->id }}][{{ $item->key_name }}]"
                                                            class="form-control" value="{{ $item->key_value ?? '' }}">
                                                     @break
                                                 @case('input-checkbox')
                                                     <div
                                                         class="form-check form-switch form-control mb-0 ps-5 pe-3 flex-grow-0">
-                                                        <input type="checkbox" name="settings[{{ $item->id }}]"
+                                                        <input type="checkbox"
+                                                               name="settings[{{ $item->id }}][{{ $item->key_name }}]"
                                                                class="form-check-input" style="width: 2.5em;"
                                                             {{ $item->key_value == 1 ? 'checked' : '' }}>
                                                     </div>
                                                     @break
                                                 @case('input-image')
                                                     <div class="form-control form-control-solid-bordered">
-                                                        <input type="file" name="settings[{{ $item->id }}]"
+                                                        <input type="file"
+                                                               name="settings[{{ $item->id }}][{{ $item->key_name }}]"
                                                                accept="image/png, image/jpeg, image/jpg">
                                                         @if(!empty($item->key_value))
                                                             <a href="{{ asset($item->key_value) }}" target="_blank">
@@ -61,7 +64,8 @@
                                                     </div>
                                                     @break
                                                 @default
-                                                    <input type="text" name="settings[{{ $item->id }}]"
+                                                    <input type="text"
+                                                           name="settings[{{ $item->id }}][{{ $item->key_name }}]"
                                                            class="form-control" value="{{ $item->key_value ?? '' }}">
                                             @endswitch
                                         </div>

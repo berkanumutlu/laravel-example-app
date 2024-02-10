@@ -29,14 +29,16 @@ class SettingsController extends BaseController
                 $settings_array = $settings->pluck('key_value', 'id')->toArray();
                 $changed_settings = [];
                 foreach ($post_data['settings'] as $id => $value) {
-                    if (gettype($value) == 'object' && $request->hasFile('settings.'.$id)) {
+                    $item_value = current($value);
+                    if (gettype($item_value) == 'object' && $request->hasFile('settings.'.$id)) {
                         $upload_image = $this->upload_setting_image($request->file('settings.'.$id), $id);
-                        $value = $upload_image->status ? $upload_image->path : '';
+                        $item_value = $upload_image->status ? $upload_image->path : '';
                     }
-                    if (!isset($settings_array[$id]) || $settings_array[$id] !== $value) {
-                        $changed_settings[$id] = $value;
+                    if (!isset($settings_array[$id]) || $settings_array[$id] !== $item_value) {
+                        $changed_settings[key($value)]['old'] = $settings_array[$id];
+                        $changed_settings[key($value)]['new'] = $item_value;
                     }
-                    Settings::query()->where('id', $id)->update(['key_value' => $value]);
+                    Settings::query()->where('id', $id)->update(['key_value' => $item_value]);
                 }
                 $this->log('settings', $settings->first(), 0, $changed_settings);
             });

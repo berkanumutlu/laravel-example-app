@@ -25,6 +25,11 @@ Route::post('logout', [\App\Http\Controllers\Admin\LoginController::class, "logo
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::get('log-viewer',
     [\Arcanedev\LogViewer\Http\Controllers\LogViewerController::class, 'index'])->name('log-viewer::dashboards');
+Route::prefix("settings")->name("settings.")->controller('SettingsController')
+    ->group(function () {
+        Route::get('', "index")->name('index');
+        Route::post('', "update");
+    });
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('', "index")->name('index');
@@ -57,11 +62,6 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
 Route::prefix("laravel-filemanager")->group(function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-Route::prefix("settings")->name("settings.")->controller('SettingsController')
-    ->group(function () {
-        Route::get('', "index")->name('index');
-        Route::post('', "update");
-    });
 Route::prefix("user")->name("user.")->controller('UserController')
     ->group(function () {
         Route::get('list', "index")->name('index');
