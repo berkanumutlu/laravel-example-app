@@ -97,7 +97,7 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
-                                        :viewModalContent="$item->comment"
+                                        :viewArticleCommentModalContent="$item->comment"
                                         :userFullName="$item->user?->name"
                                         :creationDate="$item->created_at"
                                         :approveURL="$page == 'pending' ? route('admin.article.comments.approve') : ''"

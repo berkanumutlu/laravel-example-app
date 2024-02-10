@@ -25,6 +25,11 @@ Route::post('logout', [\App\Http\Controllers\Admin\LoginController::class, "logo
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::get('log-viewer',
     [\Arcanedev\LogViewer\Http\Controllers\LogViewerController::class, 'index'])->name('log-viewer::dashboards');
+Route::prefix("log")->name("log.")->controller('LogController')
+    ->group(function () {
+        Route::get('list', "index")->name('index');
+        Route::post('show', "show_ajax")->name('show_ajax');
+    });
 Route::prefix("settings")->name("settings.")->controller('SettingsController')
     ->group(function () {
         Route::get('', "index")->name('index');

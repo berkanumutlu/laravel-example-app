@@ -241,4 +241,25 @@ $(document).ready(function () {
         let creationDate = $(this).data('creation-date');
         $('#viewModal .modal-footer').text('by ' + userFullname + ' - ' + creationDate);
     });
+    $('.btnViewModalAJAX').on("click", function (e) {
+        e.preventDefault();
+        $('#viewModalAJAX').modal('hide');
+        let url = $(this).attr('href');
+        let recordId = $(this).data('id');
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "JSON",
+            data: {'id': recordId}
+        }).done(function (response) {
+            if (response.hasOwnProperty('status')) {
+                if (response.status) {
+                    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('raw')) {
+                        $('#viewModalAJAX .modal-content .modal-body').html(response.data.raw);
+                        $('#viewModalAJAX').modal('show');
+                    }
+                }
+            }
+        });
+    });
 });

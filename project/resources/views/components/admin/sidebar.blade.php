@@ -30,6 +30,10 @@
                 <a href="{{ route('admin.settings.index') }}" class="{{ Route::is('admin.settings') ? 'active' : '' }}">
                     <i class="material-icons-two-tone">settings</i>Settings</a>
             </li>
+            <li class="{{ Route::is('admin.log.index') ? 'active-page' : '' }}">
+                <a href="{{ route('admin.log.index') }}" class="{{ Route::is('admin.log') ? 'active' : '' }}">
+                    <i class="material-icons-two-tone">receipt_long</i>Logs</a>
+            </li>
             <li class="sidebar-title">Records</li>
             <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') ? 'open' : '' }}">
                 <a href="javascript:;"><i class="material-icons-two-tone">article</i>Article

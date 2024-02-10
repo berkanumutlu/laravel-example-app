@@ -1,10 +1,17 @@
 <td class="align-middle">
     <div class="d-flex align-items-center">
-        @if(!empty($viewModalContent))
-            <a data-id="{{ $recordId ?? '' }}" data-content="{!! htmlentities($viewModalContent) ?? '' !!}"
+        @if(!empty($viewArticleCommentModalContent))
+            <a data-id="{{ $recordId ?? '' }}"
+               data-content="{!! htmlentities($viewArticleCommentModalContent) ?? '' !!}"
                data-user-fullname="{{ $userFullName ?? '' }}" data-creation-date="{{ $creationDate ?? '' }}"
                class="btnViewModal btn btn-secondary px-2 py-1" data-bs-placement="top" title="View"
                data-bs-toggle="modal" data-bs-target="#viewModal">
+                <i class="material-icons m-0">visibility</i>
+            </a>
+        @endif
+        @if(!empty($viewModalContentAJAX))
+            <a href="{{ $viewModalAJAXURL ?? '' }}" data-id="{{ $recordId ?? '' }}"
+               class="btnViewModalAJAX btn btn-secondary px-2 py-1" data-bs-placement="top" title="View">
                 <i class="material-icons m-0">visibility</i>
             </a>
         @endif
