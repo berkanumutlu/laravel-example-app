@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class LogController extends BaseController
 {
@@ -36,31 +37,9 @@ class LogController extends BaseController
         $record_id = $request->id;
         $log = Log::query()->where("id", $record_id)->first();
         if (!empty($log)) {
+            $data = json_decode($log->data, true);
             $response['status'] = true;
-            $data = '<table style="width: 100%;"><thead><th colspan="2">Key</th><th>Value</th></thead><tbody>';
-            if (!empty($log->data)) {
-                $log->data = json_decode($log->data, true);
-                if (is_array($log->data)) {
-                    foreach ($log->data as $key => $value) {
-                        $data .= '<tr><td colspan="2">'.$key.'</td><td>';
-                        if (is_string($value)) {
-                            $data .= $value;
-                        } elseif (is_array($value)) {
-                            if (isset($value['old']) || isset($value['new'])) {
-                                $data .= ($value['old'] ?? 'null').' => '.($value['new'] ?? 'null');
-                            } else {
-                                foreach ($value as $item) {
-                                    $data .= $item.' ';
-                                }
-                                $data = rtrim($data, ' ');
-                            }
-                        }
-                        $data .= '</td></tr>';
-                    }
-                }
-            }
-            $data .= '</tbody></table>';
-            $response['data']['raw'] = $data;
+            $response['data']['raw'] = View::make('admin.log.log-view', ['data' => $data])->render();
         } else {
             $response['message'] = "Log not found.";
             $response['notify'] = [
