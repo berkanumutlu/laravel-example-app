@@ -29,6 +29,7 @@ Route::prefix("log")->name("log.")->controller('LogController')
     ->group(function () {
         Route::get('list', "index")->name('index');
         Route::post('show', "show_ajax")->name('show_ajax');
+        Route::post('delete', "destroy")->name('delete');
     });
 Route::prefix("settings")->name("settings.")->controller('SettingsController')
     ->group(function () {

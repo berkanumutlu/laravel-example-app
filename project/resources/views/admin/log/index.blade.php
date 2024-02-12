@@ -26,6 +26,7 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
+                                        :deleteURL="route('admin.log.delete')"
                                         :viewModalContentAJAX="true"
                                         :viewModalAJAXURL="route('admin.log.show_ajax')"
                                     ></x-admin.table-actions>

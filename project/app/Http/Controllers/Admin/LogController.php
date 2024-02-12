@@ -12,7 +12,8 @@ class LogController extends BaseController
     public function index()
     {
         $this->data['records'] = Log::query()->with(['loggable', 'user:id,name'])
-            ->orderBy('created_at', 'desc')->paginate(20);
+            ->orderBy('id', 'desc')
+            ->paginate(20);
         $this->data['columns'] = [
             'Id', 'User', 'Operation', 'Type', 'Creation Time', 'Actions'
         ];
@@ -44,6 +45,40 @@ class LogController extends BaseController
             $response['message'] = "Log not found.";
             $response['notify'] = [
                 'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function destroy(Request $request)
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:logs']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $record_id = $request->id;
+            Log::query()->where("id", $record_id)->first()->delete();
+            $response['status'] = true;
+            $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
                 'icon'    => 'error'
             ];
         }
