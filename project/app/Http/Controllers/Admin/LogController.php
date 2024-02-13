@@ -3,19 +3,46 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
 class LogController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search_text = $request->search_text;
+        $date = $request->date;
+        $user_id = $request->user_id;
+        $action = $request->action;
+        $model = $request->model;
+        $this->data['users'] = User::select(['id', 'name'])->where('status', 1)->orderBy('name', 'asc')->get();
         $this->data['records'] = Log::query()->with(['loggable', 'user:id,name'])
+            ->where(function ($query) use ($search_text, $date, $action, $model) {
+                if (!is_null($model)) {
+                    $query->where("loggable_type", $model);
+                }
+                if (!is_null($action)) {
+                    $query->where("action", $action);
+                }
+                if (!empty($search_text)) {
+                    $query->orWhere("data", "LIKE", '%'.$search_text.'%');
+                }
+            })
+            ->creationDate($date)
+            //->whereHas('loggable')
+            ->whereHas("user", function ($query) use ($user_id) {
+                if (!is_null($user_id)) {
+                    $query->where("id", $user_id);
+                }
+            })
             ->orderBy('id', 'desc')
             ->paginate(20);
+        $this->data['actions'] = Log::ACTIONS;
+        $this->data['models'] = Log::MODELS;
         $this->data['columns'] = [
-            'Id', 'User', 'Operation', 'Type', 'Creation Time', 'Actions'
+            'Id', 'User', 'Action', 'Model', 'Creation Time', 'Actions'
         ];
         $this->data['title'] = 'Logs';
         return view('admin.log.index', $this->data);

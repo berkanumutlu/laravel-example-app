@@ -1,6 +1,6 @@
 @extends("admin.layouts.index")
 @section("head")
-
+    <link href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <div class="row">
@@ -10,6 +10,59 @@
                     <h1 class="card-title">{{ $title }}</h1>
                 </x-slot>
                 <x-slot name="body">
+                    <form action="{{ route('admin.log.index') }}" id="formFilter">
+                        <div class="row">
+                            <div class="col-3 my-2">
+                                <input type="text" class="form-control" placeholder="Search" name="search_text"
+                                       value="{{ request()->get('search_text') }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                <input type="text"
+                                       class="form-control form-control-solid-bordered flatpickr3 bg-light"
+                                       name="date" placeholder="Date"
+                                       value="{{ request()->get("date") }}">
+                            </div>
+                            <div class="col-3 my-2">
+                                @if(!empty($users))
+                                    <select class="form-select" name="user_id">
+                                        <option value="{{ null }}">Users</option>
+                                        @foreach($users as $user)
+                                            <option
+                                                value="{{ $user->id }}" {{ request()->get('user_id') == $user->id ? "selected" : "" }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="col-3 my-2">
+                                @if(!empty($actions))
+                                    <select class="form-select" name="action">
+                                        <option value="{{ null }}">Select Action</option>
+                                        @foreach($actions as $item)
+                                            <option {{ request()->get('action') == $item ? "selected" : "" }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="col-3 my-2">
+                                @if(!empty($models))
+                                    <select class="form-select" name="model">
+                                        <option value="{{ null }}">Select Model</option>
+                                        @foreach($models as $item)
+                                            <option {{ request()->get('model') == $item ? "selected" : "" }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </div>
+                            <hr>
+                            <div class="col-6 mb-2 d-flex">
+                                <button class="btn btn-primary w-50 me-4" type="submit">Search</button>
+                                <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Reset</button>
+                            </div>
+                            <hr>
+                        </div>
+                    </form>
                     <x-admin.table :class="'table-striped table-hover'" :responsive="true">
                         <x-slot name="columns">
                             @foreach($columns as $item)
@@ -44,5 +97,6 @@
         :modalDialogClass="'modal-xl'"></x-admin.modal>
 @endsection
 @section("scripts")
-
+    <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/datepickers.js') }}"></script>
 @endsection
