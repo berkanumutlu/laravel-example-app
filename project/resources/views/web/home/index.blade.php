@@ -16,13 +16,16 @@
                 <div class="row">
                     @foreach($feature_category_list as $item)
                         <div class="col-md-6 col-xl-3">
-                            <div class="feature-category-item"
-                                 style="background-image: url('{{ !empty($item->image) ? asset($item->image) : asset($settings->image_default_category) }}')"
-                                 data-aos="flip-left">
-                                <h2 class="title">{{ $item->name }}</h2>
-                                <p class="description">{!! $item->description !!}</p>
-                                <p class="footer-text">{{ $item->articlesActive?->count() ? $item->articlesActive?->count().' articles' : '0 article' }}</p>
-                            </div>
+                            <a href="{{ route('article.category', ['slug' => $item->slug]) }}"
+                               class="feature-category-item-link">
+                                <div class="feature-category-item"
+                                     style="background-image: url('{{ !empty($item->image) ? asset($item->image) : asset($settings->image_default_category) }}')"
+                                     data-aos="flip-left">
+                                    <h2 class="title">{{ $item->name }}</h2>
+                                    <p class="description">{!! $item->description !!}</p>
+                                    <p class="footer-text">{{ $item->articlesActive?->count() ? $item->articlesActive?->count().' articles' : '0 article' }}</p>
+                                </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>
