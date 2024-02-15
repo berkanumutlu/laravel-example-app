@@ -27,31 +27,35 @@ class WebServiceProvider extends ServiceProvider
             function ($view) {
                 $settings = $this->get_settings();
                 $favicon = asset('assets/web/images/logomark.min.svg');
-                $site_name = $settings->site_name;
-                $site_slogan = $settings->site_slogan;
+                $site_name = $settings->site_name ?? '';
+                $site_slogan = $settings->site_slogan ?? '';
                 $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
                 $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
             });
         View::composer('components.web.sidebar', function ($view) {
-            $settings = $this->get_settings();
-            $categories = Category::query()->where('status', 1)
-                ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
-            $view->with(compact(['settings', 'categories']));
+            $categories = $this->get_categories();
+            $view->with(compact(['categories']));
         });
     }
 
     public function get_settings()
     {
-        if (Cache::has('settings')) {
-            return Cache::get('settings');
-        }
-        $settings_formatted = new \stdClass();
-        $settings = Settings::query()->where('status', 1)->select(['key_name', 'key_value'])->get();
-        foreach ($settings as $item) {
-            $key_name = $item->key_name;
-            $settings_formatted->$key_name = $item->key_value;
-        }
-        Cache::set('settings', $settings_formatted);
-        return $settings_formatted;
+        return Cache::remember('settings', null, function () {
+            $settings_formatted = new \stdClass();
+            $settings = Settings::query()->where('status', 1)->select(['key_name', 'key_value'])->get();
+            foreach ($settings as $item) {
+                $key_name = $item->key_name;
+                $settings_formatted->$key_name = $item->key_value;
+            }
+            return $settings_formatted;
+        });
+    }
+
+    public function get_categories()
+    {
+        return Cache::remember('categories', null, function () {
+            return Category::query()->where('status', 1)
+                ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
+        });
     }
 }

@@ -118,7 +118,11 @@ class ArticleController extends Controller
     {
         $category = Category::query()->with('articlesActive')
             ->select(['id', 'name'])
+            ->where('status', 1)
             ->where('slug', $slug)->first();
+        if (empty($category)) {
+            abort(404);
+        }
         $records = $category->articlesActive()
             ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->orderBy('publish_date', 'desc')

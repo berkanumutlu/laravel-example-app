@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -136,6 +137,7 @@ class ArticleController extends BaseController
         }
         try {
             Article::create($data);
+            Cache::forget('last_article_list');
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
             //alert()->error("Error", $e->getMessage())->showConfirmButton("OK");
@@ -177,7 +179,7 @@ class ArticleController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleUpdateRequest $request, string $id)
+    /*public function update(ArticleUpdateRequest $request, string $id)
     {
         $slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
         $data = [
@@ -211,6 +213,70 @@ class ArticleController extends BaseController
                     }
                 } catch (\Exception $e) {
 
+                }
+            }
+        } catch (\Exception $e) {
+            alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token", "files", "image");
+        }
+        alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back();
+    }*/
+    public function update(ArticleUpdateRequest $request, string $id)
+    {
+        $record = Article::query()->find($id);
+        $record_image = $record->image;
+        $record->title = trim($request->title);
+        $record->slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
+        $record->body = $request->body;
+        $record->category_id = $request->category_id;
+        $record->read_time = $request->read_time;
+        $record->publish_date = $request->publish_date;
+        $record->status = $request->status;
+        $record->tags = is_array($request->tags) ? implode(',', $request->tags) : trim($request->tags);
+        $record->seo_keywords = $request->seo_keywords;
+        $record->seo_description = $request->seo_description;
+        $record->user_id = auth()->id();
+        $image_file = $request->file('image');
+        if ($image_file) {
+            $folder = 'articles';
+            $public_path = 'storage/'.$folder;
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $record->slug.'.'.$image_original_extension;
+            $record->image = $public_path.'/'.$image_file_name;
+        }
+        try {
+            $changed_fields = $record->getDirty();
+            $record->save();
+            if ($image_file) {
+                $image_file->storeAs($folder, $image_file_name);
+                if ($record_image !== $record->image) {
+                    if (file_exists(public_path($record_image))) {
+                        //Storage::delete($record->image); // DB'de image değerleri storage/... olarak tutulduğu için çalışmadı.
+                        File::delete(public_path($record_image));
+                    }
+                }
+            }
+            if (!empty($changed_fields)) {
+                if (Cache::has('popular_article_list')) {
+                    $cache = Cache::get('popular_article_list');
+                    if (!empty($cache)) {
+                        $cache_record = $cache->where('id', $record->id)->first();
+                        if (!empty($cache_record)) {
+                            $cache_record->update($changed_fields);
+                            Cache::put('popular_article_list', $cache);
+                        }
+                    }
+                }
+                if (Cache::has('last_article_list')) {
+                    $cache = Cache::get('last_article_list');
+                    if (!empty($cache)) {
+                        $cache_record = $cache->where('id', $record->id)->first();
+                        if (!empty($cache_record)) {
+                            $cache_record->update($changed_fields);
+                            Cache::put('last_article_list', $cache);
+                        }
+                    }
                 }
             }
         } catch (\Exception $e) {

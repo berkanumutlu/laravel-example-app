@@ -1,10 +1,8 @@
 @php
     $item_url = !empty($item->slug) ? route('article.detail', ['slug' => $item->slug]) : '';
     $item_image = $item->image;
-    if (empty($item->image)) {
-        if (!empty($settings) && !empty($settings->image_default_article)) {
-            $item_image = $settings->image_default_article;
-        }
+    if (empty($item_image) && !empty($settings) && !empty($settings->image_default_article)) {
+        $item_image = $settings->image_default_article;
     }
 @endphp
 <div class="article-item" {{ $articleItemAttributes ?? '' }}>
@@ -12,8 +10,10 @@
         <a href="{{ $item_url }}" class="article-item-image-link">
             <img src="{{ asset($item_image) }}" class="article-item-image img-fluid" alt="{{ $item->title }}">
         </a>
-        <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"
-           class="btn btn-danger article-item-category" {{ $articleCategoryLinkAttributes ?? '' }}>{{ $item->category?->name }}</a>
+        @if(!is_null($item->category))
+            <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"
+               class="btn btn-danger article-item-category" {{ $articleCategoryLinkAttributes ?? '' }}>{{ $item->category?->name }}</a>
+        @endif
     </div>
     <div class="article-item-body">
         <div class="author">

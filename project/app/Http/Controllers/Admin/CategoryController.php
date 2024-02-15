@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -98,6 +99,7 @@ class CategoryController extends BaseController
         }
         try {
             $category->save();
+            Cache::forget('categories');
         } catch (\Exception $e) {
             //abort(500, $e->getMessage());
             if (isset($image_file_path) && file_exists($image_file_path)) {
@@ -149,10 +151,10 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, string $id)
     {
-        $slug = Str::slug($request->slug);
-        $slug_check = $this->check_slug(Category::class, $slug);
         $category = Category::find($id);
         $category_image = $category->image;
+        $slug = Str::slug($request->slug);
+        $slug_check = $this->check_slug(Category::class, $slug);
         if (is_null($slug_check) || (!is_null($slug_check) && $slug_check->id == $category->id)) {
             $category->slug = $slug;
         } else {
@@ -167,22 +169,35 @@ class CategoryController extends BaseController
         $category->seo_description = $request->seo_description;
         $category->order = $request->order;
         $category->color = $request->color;
+        $image_file = $request->file('image');
+        if ($image_file) {
+            $folder = 'categories';
+            $public_path = 'storage/'.$folder;
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $category->slug.'.'.$image_original_extension;
+            $category->image = $public_path.'/'.$image_file_name;
+        }
         try {
+            $changed_fields = $category->getDirty();
             $category->save();
-            if ($request->file('image')) {
-                $folder = 'categories';
-                $public_path = 'storage/'.$folder;
-                $image_file = $request->file('image');
-                $image_original_extension = $image_file->getClientOriginalExtension();
-                $image_file_name = $category->slug.'.'.$image_original_extension;
-                try {
-                    $image_file->storeAs($folder, $image_file_name);
-                    Category::query()->where('id', $id)->update(['image' => $public_path.'/'.$image_file_name]);
+            if ($image_file) {
+                $image_file->storeAs($folder, $image_file_name);
+                if ($category_image !== $category->image) {
                     if (file_exists(public_path($category_image))) {
                         File::delete(public_path($category_image));
                     }
-                } catch (\Exception $e) {
-
+                }
+            }
+            if (!empty($changed_fields)) {
+                if (Cache::has('categories')) {
+                    $cache = Cache::get('categories');
+                    if (!empty($cache)) {
+                        $cache_record = $cache->where('id', $category->id)->first();
+                        if (!empty($cache_record)) {
+                            $cache_record->update($changed_fields);
+                            Cache::put('categories', $cache);
+                        }
+                    }
                 }
             }
         } catch (\Exception $e) {
