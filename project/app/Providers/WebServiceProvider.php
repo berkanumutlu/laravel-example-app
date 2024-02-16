@@ -23,19 +23,25 @@ class WebServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['web.layouts.*', 'web.home.index', 'layouts.email', 'web.email.*', 'components.web.*'],
-            function ($view) {
-                $settings = $this->get_settings();
-                $favicon = asset('assets/web/images/logomark.min.svg');
-                $site_name = $settings->site_name ?? '';
-                $site_slogan = $settings->site_slogan ?? '';
-                $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
-                $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
+        //if (!strpos(request()->url(), 'admin')) {
+        if (!request()->fullUrlIs('*admin*')) {
+            $settings = $this->get_settings();
+            View::composer([
+                'web.layouts.*', 'layouts.email', 'web.email.*', 'components.web.*', 'web.home.index',
+                'web.article.detail'
+            ],
+                function ($view) use ($settings) {
+                    $favicon = asset('assets/web/images/logomark.min.svg');
+                    $site_name = $settings->site_name ?? '';
+                    $site_slogan = $settings->site_slogan ?? '';
+                    $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
+                    $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
+                });
+            View::composer('components.web.sidebar', function ($view) {
+                $categories = $this->get_categories();
+                $view->with(compact(['categories']));
             });
-        View::composer('components.web.sidebar', function ($view) {
-            $categories = $this->get_categories();
-            $view->with(compact(['categories']));
-        });
+        }
     }
 
     public function get_settings()

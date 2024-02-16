@@ -52,11 +52,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
-
-    /**
-     * @var mixed|\Illuminate\Cache\CacheManager|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application
-     */
-    private mixed $settings;
+    
+    /*private mixed $settings;
 
     public function __construct()
     {
@@ -72,7 +69,7 @@ class User extends Authenticatable
             return '';
         }
         return $value;
-    }
+    }*/
 
     public function articles(): HasMany
     {

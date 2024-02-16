@@ -3,7 +3,11 @@
     {{ isset($commentItemAOS) ? 'data-aos='.$commentItemAOS : '' }}>
     <div class="header">
         <div class="image">
-            <img src="{{ $item->user->image }}" alt="{{ $item->user->name }} Profile Image">
+            @if(!empty($item->user->image ))
+                <img src="{{ asset($item->user->image) }}" alt="{{ $item->user->name }} Profile Image">
+            @elseif(!empty($settings->image_default_author))
+                <img src="{{ asset($settings->image_default_author) }}" alt="Default Profile Image">
+            @endif
         </div>
     </div>
     <div class="content">

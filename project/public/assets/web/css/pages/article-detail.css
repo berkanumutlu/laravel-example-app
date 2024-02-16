@@ -112,16 +112,6 @@
     font-weight: 300;
 }
 
-.article-detail .article-header ul.meta li.category a {
-    color: inherit;
-    text-decoration: none;
-    letter-spacing: .03em;
-}
-
-.article-detail .article-header ul.meta li.category a:hover {
-    color: initial;
-}
-
 .article-detail .article-content .text {
     color: var(--color-black-3);
 }

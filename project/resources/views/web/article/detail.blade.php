@@ -20,12 +20,20 @@
                             <ul class="meta">
                                 <li class="author">by <a
                                         href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
+                                    @if(!empty($record->category?->slug))
+                                        in <a
+                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
+                                    @endif
                                 </li>
-                                <li class="date">
-                                    <span class="material-icons-outlined">calendar_month</span>
-                                    <time
-                                        datetime="{{ $record->publish_date ?? '' }}">{{ $record->publish_date ?? '' }}</time>
-                                </li>
+                                @if(!empty($record->publish_date))
+                                    <li class="date">
+                                        @php
+                                            $record_publish_date = \Illuminate\Support\Carbon::parse($record->publish_date)->format('d M Y');
+                                        @endphp
+                                        <span class="material-icons-outlined">calendar_month</span>
+                                        <time datetime="{{ $record_publish_date }}">{{ $record_publish_date }}</time>
+                                    </li>
+                                @endif
                                 <li class="read_time">
                                     <span class="material-icons-outlined">schedule</span>
                                     {{ $record->read_time ?? '' }} min.
@@ -42,12 +50,6 @@
                                             class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
                                     <span class="number">{{ $record->like_count ?? 0 }}</span>
                                 </li>
-                                @if(!empty($record->category?->slug))
-                                    <li class="category">
-                                        In <a
-                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
-                                    </li>
-                                @endif
                             </ul>
                         </div>
                         <div class="article-content">
@@ -121,7 +123,11 @@
                         <div class="author-card">
                             <div class="author-thumb">
                                 @if(!empty($record->user->image))
-                                    <img width="180" height="180" src="{{ $record->user->image }}" alt="Author Image">
+                                    <img width="180" height="180" src="{{ asset($record->user->image) }}"
+                                         alt="{{ $record->user?->name }} Image">
+                                @elseif(!empty($settings->image_default_author))
+                                    <img width="180" height="180" src="{{ asset($settings->image_default_author) }}"
+                                         alt="Author Image">
                                 @endif
                             </div>
                             <div class="author-content">

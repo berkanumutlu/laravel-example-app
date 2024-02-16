@@ -90,8 +90,8 @@ class Article extends BaseModel
         return explode(',', $value);
     }
 
-    public function getPublishDateAttribute($value): string
+    /*public function getPublishDateAttribute($value): string
     {
         return Carbon::parse($value)->format('d M Y');
-    }
+    }*/
 }

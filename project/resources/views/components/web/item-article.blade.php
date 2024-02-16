@@ -1,9 +1,10 @@
 @php
     $item_url = !empty($item->slug) ? route('article.detail', ['slug' => $item->slug]) : '';
     $item_image = $item->image;
-    if (empty($item_image) && !empty($settings) && !empty($settings->image_default_article)) {
+    if (empty($item_image) && !empty($settings->image_default_article)) {
         $item_image = $settings->image_default_article;
     }
+    $item_publish_date = \Illuminate\Support\Carbon::parse($item->publish_date)->format('d M Y');
 @endphp
 <div class="article-item" {{ $articleItemAttributes ?? '' }}>
     <div class="article-item-image-section">
@@ -23,7 +24,7 @@
             <a href="{{ $item_url }}"><h4>{{ $item->title }}</h4></a>
         </div>
         <div class="date">
-            <p>{{ $item->publish_date }}</p>
+            <p>{{ $item_publish_date }}</p>
             <p class="ms-3">&#x25CF;{{ $item->read_time }} min</p>
         </div>
     </div>
