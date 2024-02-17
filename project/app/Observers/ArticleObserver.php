@@ -22,7 +22,7 @@ class ArticleObserver
      */
     public function updated(Article $article): void
     {
-        if (!$article->wasChanged('deleted_at')) {
+        if (!$article->wasChanged('deleted_at') && !$article->wasChanged('view_count')) {
             $this->updateLog($article);
         }
     }

@@ -32,16 +32,18 @@ class VisitedArticle
                 'category_id', 'user_id'
             ])
             ->first();
-        //$visited_articles = session()->get('visited_articles', []);
-        $visited_articles = session()->get('visited_articles');
-        if (empty($visited_articles)) {
-            $visited_articles = [];
+        if (!empty($article)) {
+            //$visited_articles = session()->get('visited_articles', []);
+            $visited_articles = session()->get('visited_articles');
+            if (empty($visited_articles)) {
+                $visited_articles = [];
+            }
+            if (!in_array($article->id, $visited_articles)) {
+                $visited_articles[] = $article->id;
+                session()->put('visited_articles', $visited_articles);
+            }
+            session()->put('last_article', $article);
         }
-        if (!in_array($article->id, $visited_articles)) {
-            $visited_articles[] = $article->id;
-            session()->put('visited_articles', $visited_articles);
-        }
-        session()->put('last_article', $article);
         return $next($request);
     }
 }

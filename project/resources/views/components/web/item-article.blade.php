@@ -17,9 +17,11 @@
         @endif
     </div>
     <div class="article-item-body">
-        <div class="author">
-            by <a href="{{ route('article.author', ['user' => $item->user]) }}">{{ $item->user?->name }}</a>
-        </div>
+        @if(!empty($item->user))
+            <div class="author">
+                by <a href="{{ route('article.author', ['user' => $item->user]) }}">{{ $item->user?->name }}</a>
+            </div>
+        @endif
         <div class="title">
             <a href="{{ $item_url }}"><h4>{{ $item->title }}</h4></a>
         </div>

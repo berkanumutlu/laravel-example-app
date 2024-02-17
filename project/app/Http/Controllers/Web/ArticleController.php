@@ -344,23 +344,24 @@ class ArticleController extends Controller
         $search_text = $request->q;
         $search_text_like = '%'.$search_text.'%';
         $records = Article::query()->status(1)
-            ->with(['category', 'user'])
-            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
-            ->whereHas('user', function ($query) use ($search_text_like) {
+            ->where(function ($query) use (&$search_text_like) {
+                $query->where('title', 'LIKE', $search_text_like)
+                    ->orWhere('slug', 'LIKE', $search_text_like)
+                    ->orWhere('body', 'LIKE', $search_text_like)
+                    ->orWhere('tags', 'LIKE', $search_text_like);
+            })
+            ->whereHas('user', function ($query) use (&$search_text_like) {
                 $query->where('name', 'LIKE', $search_text_like)
                     ->orWhere('username', 'LIKE', $search_text_like)
                     ->orWhere('title', 'LIKE', $search_text_like)
                     ->orWhere('description', 'LIKE', $search_text_like);
             })
-            ->whereHas('category', function ($query) use ($search_text_like) {
-                $query->orWhere('name', 'LIKE', $search_text_like)
+            ->orWherehas('category', function ($query) use (&$search_text_like) {
+                $query->where('name', 'LIKE', $search_text_like)
                     ->orWhere('slug', 'LIKE', $search_text_like)
                     ->orWhere('description', 'LIKE', $search_text_like);
             })
-            ->orWhere('title', 'LIKE', $search_text_like)
-            ->orWhere('slug', 'LIKE', $search_text_like)
-            ->orWhere('body', 'LIKE', $search_text_like)
-            ->orWhere('tags', 'LIKE', $search_text_like)
+            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->orderBy('publish_date', 'desc')
             ->paginate(15)
             ->appends($request->query());
