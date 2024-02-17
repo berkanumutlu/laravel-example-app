@@ -189,6 +189,36 @@ footer {
     color: var(--color-primary);
 }
 
+#scrollUp {
+    width: 45px;
+    height: 45px;
+    display: none;
+    position: fixed;
+    right: 12px;
+    bottom: 20px;
+    color: var(--color-white);
+    font-size: 20px;
+    line-height: 42px;
+    background: var(--color-primary) none repeat scroll 0 0;
+    border: 2px solid var(--color-white);
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 9999;
+}
+
+#scrollUp:hover i {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
 /*#endregion */
 /*#region Author Card*/
 /*------------------------------------------------------------

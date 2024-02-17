@@ -68,6 +68,16 @@ jQuery(function ($) {
             }
         }
     });
+    $.scrollUp({
+        scrollName: 'scrollUp', // Element ID
+        topDistance: '400', // Distance from top before showing element (px)
+        topSpeed: 900, // Speed back to top (ms)
+        animation: 'fade', // Fade, slide, none
+        animationInSpeed: 200, // Animation in speed (ms)
+        animationOutSpeed: 200, // Animation out speed (ms)
+        scrollText: '<i class="fa fa-angle-double-up"></i>', // Text for element
+        activeOverlay: false // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+    });
 });
 
 $(document).ready(function () {

@@ -16,6 +16,7 @@
     <link href="{{ asset("assets/plugins/material-icons/iconfont/material-icons.css") }}" rel="stylesheet">
     <link href="{{ asset("assets/plugins/fontawesome/css/all.min.css") }}" rel="stylesheet">
     <link href="{{ asset("assets/plugins/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("assets/plugins/animate/animate.min.css") }}" rel="stylesheet">
     <link href="{{ asset("assets/web/css/style.min.css") }}" rel="stylesheet">
     @yield("style")
 </head>
@@ -114,6 +115,7 @@
 <script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 @include('sweetalert::alert')
+<script src="{{ asset('assets/plugins/scrollUp/jquery.scrollUp.min.js') }}"></script>
 <script src="{{ asset('assets/web/js/main.js') }}"></script>
 @yield("scripts")
 </body>
