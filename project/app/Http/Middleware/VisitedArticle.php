@@ -29,7 +29,7 @@ class VisitedArticle
             ])
             ->select([
                 'id', 'title', 'slug', 'body', 'image', 'tags', 'read_time', 'view_count', 'like_count', 'publish_date',
-                'category_id', 'user_id'
+                'category_id', 'user_id', 'seo_keywords', 'seo_description'
             ])
             ->first();
         if (!empty($article)) {

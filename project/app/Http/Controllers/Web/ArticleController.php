@@ -107,7 +107,10 @@ class ArticleController extends Controller
 
         }
         $title = $record->title;
-        return view('web.article.detail', compact(['title', 'record', 'userLike', 'suggested_articles']));
+        $description = $record->seo_description;
+        $keywords = $record->seo_keywords;
+        return view('web.article.detail',
+            compact(['title', 'description', 'keywords', 'record', 'userLike', 'suggested_articles']));
     }
 
     //public function category(string $slug)
@@ -117,7 +120,7 @@ class ArticleController extends Controller
     public function category(Request $request, string $slug)
     {
         $category = Category::query()->with('articlesActive')
-            ->select(['id', 'name'])
+            ->select(['id', 'name', 'seo_description', 'seo_keywords'])
             ->where('status', 1)
             ->where('slug', $slug)->first();
         if (empty($category)) {
@@ -137,7 +140,9 @@ class ArticleController extends Controller
                 $query->where('slug', $slug);
             })->paginate(15);*/
         $title = $category->name.' Article List';
-        return view('web.article.index', compact(['title', 'records']));
+        $description = $category->seo_description;
+        $keywords = $category->seo_keywords;
+        return view('web.article.index', compact(['title', 'description', 'keywords', 'records']));
     }
 
     public function author(User $user)

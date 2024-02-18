@@ -5,9 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Laravel Example App">
-    <meta name="keywords" content="web,laravel, laravel example app">
+    <meta name="description" content="{{ $description ?? 'Laravel Example App' }}">
+    <meta name="keywords" content="{{ $keywords ?? 'web,laravel,laravel example app' }}">
     <meta name="author" content="Berkan Ümütlü">
+    <meta name="publisher" content="Berkan Ümütlü"/>
+    <meta name="copyright" content="© Copyright 2023 Berkan Ümütlü"/>
     <title>{{ isset($title) ? $title . ' - '.$site_name : $site_slogan.' - '.$site_name }}</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon }}"/>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon }}"/>
