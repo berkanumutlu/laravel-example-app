@@ -18,9 +18,9 @@
                                 @if(!empty($users))
                                     <select class="form-select" name="user_id">
                                         <option value="{{ null }}">Users</option>
-                                        <option
-                                            value="0" {{ !is_null(request()->get('user_id')) && request()->get('user_id') == 0 ? "selected" : "" }}
-                                        >Guests
+                                        <option value="0"
+                                            {{ !is_null(request()->get('user_id')) && request()->get('user_id') == 0 ? "selected" : "" }}>
+                                            Guests
                                         </option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}"
@@ -84,6 +84,16 @@
                                     <td>{{ $item->ip_address }}</td>
                                     <td data-bs-toggle="tooltip" data-bs-placement="top"
                                         title="{{ $item->user_agent }}">{{ Str::limit($item->user_agent, 30) }}</td>
+                                    @if(isset($item->approve_status))
+                                        <td>
+                                            <x-admin.change-status
+                                                :recordId="$item->id"
+                                                :url="route('admin.article.comments.change.status')"
+                                                :recordType="'approve_status'" :recordTypeText="'Approve Status'"
+                                                :recordStatus="$item->approve_status">
+                                            </x-admin.change-status>
+                                        </td>
+                                    @endif
                                     @if(isset($item->status))
                                         <td>
                                             <x-admin.change-status
@@ -98,7 +108,7 @@
                                     <x-admin.table-actions
                                         :recordId="$item->id"
                                         :viewArticleCommentModalContent="$item->comment"
-                                        :userFullName="$item->user?->name"
+                                        :userFullName="$item->user?->name ?? 'Guest ('.$item->user_full_name.' - '.$item->user_email.')'"
                                         :creationDate="$item->created_at"
                                         :approveURL="$page == 'pending' ? route('admin.article.comments.approve') : ''"
                                         :deleteURL="route('admin.article.comments.delete')"

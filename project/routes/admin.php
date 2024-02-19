@@ -38,7 +38,7 @@ Route::prefix("settings")->name("settings.")->controller('SettingsController')
     });
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
-        Route::get('', "index")->name('index');
+        Route::get('list', "index")->name('index');
         Route::get('add', "create")->name('add');
         Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
@@ -48,8 +48,8 @@ Route::prefix("article")->name("article.")->controller('ArticleController')
     });
 Route::prefix("article/comments")->name("article.comments.")->controller('ArticleCommentController')
     ->group(function () {
-        Route::get('', "index")->name('index');
-        Route::get('pending', "pending")->name('pending');
+        Route::get('list', "index")->name('index');
+        Route::get('list/pending', "pending")->name('pending');
         Route::post('approve', "approve")->name('approve');
         Route::post('change-status', "changeStatus")->name('change.status');
         Route::post('delete', "destroy")->name('delete');
@@ -57,7 +57,7 @@ Route::prefix("article/comments")->name("article.comments.")->controller('Articl
     });
 Route::prefix("category")->name("category.")->controller('CategoryController')
     ->group(function () {
-        Route::get('', "index")->name('index');
+        Route::get('list', "index")->name('index');
         Route::get('add', "create")->name('add');
         Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');

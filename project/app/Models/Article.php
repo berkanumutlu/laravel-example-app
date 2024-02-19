@@ -28,7 +28,7 @@ class Article extends BaseModel
     {
         return $this->hasMany(ArticleComments::class, 'article_id', 'id')
             ->withTrashed()
-            ->where('status', 1)->where('parent_id', null)
+            ->where('approve_status', 1)->where('status', 1)->where('parent_id', null)
             ->orderBy('created_at', 'desc')->orderBy('like_count', 'desc');
     }
 

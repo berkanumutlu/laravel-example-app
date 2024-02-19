@@ -32,7 +32,7 @@ class ArticleComments extends BaseModel
     public function children(): HasMany
     {
         return $this->hasMany(ArticleComments::class, 'parent_id', 'id')
-            ->where('status', 1)->withTrashed();
+            ->where('approve_status', 1)->where('status', 1)->withTrashed();
     }
 
     public function currentUserLiked(): hasOne

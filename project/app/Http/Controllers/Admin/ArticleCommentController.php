@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\ArticleComments;
 use App\Models\User;
+use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ArticleCommentController extends BaseController
 {
+    use Loggable;
+
     public function index(Request $request)
     {
         $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
@@ -18,7 +21,7 @@ class ArticleCommentController extends BaseController
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
             ->select([
                 'id', 'article_id', 'user_id', 'parent_id', 'comment', 'like_count', 'dislike_count', 'user_full_name',
-                'user_email', 'ip_address', 'user_agent', 'status', 'created_at', 'deleted_at'
+                'user_email', 'ip_address', 'user_agent', 'approve_status', 'status', 'created_at', 'deleted_at'
             ])
             ->user($request->user_id)
             ->createdAt($request->created_at)
@@ -27,9 +30,8 @@ class ArticleCommentController extends BaseController
             ->orderBy('created_at', 'desc')
             ->paginate(20);
         $this->data['columns'] = [
-            'Id', 'Article', 'User', 'Parent Comment', 'Comment', 'Likes', 'Dislikes', 'IP Address',
-            'User Agent', 'Status', 'Creation Time',
-            'Actions'
+            'Id', 'Article', 'User', 'Parent Comment', 'Comment', 'Likes', 'Dislikes', 'IP Address', 'User Agent',
+            'Approve Status', 'Status', 'Creation Time', 'Actions'
         ];
         $this->data['page'] = 'list';
         $this->data['title'] = 'Article Comment List';
@@ -39,7 +41,7 @@ class ArticleCommentController extends BaseController
     public function pending(Request $request)
     {
         $this->data['users'] = User::query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
-        $this->data['records'] = ArticleComments::query()->status(0)
+        $this->data['records'] = ArticleComments::query()->status(0)->where("approve_status", 0)
             ->with(['article:id,title,slug', 'user:id,name', 'parent:id,comment'])
             ->select([
                 'id', 'article_id', 'user_id', 'parent_id', 'comment', 'user_full_name', 'user_email', 'ip_address',
@@ -81,8 +83,10 @@ class ArticleCommentController extends BaseController
         $article_comment = ArticleComments::query()->where("id", $record_id)->first();
         if (!empty($article_comment)) {
             try {
+                $article_comment->approve_status = 1;
                 $article_comment->status = 1;
                 $article_comment->save();
+                $this->log('approve', $article_comment, $article_comment->id, $article_comment->toArray());
                 $response['status'] = true;
                 $response['message'] = "Article Comment(<strong>#".$record_id."</strong>) approved.";
                 $response['notify'] = [
@@ -116,7 +120,7 @@ class ArticleCommentController extends BaseController
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
             'id'   => ['required', 'integer', 'exists:article_comments,id'],
-            'type' => ['required', 'string', Rule::in(['status'])]
+            'type' => ['required', 'string', Rule::in(['status', 'approve_status'])]
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
@@ -134,6 +138,7 @@ class ArticleCommentController extends BaseController
                 $record_type = $article_comment->$type;
                 $old_status_text = $record_type ? 'Active' : 'Passive';
                 $article_comment->$type = !$record_type;
+                $this->updateLog($article_comment);
                 $article_comment->save();
                 $record_type = $article_comment->$type;
                 $new_status_text = $record_type ? 'Active' : 'Passive';
@@ -185,7 +190,9 @@ class ArticleCommentController extends BaseController
         }
         try {
             $record_id = $request->id;
-            ArticleComments::where("id", $record_id)->delete();
+            $record = ArticleComments::query()->find($record_id);
+            $record->delete();
+            $this->log('delete', $record, $record_id, $record->toArray());
             $response['status'] = true;
             $response['message'] = "Comment(<strong>#".$record_id."</strong>) successfully deleted.";
             $response['notify'] = [
@@ -224,7 +231,9 @@ class ArticleCommentController extends BaseController
         }
         try {
             $record_id = $request->id;
-            ArticleComments::withTrashed()->where("id", $record_id)->restore();
+            $record = ArticleComments::withTrashed()->find($record_id);
+            $record->restore();
+            $this->log('restore', $record, $record_id, $record->toArray());
             $response['status'] = true;
             $response['message'] = "Comment(<strong>#".$record_id."</strong>) successfully restored.";
             $response['notify'] = [

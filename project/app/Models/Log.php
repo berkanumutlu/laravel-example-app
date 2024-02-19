@@ -23,16 +23,18 @@ class Log extends Model
         'delete',
         'force_delete',
         'restore',
-        'settings',
+        'approve',
         'login_user',
         'logout_user',
-        'password_reset_mail_send'
+        'password_reset_mail_send',
+        'settings'
     ];
 
     public const MODELS = [
         Article::class,
-        User::class,
+        ArticleComments::class,
         Category::class,
+        User::class,
         Settings::class
     ];
 
