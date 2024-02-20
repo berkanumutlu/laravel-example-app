@@ -24,6 +24,16 @@ class Category extends Model
         return $this->hasOne(Category::class, 'id', 'parent_id');
     }
 
+    public function childCategory(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+    
+    public function childActiveCategory(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id')->where('status', 1);
+    }
+
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');

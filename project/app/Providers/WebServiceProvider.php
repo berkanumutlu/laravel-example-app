@@ -60,7 +60,7 @@ class WebServiceProvider extends ServiceProvider
     public function get_categories()
     {
         return Cache::remember('categories', null, function () {
-            return Category::query()->where('status', 1)
+            return Category::query()->where('status', 1)->where('parent_id', null)->with(['childActiveCategory'])
                 ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
         });
     }

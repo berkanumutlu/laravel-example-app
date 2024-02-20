@@ -29,6 +29,9 @@
     --color-gray-9: #e7ecf8;
     --color-gray-10: #c7c8c9;
     --color-gray-11: #8b9094;
+    --color-gray-12: #495057;
+    --color-gray-13: #f8f9fa;
+    --color-gray-13-hover: #e5e5e5;
     --color-blue: #073c8a;
     --color-orange: #ee8606;
     --color-orange-2: #fdeddd;
@@ -37,6 +40,7 @@
     --color-brown: #735732;
     --color-green: #31A364;
     --color-red: #EC4134;
+    --color-red-light: #ffe7e9;
     --color-gradient-hover: linear-gradient(rgb(0 0 0/30%) 0 0);
     --color-gradient-bg-black-hover: linear-gradient(rgb(255 255 255/15%) 0 0);
     --color-github: #171515;

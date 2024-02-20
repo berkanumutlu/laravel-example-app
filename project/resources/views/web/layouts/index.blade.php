@@ -118,7 +118,10 @@
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 @include('sweetalert::alert')
 <script src="{{ asset('assets/plugins/scrollUp/jquery.scrollUp.min.js') }}"></script>
+@yield("script_files")
+@stack("script_files")
 <script src="{{ asset('assets/web/js/main.js') }}"></script>
 @yield("scripts")
+@stack("scripts")
 </body>
 </html>
