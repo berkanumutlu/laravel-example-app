@@ -676,8 +676,40 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Most Popular Articles</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-most-popular-articles">Your browser does not support the canvas element.
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Category Articles</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartjs-category_articles">Your browser does not support the canvas element.</canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section("scripts")
     <script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
+    <script>
+        let mostPopularArticlesChartDatasetLabel = "Views";
+        let mostPopularArticlesChartDataLabels = {!! $most_popular_articles_labels !!};
+        let mostPopularArticlesChartDatasetData = {!! $most_popular_articles_values !!};
+        let categoryArticlesChartDatasetLabel = "Articles";
+        let categoryArticlesChartDataLabels = {!! $category_articles_labels !!};
+        let categoryArticlesChartDatasetData = {!! $category_articles_values !!};
+    </script>
     <script src="{{ asset('assets/admin/js/pages/dashboard.js') }}"></script>
 @endsection
