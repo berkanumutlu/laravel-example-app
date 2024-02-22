@@ -31,7 +31,9 @@ class SettingsController extends BaseController
                 foreach ($post_data['settings'] as $id => $value) {
                     $item_value = current($value);
                     if (gettype($item_value) == 'object' && $request->hasFile('settings.'.$id)) {
-                        $upload_image = $this->upload_setting_image($request->file('settings.'.$id), $id);
+                        $item_key = array_key_first($value);
+                        $item_file = current($request->file('settings.'.$id));
+                        $upload_image = $this->upload_setting_image($item_file, $item_key);
                         $item_value = $upload_image->status ? $upload_image->path : '';
                     }
                     if (!isset($settings_array[$id]) || $settings_array[$id] !== $item_value) {
