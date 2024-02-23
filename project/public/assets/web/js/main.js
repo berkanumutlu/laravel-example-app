@@ -80,6 +80,22 @@ jQuery(function ($) {
     });
 });
 
+(async () => {
+    if ('loading' in HTMLImageElement.prototype) {
+        const images = document.querySelectorAll("img.lazyload");
+        images.forEach(img => {
+            img.src = img.dataset.src;
+        });
+    } else {
+        // Dynamically import the LazySizes library
+        const lazySizesLib = await import('/assets/plugins/lazysizes/lazysizes.min.js');
+        if (typeof lazySizes !== 'undefined') {
+            // Initiate LazySizes (reads data-src & class=lazyload)
+            lazySizes.init(); // lazySizes works off a global.
+        }
+    }
+})();
+
 $(document).ready(function () {
     $('.btnUserLogout').on("click", function (e) {
         e.preventDefault();

@@ -3,7 +3,6 @@
 
 @endsection
 @section("style")
-    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/home.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
@@ -111,7 +110,7 @@
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
-    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
+
     <script>
         $(document).ready(function () {
             AOS.init();

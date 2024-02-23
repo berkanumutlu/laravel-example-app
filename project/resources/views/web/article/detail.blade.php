@@ -1,6 +1,5 @@
 @extends("web.layouts.index")
 @section("style")
-    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/article-detail.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
@@ -56,7 +55,8 @@
                             <div class="text">
                                 @if(!empty($record->image))
                                     <div class="d-flex justify-content-center mb-3">
-                                        <img src="{{ asset($record->image) }}" class="img-fluid w-75 rounded-1"
+                                        <img data-src="{{ asset($record->image) }}"
+                                             class="img-fluid w-75 rounded-1 lazyload" loading="lazy"
                                              alt="{{ $record->title ?? '' }}">
                                     </div>
                                 @endif
@@ -123,11 +123,11 @@
                         <div class="author-card">
                             <div class="author-thumb">
                                 @if(!empty($record->user->image))
-                                    <img width="180" height="180" src="{{ asset($record->user->image) }}"
-                                         alt="{{ $record->user?->name }} Image">
+                                    <img data-src="{{ asset($record->user->image) }}" class="lazyload" loading="lazy"
+                                         alt="{{ $record->user?->name }} Image" width="180" height="180">
                                 @elseif(!empty($settings->image_default_author))
-                                    <img width="180" height="180" src="{{ asset($settings->image_default_author) }}"
-                                         alt="Author Image">
+                                    <img data-src="{{ asset($settings->image_default_author) }}" class="lazyload"
+                                         loading="lazy" alt="Author Image" width="180" height="180">
                                 @endif
                             </div>
                             <div class="author-content">
@@ -232,7 +232,6 @@
 @endsection
 @section("scripts")
     <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
-    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script src="{{ asset("assets/plugins/highlight/highlight.min.js") }}"></script>
     <script src="{{ asset("assets/plugins/waitMe/waitMe.min.js") }}"></script>

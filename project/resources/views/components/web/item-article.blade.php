@@ -9,7 +9,8 @@
 <div class="article-item" {{ $articleItemAttributes ?? '' }}>
     <div class="article-item-image-section">
         <a href="{{ $item_url }}" class="article-item-image-link">
-            <img src="{{ asset($item_image) }}" class="article-item-image img-fluid" alt="{{ $item->title }}">
+            <img data-src="{{ asset($item_image) }}" class="article-item-image img-fluid lazyload" loading="lazy"
+                 alt="{{ $item->title }}">
         </a>
         @if(!is_null($item->category))
             <a href="{{ route('article.category', ['slug' => $item->category?->slug]) }}"

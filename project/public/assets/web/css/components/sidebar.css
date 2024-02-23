@@ -98,8 +98,9 @@
 }
 
 .sidebar-authors .author-image {
+    height: 250px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    height: 250px;
+    text-align: center;
 }

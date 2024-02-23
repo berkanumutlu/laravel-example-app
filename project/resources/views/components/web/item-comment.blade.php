@@ -4,9 +4,11 @@
     <div class="header">
         <div class="image">
             @if(!empty($item->user->image ))
-                <img src="{{ asset($item->user->image) }}" alt="{{ $item->user->name }} Profile Image">
+                <img data-src="{{ asset($item->user->image) }}" class="lazyload" loading="lazy"
+                     alt="{{ $item->user->name }} Profile Image">
             @elseif(!empty($settings->image_default_author))
-                <img src="{{ asset($settings->image_default_author) }}" alt="Default Profile Image">
+                <img data-src="{{ asset($settings->image_default_author) }}" class="lazyload" loading="lazy"
+                     alt="Default Profile Image">
             @endif
         </div>
     </div>

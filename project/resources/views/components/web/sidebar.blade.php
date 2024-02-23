@@ -113,29 +113,41 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" data-aos="zoom-in-left">
                             <a href="#" class="author-link">
-                                <div class="author-image"
-                                     style="background-image: url('{{ !empty($settings->image_default_author) ? asset($settings->image_default_author) : '' }}')"></div>
+                                @if(!empty($settings->image_default_author))
+                                    <div class="author-image">
+                                        <img src="{{ asset($settings->image_default_author) }}"
+                                             class="img-fluid" alt="Author Image"></div>
+                                @endif
                                 <div class="author-name">Berkan Ümütlü</div>
                             </a>
                         </div>
                         <div class="swiper-slide" data-aos="zoom-in-left">
                             <a href="#" class="author-link">
-                                <div class="author-image"
-                                     style="background-image: url('{{ !empty($settings->image_default_author) ? asset($settings->image_default_author) : '' }}')"></div>
+                                @if(!empty($settings->image_default_author))
+                                    <div class="author-image">
+                                        <img src="{{ asset($settings->image_default_author) }}"
+                                             class="img-fluid" alt="Author Image"></div>
+                                @endif
                                 <div class="author-name">Author2</div>
                             </a>
                         </div>
                         <div class="swiper-slide" data-aos="zoom-in-left">
                             <a href="#" class="author-link">
-                                <div class="author-image"
-                                     style="background-image: url('{{ !empty($settings->image_default_author) ? asset($settings->image_default_author) : '' }}')"></div>
+                                @if(!empty($settings->image_default_author))
+                                    <div class="author-image">
+                                        <img src="{{ asset($settings->image_default_author) }}"
+                                             class="img-fluid" alt="Author Image"></div>
+                                @endif
                                 <div class="author-name">Author3</div>
                             </a>
                         </div>
                         <div class="swiper-slide" data-aos="zoom-in-left">
                             <a href="#" class="author-link">
-                                <div class="author-image"
-                                     style="background-image: url('{{ !empty($settings->image_default_author) ? asset($settings->image_default_author) : '' }}')"></div>
+                                @if(!empty($settings->image_default_author))
+                                    <div class="author-image">
+                                        <img src="{{ asset($settings->image_default_author) }}"
+                                             class="img-fluid" alt="Author Image"></div>
+                                @endif
                                 <div class="author-name">Author4</div>
                             </a>
                         </div>
@@ -151,7 +163,11 @@
         </div>
     </section>
 @endif
+@push("style")
+    <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
+@endpush
 @push("scripts")
+    <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script>
         jQuery(function ($) {
             let item = $('.list-group-item.active');

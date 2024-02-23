@@ -21,6 +21,7 @@
     <link href="{{ asset("assets/plugins/animate/animate.min.css") }}" rel="stylesheet">
     <link href="{{ asset("assets/web/css/style.min.css") }}" rel="stylesheet">
     @yield("style")
+    @stack("style")
 </head>
 <body>
 <header>
