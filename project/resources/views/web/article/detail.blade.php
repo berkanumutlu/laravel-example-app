@@ -1,6 +1,5 @@
 @extends("web.layouts.index")
 @section("style")
-    <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/article-detail.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
@@ -235,7 +234,6 @@
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script src="{{ asset("assets/plugins/highlight/highlight.min.js") }}"></script>
     <script src="{{ asset("assets/plugins/waitMe/waitMe.min.js") }}"></script>
-    <script src="{{ asset("assets/web/js/components/section-comment-form.js") }}"></script>
     <script>
         $(document).ready(function () {
             AOS.init();
@@ -315,53 +313,6 @@
                 @else
                 Swal.fire({
                     html: 'You need to log in to like the article.',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    icon: 'warning'
-                });
-                @endif
-            });
-            $('.btn-like-comment, .btn-dislike-comment').on("click", function (e) {
-                e.preventDefault();
-                let self = $(this);
-                self.attr('disabled', true);
-                @if(auth()->guard('web')->check())
-                $.ajax({
-                    url: self.attr('href'),
-                    type: "POST",
-                    headers: {'X-CSRF-TOKEN': self.prev('input[name="_token"]').val()},
-                    dataType: "JSON",
-                    data: {recordId: self.data('id'), type: self.data('type')}
-                }).done(function (response) {
-                    if (response.hasOwnProperty('status')) {
-                        if (response.status) {
-                            if (response.hasOwnProperty('data')) {
-                                if (response.data.hasOwnProperty('active')) {
-                                    self.parents('.btn-actions').find('.btn-like-comment, .btn-dislike-comment').removeClass('active');
-                                    self.parents('.btn-actions').find('.btn-like-comment, .btn-dislike-comment').find('span').removeClass().addClass('material-icons-outlined');
-                                    if (response.data.active) {
-                                        self.addClass('active');
-                                    } else {
-                                        self.removeClass('active');
-                                    }
-                                }
-                                if (response.data.hasOwnProperty('like_count')) {
-                                    self.parents('.btn-actions').find('.action-like-comment .number').text(response.data.like_count);
-                                }
-                                if (response.data.hasOwnProperty('dislike_count')) {
-                                    self.parents('.btn-actions').find('.action-dislike-comment .number').text(response.data.dislike_count);
-                                }
-                                if (response.data.hasOwnProperty('iconClass')) {
-                                    self.find('span').removeClass().addClass(response.data.iconClass);
-                                }
-                            }
-                        }
-                    }
-                });
-                @else
-                Swal.fire({
-                    html: 'You need to logged in to take any action on the comment.',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     allowEnterKey: false,

@@ -42,3 +42,6 @@
         </form>
     </div>
 </section>
+@push("scripts")
+    <script src="{{ asset("assets/web/js/components/section-comment-form.js") }}"></script>
+@endpush
