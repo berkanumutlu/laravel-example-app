@@ -99,7 +99,7 @@ class AuthController extends Controller
                     $data['username'] = Str::slug($data['username'].uniqid());
                 }
             }
-            $user_create = User::create($data);
+            User::create($data);
             alert()->success("Success",
                 "You have successfully registered. You can login with your ".$driver." account.")
                 ->showConfirmButton("OK");

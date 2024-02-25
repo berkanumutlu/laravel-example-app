@@ -47,6 +47,7 @@ class LoginController extends Controller
                 Auth::guard('web')->login($user, $remember_me);
                 \Illuminate\Support\Facades\Log::notice("User login:".$user->name, $user->toArray());
                 $this->log('login_user', $user, $user->id, $user->toArray());
+                //session()->put('user', collect($user)->except(['password']));
                 return redirect()->route('home');
             }
         }

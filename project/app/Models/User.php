@@ -52,7 +52,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
-    
+
     /*private mixed $settings;
 
     public function __construct()

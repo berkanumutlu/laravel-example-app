@@ -29,14 +29,13 @@ class WebServiceProvider extends ServiceProvider
             View::composer([
                 'web.layouts.*', 'layouts.email', 'web.email.*', 'components.web.*', 'web.home.index',
                 'web.article.detail'
-            ],
-                function ($view) use ($settings) {
-                    $favicon = asset('assets/web/images/logomark.min.svg');
-                    $site_name = $settings->site_name ?? '';
-                    $site_slogan = $settings->site_slogan ?? '';
-                    $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
-                    $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
-                });
+            ], function ($view) use ($settings) {
+                $favicon = asset('assets/web/images/logomark.min.svg');
+                $site_name = $settings->site_name ?? '';
+                $site_slogan = $settings->site_slogan ?? '';
+                $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
+                $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
+            });
             View::composer('components.web.sidebar', function ($view) {
                 $categories = $this->get_categories();
                 $view->with(compact(['categories']));
