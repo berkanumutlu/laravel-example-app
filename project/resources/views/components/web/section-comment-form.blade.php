@@ -42,6 +42,9 @@
         </form>
     </div>
 </section>
+@push("style")
+    <link href="{{ asset('assets/web/css/components/comment-form.min.css') }}" rel="stylesheet">
+@endpush
 @push("scripts")
     <script src="{{ asset("assets/web/js/components/section-comment-form.js") }}"></script>
 @endpush

@@ -23,6 +23,9 @@
         </div>
     @endif
 </section>
+@push("style")
+    <link href="{{ asset('assets/web/css/components/comments.min.css') }}" rel="stylesheet">
+@endpush
 @push("scripts")
     <script>
         $(document).ready(function () {
