@@ -43,14 +43,29 @@
     --color-red-light: #ffe7e9;
     --color-gradient-hover: linear-gradient(rgb(0 0 0/30%) 0 0);
     --color-gradient-bg-black-hover: linear-gradient(rgb(255 255 255/15%) 0 0);
-    --color-github: #171515;
+    --color-website: #1B7FCD;
     --color-google: #ea4335;
-    --color-facebook: #4267B2;
-    --color-instagram: #C13584;
-    --color-twitter: #1DA1F2;
-    --color-pinterest: #E60023;
-    --color-linkedin: #0072b1;
+    --color-google-gradient: linear-gradient(165deg, #ea4335 10%, #fbbc05 35%, #34a853 65%, #4285f4 90%);
     --color-youtube: #ff0000;
+    --color-facebook: #3b5998;
+    --color-twitter: #00ACEE;
+    --color-instagram: #515ECF;
+    --color-instagram-gradient: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
+    --color-whatsapp: #25D366;
+    --color-telegram: #0088cc;
+    --color-skype: #00aff0;
+    --color-linkedin: #00a0dc;
+    --color-github: #24292E;
+    --color-medium: #000;
+    --color-medium-secondary: #00ab6c;
+    --color-tumblr: #35465c;
+    --color-pinterest: #bd081c;
+    --color-dribbble: #ea4c89;
+    --color-wordpress: #0087be;
+    --color-wordpress-secondary: #32373C;
+    --color-discord: #7289da;
+    --color-paypal: #003087;
+    --color-paypal-secondary: #009cde;
     --transition: all .3s ease-in-out;
 }
 
@@ -69,10 +84,6 @@ body {
 
 pre {
     white-space: pre-line;
-}
-
-.btn:focus {
-    box-shadow: none;
 }
 
 header {
@@ -226,6 +237,19 @@ footer {
     animation-fill-mode: both;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.btn-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: var(--color-primary);
 }
 
 /*#endregion */

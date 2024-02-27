@@ -110,6 +110,10 @@ section.author .author-card .author-content .socials ul li a:hover {
     background-color: var(--color-primary);
 }
 
+section.author .author-card .author-content .socials ul li.website a:hover {
+    background: var(--color-website);
+}
+
 section.author .author-card .author-content .socials ul li.instagram a:hover {
     background: var(--color-instagram-gradient);
 }
@@ -127,19 +131,19 @@ section.author .author-card .author-content .socials ul li.youtube a:hover {
 }
 
 section.author .author-card .author-content .socials ul li.google a:hover {
-    background: var(--color-google-gradient);
+    background-color: var(--color-google-gradient);
 }
 
 section.author .author-card .author-content .socials ul li.whatsapp a:hover {
-    background: var(--color-whatsapp);
+    background-color: var(--color-whatsapp);
 }
 
 section.author .author-card .author-content .socials ul li.telegram a:hover {
-    background: var(--color-telegram);
+    background-color: var(--color-telegram);
 }
 
 section.author .author-card .author-content .socials ul li.skype a:hover {
-    background: var(--color-skype);
+    background-color: var(--color-skype);
 }
 
 section.author .author-card .author-content .socials ul li.linkedin a:hover {
@@ -151,27 +155,31 @@ section.author .author-card .author-content .socials ul li.github a:hover {
 }
 
 section.author .author-card .author-content .socials ul li.medium a:hover {
-    background: var(--color-medium);
+    background-color: var(--color-medium);
 }
 
 section.author .author-card .author-content .socials ul li.pinterest a:hover {
-    background: var(--color-pinterest);
+    background-color: var(--color-pinterest);
 }
 
 section.author .author-card .author-content .socials ul li.tumblr a:hover {
-    background: var(--color-tumblr);
+    background-color: var(--color-tumblr);
+}
+
+section.author .author-card .author-content .socials ul li.dribbble a:hover {
+    background-color: var(--color-dribbble);
 }
 
 section.author .author-card .author-content .socials ul li.wordpress a:hover {
-    background: var(--color-wordpress);
+    background-color: var(--color-wordpress);
 }
 
 section.author .author-card .author-content .socials ul li.discord a:hover {
-    background: var(--color-discord);
+    background-color: var(--color-discord);
 }
 
 section.author .author-card .author-content .socials ul li.paypal a:hover {
-    background: var(--color-paypal);
+    background-color: var(--color-paypal);
 }
 
 section.author .author-card .author-content .socials ul li a i {
