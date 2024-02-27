@@ -102,26 +102,76 @@ section.author .author-card .author-content .socials ul li a {
     -moz-transition: var(--transition);
     -o-transition: var(--transition);
     transition: var(--transition);
+    text-decoration: none;
 }
 
-section.author .author-card .author-content .socials ul li.github a:hover {
+section.author .author-card .author-content .socials ul li a:hover {
     fill: var(--color-white);
-    background-color: var(--color-github);
-}
-
-section.author .author-card .author-content .socials ul li.linkedin a:hover {
-    fill: var(--color-white);
-    background-color: var(--color-linkedin);
+    background-color: var(--color-primary);
 }
 
 section.author .author-card .author-content .socials ul li.instagram a:hover {
-    fill: var(--color-white);
-    background-color: var(--color-instagram);
+    background: var(--color-instagram-gradient);
 }
 
 section.author .author-card .author-content .socials ul li.twitter a:hover {
-    fill: var(--color-white);
     background-color: var(--color-twitter);
+}
+
+section.author .author-card .author-content .socials ul li.facebook a:hover {
+    background-color: var(--color-facebook);
+}
+
+section.author .author-card .author-content .socials ul li.youtube a:hover {
+    background-color: var(--color-youtube);
+}
+
+section.author .author-card .author-content .socials ul li.google a:hover {
+    background: var(--color-google-gradient);
+}
+
+section.author .author-card .author-content .socials ul li.whatsapp a:hover {
+    background: var(--color-whatsapp);
+}
+
+section.author .author-card .author-content .socials ul li.telegram a:hover {
+    background: var(--color-telegram);
+}
+
+section.author .author-card .author-content .socials ul li.skype a:hover {
+    background: var(--color-skype);
+}
+
+section.author .author-card .author-content .socials ul li.linkedin a:hover {
+    background-color: var(--color-linkedin);
+}
+
+section.author .author-card .author-content .socials ul li.github a:hover {
+    background-color: var(--color-github);
+}
+
+section.author .author-card .author-content .socials ul li.medium a:hover {
+    background: var(--color-medium);
+}
+
+section.author .author-card .author-content .socials ul li.pinterest a:hover {
+    background: var(--color-pinterest);
+}
+
+section.author .author-card .author-content .socials ul li.tumblr a:hover {
+    background: var(--color-tumblr);
+}
+
+section.author .author-card .author-content .socials ul li.wordpress a:hover {
+    background: var(--color-wordpress);
+}
+
+section.author .author-card .author-content .socials ul li.discord a:hover {
+    background: var(--color-discord);
+}
+
+section.author .author-card .author-content .socials ul li.paypal a:hover {
+    background: var(--color-paypal);
 }
 
 section.author .author-card .author-content .socials ul li a i {
