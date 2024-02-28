@@ -1,12 +1,18 @@
 <section class="author" data-aos="fade-up">
     <div class="author-card">
         <div class="author-thumb">
-            @php
-                $author_image = $authorImage ?? $settings->image_default_author;
-                $author_name = $authorName ?? 'Author';
-            @endphp
-            <img data-src="{{ asset($author_image) }}" class="lazyload" loading="lazy"
-                 alt="{{ $author_name }} Image" width="120" height="120">
+            <div class="author-image">
+                @php
+                    $author_image = $authorImage ?? $settings->image_default_author;
+                    $author_name = $authorName ?? 'Author';
+                @endphp
+                <img data-src="{{ asset($author_image) }}" class="lazyload" loading="lazy"
+                     alt="{{ $author_name }} Image" width="120" height="120">
+                @if(Route::is('user.profile'))
+                    <a href="javascript:;" class="edit-author-image"><i class="fa-solid fa-camera-rotate"></i></a>
+                    <a href="javascript:;" class="delete-author-image"><i class="fa-regular fa-trash-can"></i></a>
+                @endif
+            </div>
         </div>
         <div class="author-content">
             <h4 class="name">{{ $author_name }}</h4>
@@ -94,3 +100,14 @@
 @push("style")
     <link href="{{ asset('assets/web/css/components/author-card.min.css') }}" rel="stylesheet">
 @endpush
+@if(Route::is('user.profile'))
+    @push("scripts")
+        <script>
+            $(document).ready(function () {
+                $(".edit-author-image").on("click", function () {
+                    $("#image").trigger('click');
+                });
+            });
+        </script>
+    @endpush
+@endif

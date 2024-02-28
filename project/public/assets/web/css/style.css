@@ -5,6 +5,7 @@
 :root {
     --color-primary: #F05340;
     --color-primary-alternative: #FF2D20;
+    --color-primary-alternative2: #fdeadd;
     --color-secondary: #6C6C6C;
     --color-white: #fff;
     --color-black: #000;
@@ -32,6 +33,9 @@
     --color-gray-12: #495057;
     --color-gray-13: #f8f9fa;
     --color-gray-13-hover: #e5e5e5;
+    --color-gray-14: #f8f8fc;
+    --color-gray-14-hover: #efefef;
+    --color-gray-15: #525252;
     --color-blue: #073c8a;
     --color-orange: #ee8606;
     --color-orange-2: #fdeddd;
@@ -41,6 +45,8 @@
     --color-green: #31A364;
     --color-red: #EC4134;
     --color-red-light: #ffe7e9;
+    --color-purple: #493f93;
+    --color-purple-light: #6d62bc;
     --color-gradient-hover: linear-gradient(rgb(0 0 0/30%) 0 0);
     --color-gradient-bg-black-hover: linear-gradient(rgb(255 255 255/15%) 0 0);
     --color-website: #1B7FCD;
@@ -128,7 +134,7 @@ header .header-bottom .navbar .navbar-collapse .navbar-nav {
 footer {
     margin-top: auto;
     padding: 48px;
-    background-color: var(--color-white);
+    background-color: var(--color-primary-alternative2);
     border-top: 1px solid var(--color-gray-2);
 }
 

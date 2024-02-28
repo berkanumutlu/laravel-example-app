@@ -74,6 +74,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 user-actions-navbar">
+                        {{--@if(!empty(auth()->guard('web')->user()->exists))--}}
                         @if(auth()->guard('web')->check())
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button"
@@ -81,7 +82,7 @@
                                     {{ auth()->guard('web')->user()->username }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>

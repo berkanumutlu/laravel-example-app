@@ -16,12 +16,57 @@ section.author .author-card .author-thumb {
     top: -40px;
     left: 0;
     right: 0;
-    width: 100%;
+}
+
+section.author .author-card .author-thumb .author-image {
+    position: relative;
     max-width: 120px;
+    display: inline-flex;
+    justify-content: center;
     border: 1px solid;
     border-color: var(--color-black-4);
     border-radius: 50%;
+}
+
+section.author .author-card .author-thumb .author-image img {
+    border-radius: 50%;
     overflow: hidden;
+}
+
+section.author .author-card .author-thumb .author-image .edit-author-image,
+section.author .author-card .author-thumb .author-image .delete-author-image {
+    padding: 7px;
+    position: absolute;
+    right: -25%;
+    display: inline-flex;
+    color: inherit;
+    background-color: var(--color-gray-14);
+    border: 1px solid;
+    border-color: var(--color-black-4);
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+section.author .author-card .author-thumb .author-image .edit-author-image:hover,
+section.author .author-card .author-thumb .author-image .delete-author-image:hover {
+    background-color: var(--color-gray-14-hover);
+}
+
+section.author .author-card .author-thumb .author-image .edit-author-image {
+    bottom: 50%;
+    color: var(--color-black-3);
+    border-color: var(--color-black-3);
+}
+
+section.author .author-card .author-thumb .author-image .delete-author-image {
+    bottom: 20%;
+    color: var(--color-primary-alternative);
+    border-color: var(--color-primary-alternative);
+}
+
+section.author .author-card .author-thumb .author-image .edit-author-image i,
+section.author .author-card .author-thumb .author-image .delete-author-image i {
+    min-width: 20px;
 }
 
 section.author .author-card .author-content .name {
@@ -111,7 +156,7 @@ section.author .author-card .author-content .socials ul li a:hover {
 }
 
 section.author .author-card .author-content .socials ul li.website a:hover {
-    background: var(--color-website);
+    background-color: var(--color-website);
 }
 
 section.author .author-card .author-content .socials ul li.instagram a:hover {

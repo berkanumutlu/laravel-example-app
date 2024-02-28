@@ -40,6 +40,9 @@ Route::post('reset-password', [\App\Http\Controllers\Web\LoginController::class,
 Route::get('reset-password/{token}',
     [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm_show'])->name('reset.password.confirm');
 Route::post('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm']);
+Route::prefix('user')->name('user.')->controller('UserController')->middleware('auth:web')->group(function () {
+    Route::get('profile', "profile")->name('profile');
+});
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');
     Route::get('category/{slug}', "category")->name('category');
