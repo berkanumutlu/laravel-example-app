@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Web;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,8 +23,8 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             "name"        => ['required', 'min:3', 'max:255'],
-            "email"       => ['required', 'email', 'unique:users,email,'.$this->id],
-            "username"    => ['required', 'max:255', 'unique:users,username,'.$this->id],
+            "email"       => ['required', 'email', 'unique:users,email,'.$this->user],
+            "username"    => ['required', 'max:255', 'unique:users,username,'.$this->user],
             "password"    => ['nullable', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()->symbols()->mixedCase()],
             "image"       => ['nullable', 'image', 'mimetypes:image/jpeg,image/jpg,image/png', 'max:5120'],
             "title"       => ['nullable', 'max:255'],

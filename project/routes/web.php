@@ -13,35 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Web\HomeController::class, "index"])->name('home');
-Route::prefix('login')->name('login.')->controller('LoginController')
-    ->middleware('guest:web')
-    ->group(function () {
-        Route::get('', "index")->name('index');
-        Route::post('', "login");
-    });
+Route::prefix('login')->name('login.')->controller('LoginController')->middleware('guest:web')->group(function () {
+    Route::get('', "index")->name('index');
+    Route::post('', "login");
+});
 Route::post('logout', [\App\Http\Controllers\Web\LoginController::class, "logout"])->name('logout');
-Route::prefix('register')->name('register.')->controller('RegisterController')
-    ->middleware('guest:web')
-    ->group(function () {
-        Route::get('', "index")->name('index');
-        Route::post('', "store");
-    });
-Route::get('auth/verify/{token}',
-    [\App\Http\Controllers\Web\AuthController::class, "verify"])->name('auth.verify.token');
-Route::get('auth/social/{social}/redirect',
-    [\App\Http\Controllers\Web\AuthController::class, "social_redirect"])->name('auth.social.redirect')
-    ->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
-Route::get('auth/social/{social}/callback',
-    [\App\Http\Controllers\Web\AuthController::class, "social_callback"])->name('auth.social.callback')
-    ->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
-Route::get('reset-password',
-    [\App\Http\Controllers\Web\LoginController::class, 'reset_password_show'])->name('reset.password');
+Route::prefix('register')->name('register.')->controller('RegisterController')->middleware('guest:web')->group(function () {
+    Route::get('', "index")->name('index');
+    Route::post('', "store");
+});
+Route::get('auth/verify/{token}', [\App\Http\Controllers\Web\AuthController::class, "verify"])->name('auth.verify.token');
+Route::get('auth/social/{social}/redirect', [\App\Http\Controllers\Web\AuthController::class, "social_redirect"])->name('auth.social.redirect')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+Route::get('auth/social/{social}/callback', [\App\Http\Controllers\Web\AuthController::class, "social_callback"])->name('auth.social.callback')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+Route::get('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_show'])->name('reset.password');
 Route::post('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password']);
-Route::get('reset-password/{token}',
-    [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm_show'])->name('reset.password.confirm');
+Route::get('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm_show'])->name('reset.password.confirm');
 Route::post('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm']);
 Route::prefix('user')->name('user.')->controller('UserController')->middleware('auth:web')->group(function () {
-    Route::get('profile', "profile")->name('profile');
+    Route::get('profile', "edit")->name('profile');
+    Route::post('profile/edit/{user:id}', "update")->name('profile.edit')->whereNumber('id');
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');

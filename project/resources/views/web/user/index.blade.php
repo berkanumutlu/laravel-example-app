@@ -6,7 +6,8 @@
 @section("content")
     <main class="py-5">
         <div class="container">
-            <form action="{{ route('user.profile') }}" method="POST">
+            <x-web.errors :errors="$errors"></x-web.errors>
+            <form action="{{ route('user.profile.edit', ['user' => $user->id]) }}" method="POST">
                 @csrf
                 <input type="file" name="image" id="image" class="d-none" accept="image/png, image/jpeg, image/jpg">
                 <div class="card user-profile-card">
@@ -42,36 +43,40 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="fullname" id="fullname" class="form-control"
-                                                   placeholder="Full Name" value="{{ $user->name ?? '' }}" required>
-                                            <label for="fullname">Full Name</label>
+                                            <input type="text" name="name" id="name" class="form-control"
+                                                   placeholder="Full Name"
+                                                   value="{{ old('name') ?? ($user->name ?? '') }}" required>
+                                            <label for="name">Full Name</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="email" name="email" id="email" class="form-control"
-                                                   placeholder="Email" value="{{ $user->email ?? '' }}" required>
+                                                   placeholder="Email"
+                                                   value="{{ old('email') ?? ($user->email ?? '') }}" required>
                                             <label for="email">Email</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" name="username" id="username" class="form-control"
-                                                   placeholder="Username" value="{{ $user->username ?? '' }}" required>
+                                                   placeholder="Username"
+                                                   value="{{ old('username') ?? ($user->username ?? '') }}" required>
                                             <label for="username">Username</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
                                             <input type="text" name="title" id="title" class="form-control"
-                                                   placeholder="Title" value="{{ $user->title ?? '' }}">
+                                                   placeholder="Title"
+                                                   value="{{ old('title') ?? ($user->title ?? '') }}">
                                             <label for="title">Title</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <textarea name="description" id="description" class="form-control summernote"
-                                              placeholder="Description">{!! $user->description ?? '' !!}</textarea>
+                                              placeholder="Description">{!! old('description') ?? ($user->description ?? '') !!}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -103,8 +108,7 @@
             $('.summernote').summernote({
                 lang: 'tr-TR',
                 toolbar: [
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['view', ['fullscreen']]
+                    ['font', ['bold', 'underline', 'clear']]
                 ],
                 height: 160,
                 /*callbacks: {
@@ -115,7 +119,7 @@
                     }
                 }*/
             });
-            $('#fullname').on('input', function () {
+            $('#name').on('input', function () {
                 var value = $(this).val();
                 var input = $('.author .author-content .name');
                 change_input_value_live(value, input);
