@@ -3,14 +3,30 @@
         <div class="author-thumb">
             <div class="author-image">
                 @php
-                    $author_image = $authorImage ?? $settings->image_default_author;
+                    $author_image = $authorImage;
+                    $is_author_image_null = false;
+                    if (empty($author_image)) {
+                        $author_image = $settings->image_default_author;
+                        $is_author_image_null = true;
+                    }
                     $author_name = $authorName ?? 'Author';
                 @endphp
-                <img data-src="{{ asset($author_image) }}" class="lazyload" loading="lazy"
-                     alt="{{ $author_name }} Image" width="120" height="120">
                 @if(Route::is('user.profile'))
+                    <img data-src="{{ asset($author_image) }}"
+                         data-src-default="{{ asset($settings->image_default_author) }}"
+                         class="lazyload reload_image_file" loading="lazy"
+                         alt="{{ $author_name }} Image" width="120" height="120">
+                    <input type="file" name="image" id="image" class="d-none reload_image_file_input"
+                           accept="image/png, image/jpeg, image/jpg">
                     <a href="javascript:;" class="edit-author-image"><i class="fa-solid fa-camera-rotate"></i></a>
-                    <a href="javascript:;" class="delete-author-image"><i class="fa-regular fa-trash-can"></i></a>
+                    <input type="text" name="image_file_deleted" class="d-none"
+                           value="{!! $is_author_image_null ? 1 : 0 !!}">
+                    <a href="javascript:;" class="delete-author-image"
+                        {!! $is_author_image_null ? 'style="display:none"' : '' !!}>
+                        <i class="fa-regular fa-trash-can"></i></a>
+                @else
+                    <img data-src="{{ asset($author_image) }}" class="lazyload" loading="lazy"
+                         alt="{{ $author_name }} Image" width="120" height="120">
                 @endif
             </div>
         </div>
@@ -104,8 +120,48 @@
     @push("scripts")
         <script>
             $(document).ready(function () {
-                $(".edit-author-image").on("click", function () {
+                $(".edit-author-image").on("click", function (e) {
+                    e.preventDefault();
                     $("#image").trigger('click');
+                });
+                $(".delete-author-image").on("click", function (e) {
+                    e.preventDefault();
+                    let image_file = $('.reload_image_file');
+                    let image_file_input = $('.reload_image_file_input');
+                    let image_file_src = image_file.attr('src');
+                    let image_file_data_src = image_file.data('src');
+                    let is_image_changed = image_file_src !== image_file_data_src;
+                    let image_file_data_src_default = image_file.data('src-default');
+                    let image_file_deleted = $('input[name="image_file_deleted"]');
+                    let is_exist_image_deleted = image_file_deleted.val();
+                    let swal_text = '';
+                    if (is_image_changed) {
+                        swal_text = 'Do you want to delete the image you uploaded?';
+                    } else {
+                        swal_text = 'Do you want to delete the existing image?';
+                    }
+                    Swal.fire({
+                        text: swal_text,
+                        icon: 'error',
+                        showCancelButton: true,
+                        cancelButtonColor: '#babbbd',
+                        confirmButtonColor: '#ff6673',
+                        confirmButtonText: 'Yes',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            image_file_input.val('');
+                            if (is_image_changed && is_exist_image_deleted == 0) {
+                                image_file.attr('src', image_file_data_src);
+                            } else {
+                                image_file.attr('src', image_file_data_src_default);
+                                image_file_deleted.val(1);
+                                $(this).hide();
+                            }
+                        }
+                    });
                 });
             });
         </script>

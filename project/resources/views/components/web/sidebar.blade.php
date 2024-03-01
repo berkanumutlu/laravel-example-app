@@ -103,7 +103,7 @@
     </section>
 @endif
 @if(!empty($settings->show_sidebar_authors))
-    <section class="sidebar-authors mt-2">
+    <section class="sidebar-authors mt-2" data-aos="zoom-in-left">
         <div class="row">
             <div class="col-12">
                 <h2 class="font-weight-600">Authors</h2>
@@ -111,7 +111,7 @@
             <div class="col-12">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" data-aos="zoom-in-left">
+                        <div class="swiper-slide">
                             <a href="#" class="author-link">
                                 @if(!empty($settings->image_default_author))
                                     <div class="author-image">
@@ -121,7 +121,7 @@
                                 <div class="author-name">Berkan Ümütlü</div>
                             </a>
                         </div>
-                        <div class="swiper-slide" data-aos="zoom-in-left">
+                        <div class="swiper-slide">
                             <a href="#" class="author-link">
                                 @if(!empty($settings->image_default_author))
                                     <div class="author-image">
@@ -131,7 +131,7 @@
                                 <div class="author-name">Author2</div>
                             </a>
                         </div>
-                        <div class="swiper-slide" data-aos="zoom-in-left">
+                        <div class="swiper-slide">
                             <a href="#" class="author-link">
                                 @if(!empty($settings->image_default_author))
                                     <div class="author-image">
@@ -141,7 +141,7 @@
                                 <div class="author-name">Author3</div>
                             </a>
                         </div>
-                        <div class="swiper-slide" data-aos="zoom-in-left">
+                        <div class="swiper-slide">
                             <a href="#" class="author-link">
                                 @if(!empty($settings->image_default_author))
                                     <div class="author-image">

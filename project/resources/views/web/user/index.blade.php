@@ -7,9 +7,9 @@
     <main class="py-5">
         <div class="container">
             <x-web.errors :errors="$errors"></x-web.errors>
-            <form action="{{ route('user.profile.edit', ['user' => $user->id]) }}" method="POST">
+            <form action="{{ route('user.profile.edit', ['user' => $user->id]) }}" method="POST"
+                  enctype="multipart/form-data">
                 @csrf
-                <input type="file" name="image" id="image" class="d-none" accept="image/png, image/jpeg, image/jpg">
                 <div class="card user-profile-card">
                     <div class="card-header">
                         <h1 class="card-title">Profile</h1>

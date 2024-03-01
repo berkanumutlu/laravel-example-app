@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user_image = $user->image;
-        //TODO: Kullanıcıya ait article listesi url de değişeceği için eski username yeni username'e url redirect yapılması gerek.
+        //TODO: Kullanıcıya ait article listesi urlsi de değişeceği için eski username yeni username'e url redirect yapılması gerek.
         $user->username = Str::slug($request->username);
         $user->name = $request->name;
         $user->email = $request->email;
@@ -46,6 +46,15 @@ class UserController extends Controller
                 try {
                     $image_file->storeAs($folder, $image_file_name);
                     User::query()->where('id', $id)->update(['image' => $image_new]);
+                    if (file_exists(public_path($user_image))) {
+                        File::delete(public_path($user_image));
+                    }
+                } catch (\Exception $e) {
+                    //TODO: Hata loglanmalı
+                }
+            } elseif ($request->image_file_deleted == 1 && !empty($user_image)) {
+                try {
+                    User::query()->where('id', $id)->update(['image' => null]);
                     if (file_exists(public_path($user_image))) {
                         File::delete(public_path($user_image));
                     }

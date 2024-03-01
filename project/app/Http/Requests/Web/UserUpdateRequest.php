@@ -28,7 +28,7 @@ class UserUpdateRequest extends FormRequest
             "password"    => ['nullable', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()->symbols()->mixedCase()],
             "image"       => ['nullable', 'image', 'mimetypes:image/jpeg,image/jpg,image/png', 'max:5120'],
             "title"       => ['nullable', 'max:255'],
-            "description" => ['nullable', 'max:255']
+            "description" => ['nullable', 'max:500']
         ];
     }
 }

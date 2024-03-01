@@ -111,4 +111,13 @@ $(document).ready(function () {
             }
         });
     });
+    $('.reload_image_file_input').on("change", function (e) {
+        e.preventDefault();
+        if (this.files.length) {
+            $('.reload_image_file')[0].src = window.URL.createObjectURL(this.files[0]);
+        }
+        if ($(".delete-author-image").length) {
+            $(".delete-author-image").show();
+        }
+    })
 });

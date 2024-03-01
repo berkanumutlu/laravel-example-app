@@ -176,7 +176,7 @@ section.author .author-card .author-content .socials ul li.youtube a:hover {
 }
 
 section.author .author-card .author-content .socials ul li.google a:hover {
-    background-color: var(--color-google-gradient);
+    background-color: var(--color-google);
 }
 
 section.author .author-card .author-content .socials ul li.whatsapp a:hover {
