@@ -46,7 +46,7 @@ class LoginController extends Controller
             if (Hash::check($password, $user->password)) {
                 Auth::guard('web')->login($user, $remember_me);
                 \Illuminate\Support\Facades\Log::notice("User login:".$user->name, $user->toArray());
-                $this->log('login_user', $user, $user->id, $user->toArray());
+                $this->log('login', $user, $user->id);
                 //session()->put('user', collect($user)->except(['password']));
                 return redirect()->route('home');
             }
@@ -64,7 +64,7 @@ class LoginController extends Controller
         $response = ['status' => false, 'message' => null];
         if (Auth::guard('web')->check()) {
             try {
-                $this->log('logout_user', User::class, \auth()->id(), \auth()->user()->toArray());
+                $this->log('logout', User::class, \auth()->id());
                 Auth::guard('web')->logout();
                 //$request->session()->invalidate();
                 //$request->session()->regenerate();
@@ -90,6 +90,7 @@ class LoginController extends Controller
         $email = $request->email;
         $user = User::query()->where('email', $email)->first();
         if (!empty($user)) {
+            $this->log('reset_password', $user, $user->id);
             if ($user->deleted_at) {
                 return redirect()->back()->withErrors([
                     "deleted_at" => "Your account has been blocked."
@@ -110,13 +111,14 @@ class LoginController extends Controller
                     'token'      => $token,
                     'created_at' => now()
                 ]);
+                $this->log('create_password_reset_token', $user, $user->id, ['email' => $email, 'token' => $token]);
             }
             if ($token_exist && now()->diffInHours($token_exist->created_at) < 2) {
                 alert()->info("Info", "A reset email has been sent before. You can try again in a few hours.")
                     ->showConfirmButton("OK");
             } else {
                 Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
-                $this->log('password_reset_mail_send', $user, $user->id, $user->toArray());
+                $this->log('reset_password_send_mail', $user, $user->id, ['to' => $user->email, 'token' => $token]);
                 alert()->success("Success",
                     "Your password has been reset. Follow the instructions in the e-mail sent to your e-mail address.")
                     ->showConfirmButton("OK");
@@ -160,7 +162,7 @@ class LoginController extends Controller
                         "status" => "Your account has not been approved."
                     ]);
                 }
-                $password = $request->password;
+                $password = $request->reset_password;
                 if (Hash::check($password, $user->password)) {
                     return view('web.login.reset-password', compact(['token', 'email']))->withErrors([
                         "password" => "Your new password cannot be the same as your old password."

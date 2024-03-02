@@ -73,10 +73,13 @@
                                             <label for="title">Title</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <textarea name="description" id="description" class="form-control summernote"
-                                              placeholder="Description">{!! old('description') ?? ($user->description ?? '') !!}</textarea>
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <textarea name="description" id="description"
+                                                      class="form-control summernote"
+                                                      placeholder="Description">{!! old('description') ?? ($user->description ?? '') !!}</textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -44,9 +44,9 @@
                                                 <span class="input-group-text"><span
                                                         class="material-icons-outlined">lock</span></span>
                                                     <div class="form-floating">
-                                                        <input type="password" name="password" id="password"
+                                                        <input type="password" name="reset_password" id="reset_password"
                                                                class="form-control" placeholder="Password" required>
-                                                        <label for="password">Password</label>
+                                                        <label for="reset_password">Password</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -55,11 +55,12 @@
                                                 <span class="input-group-text"><span
                                                         class="material-icons-outlined">sync_lock</span></span>
                                                     <div class="form-floating">
-                                                        <input type="password" name="password_confirmation"
-                                                               id="password_confirmation"
+                                                        <input type="password" name="reset_password_confirmation"
+                                                               id="reset_password_confirmation"
                                                                class="form-control" placeholder="Confirm Password"
                                                                required>
-                                                        <label for="password_confirmation">Confirm Password</label>
+                                                        <label for="reset_password_confirmation">Confirm
+                                                            Password</label>
                                                     </div>
                                                 </div>
                                             </div>

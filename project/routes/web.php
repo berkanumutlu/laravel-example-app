@@ -32,6 +32,8 @@ Route::post('reset-password/{token}', [\App\Http\Controllers\Web\LoginController
 Route::prefix('user')->name('user.')->controller('UserController')->middleware('auth:web')->group(function () {
     Route::get('profile', "edit")->name('profile');
     Route::post('profile/edit/{user:id}', "update")->name('profile.edit')->whereNumber('id');
+    Route::get('change-password', "show_change_password")->name('change.password');
+    Route::post('change-password/{user:id}', "update_password")->name('change.password.edit')->whereNumber('id');
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {
     Route::get('list', "index")->name('index');

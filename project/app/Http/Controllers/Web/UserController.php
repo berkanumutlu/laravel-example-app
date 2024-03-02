@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
 use App\Models\User;
+use App\Traits\Loggable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    use Loggable;
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -26,7 +31,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, string $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user_image = $user->image;
         //TODO: Kullanıcıya ait article listesi urlsi de değişeceği için eski username yeni username'e url redirect yapılması gerek.
         $user->username = Str::slug($request->username);
@@ -69,5 +74,32 @@ class UserController extends Controller
         alert()->success("Success", "Your information has been updated successfully.")
             ->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back();
+    }
+
+    public function show_change_password()
+    {
+        $user = Auth::guard('web')->user();
+        $title = 'Change Password';
+        return view('web.user.change-password', compact(['title', 'user']));
+    }
+
+    public function update_password(UserUpdatePasswordRequest $request, User $user)
+    {
+        if (!Hash::check($request->current_password, $user->password)) {
+            alert()->error("Error", "The current password is incorrect.")->showConfirmButton("OK");
+            return redirect()->back()->onlyInput();
+        }
+        try {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            $this->log('logout', $user, $user->id);
+            Auth::guard('web')->logout();
+        } catch (\Exception $e) {
+            alert()->error("Error", "Your password could not be saved.")->showConfirmButton("OK");
+            return redirect()->back()->onlyInput();
+        }
+        alert()->success("Success", "Your password has been updated successfully.")
+            ->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->route('login.index')->onlyInput();
     }
 }

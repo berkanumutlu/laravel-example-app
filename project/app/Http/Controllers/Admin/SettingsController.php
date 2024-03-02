@@ -42,7 +42,7 @@ class SettingsController extends BaseController
                     }
                     Settings::query()->where('id', $id)->update(['key_value' => $item_value]);
                 }
-                $this->log('settings', $settings->first(), 0, $changed_settings);
+                $this->log('update', $settings->first(), 0, $changed_settings);
             });
             Cache::forget('settings');
         } catch (\Exception $e) {

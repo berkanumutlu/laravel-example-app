@@ -15,7 +15,7 @@ class Log extends Model
         'data' => 'array'
     ];*/
 
-    protected $dateFormat = 'Y-m-d H:i';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public const ACTIONS = [
         'create',
@@ -24,10 +24,15 @@ class Log extends Model
         'force_delete',
         'restore',
         'approve',
-        'login_user',
-        'logout_user',
-        'password_reset_mail_send',
-        'settings'
+        'reset',
+        'login',
+        'logout',
+        'change_password',
+        'password_changed_send_mail',
+        'create_password_reset_token',
+        'reset_password',
+        'reset_password_changed',
+        'reset_password_send_mail'
     ];
 
     public const MODELS = [

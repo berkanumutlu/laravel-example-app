@@ -83,6 +83,8 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
                                     <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('user.change.password') }}">Change
+                                            Password</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
