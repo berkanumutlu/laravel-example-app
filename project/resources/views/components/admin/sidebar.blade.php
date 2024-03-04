@@ -26,9 +26,21 @@
                 <a href="{{ route('admin.dashboard') }}" class="{{ Route::is('admin.dashboard') ? 'active' : '' }}">
                     <i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
-            <li class="{{ Route::is('admin.settings.index') ? 'active-page' : '' }}">
-                <a href="{{ route('admin.settings.index') }}" class="{{ Route::is('admin.settings') ? 'active' : '' }}">
-                    <i class="material-icons-two-tone">settings</i>Settings</a>
+            <li class="{{ Route::is('admin.settings.index') || Route::is('admin.social.media.index') ? 'open' : '' }}">
+                <a href="javascript:;"><i class="material-icons-two-tone">settings</i>Settings
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('admin.settings.index') }}"
+                           class="{{ Route::is('admin.settings.index') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">list</i>Settings</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.social.media.index') }}"
+                           class="{{ Route::is('admin.social.media.index') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">share</i>Social Media</a>
+                    </li>
+                </ul>
             </li>
             <li class="{{ Route::is('admin.log.index') ? 'active-page' : '' }}">
                 <a href="{{ route('admin.log.index') }}" class="{{ Route::is('admin.log') ? 'active' : '' }}">

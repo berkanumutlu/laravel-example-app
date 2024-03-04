@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create('social_media', function (Blueprint $table) {
             $table->id();
             $table->string("name", 80);
-            $table->string("icon", 80);
-            $table->boolean("status")->default(0);
+            $table->string("icon", 80)->nullable();
             $table->string("link")->nullable();
-            $table->integer("order")->default(0);
+            $table->string("description")->nullable();
+            $table->integer("sort")->default(0);
+            $table->boolean("status")->default(0);
             $table->timestamps();
         });
     }
