@@ -39,6 +39,7 @@ Route::prefix("settings")->name("settings.")->controller('SettingsController')
 Route::prefix("social-media")->name("social.media.")->controller('SocialMediaController')
     ->group(function () {
         Route::get('', "index")->name('index');
+        Route::post('', "update");
     });
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {

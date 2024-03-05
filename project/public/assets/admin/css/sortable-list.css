@@ -1,0 +1,9 @@
+/*.sortable-list .sortable-item {
+    cursor: move;
+}*/
+
+.sortable-list .sortable-item.dragging .input-group-text,
+.sortable-list .sortable-item.dragging input.form-control {
+    border-color: #24292e;
+    filter: brightness(85%);
+}
