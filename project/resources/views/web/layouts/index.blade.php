@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}">
+{{--@formatter:off--}}
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="{{ $description ?? 'Laravel Example App' }}">
     <meta name="keywords" content="{{ $keywords ?? 'web,laravel,laravel example app' }}">
     <meta name="author" content="Berkan Ümütlü">
     <meta name="publisher" content="Berkan Ümütlü"/>
     <meta name="copyright" content="© Copyright 2023 Berkan Ümütlü"/>
-    <title>{{ isset($title) ? $title . ' - '.$site_name : $site_slogan.' - '.$site_name }}</title>
+    <title>{{ isset($title) ? $title.' - '.$site_name : $site_slogan.' - '.$site_name }}</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon }}"/>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon }}"/>
     @yield("head")
@@ -23,6 +23,7 @@
     @yield("style")
     @stack("style")
 </head>
+{{--@formatter:on--}}
 <body>
 <header>
     <div class="container">
@@ -114,8 +115,28 @@
 </header>
 @yield("content")
 <footer class="container-fluid">
-    <div class="container text-center">
-        <p class="mb-0">Copyright © 2023 Berkan Ümütlü. All Right Reserved.</p>
+    <div class="container">
+        <div class="footer-middle">
+            @if(!empty($socials))
+                <hr>
+                <div class="socials">
+                    <ul class="social-list">
+                        @foreach($socials as $item)
+                            @if(!empty($item->link))
+                                <li class="social-item {{ \Illuminate\Support\Str::lower($item->name) }}">
+                                    <a aria-label="Learn more from our {{ $item->name }}" href="{{ $item->link }}"
+                                       target="_blank" rel="nofollow">{!! $item->icon !!}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+                <hr>
+            @endif
+        </div>
+        <div class="footer-bottom text-center">
+            <p class="mb-0">Copyright © 2023 Berkan Ümütlü. All Right Reserved.</p>
+        </div>
     </div>
 </footer>
 <script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>

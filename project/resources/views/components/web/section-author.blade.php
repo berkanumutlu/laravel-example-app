@@ -35,76 +35,76 @@
             <div class="designation">{{ $authorTitle ?? '' }}</div>
             <div class="description">{!! $authorDescription ?? '' !!}</div>
             <div class="socials">
-                <ul>
-                    <li class="website">
+                <ul class="social-list">
+                    <li class="social-item website">
                         <a aria-label="Learn more from my website" href="https://example.com" target="_blank"
                            rel="nofollow"><i class="fa-solid fa-globe"></i></a>
                     </li>
-                    <li class="instagram">
+                    <li class="social-item instagram">
                         <a aria-label="Learn more from Instagram" href="https://instagram.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-instagram"></i></a>
                     </li>
-                    <li class="twitter">
+                    <li class="social-item twitter">
                         <a aria-label="Learn more from Twitter" href="https://twitter.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-twitter"></i></a>
                     </li>
-                    <li class="facebook">
+                    <li class="social-item facebook">
                         <a aria-label="Learn more from Facebook" href="https://facebook.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-facebook"></i></a>
                     </li>
-                    <li class="youtube">
+                    <li class="social-item youtube">
                         <a aria-label="Learn more from Youtube" href="https://youtube.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-youtube"></i></a>
                     </li>
-                    <li class="google">
+                    <li class="social-item google">
                         <a aria-label="Learn more from Google" href="https://google.com" target="_blank" rel="nofollow">
                             <i class="fa-brands fa-google"></i></a>
                     </li>
-                    <li class="whatsapp">
+                    <li class="social-item whatsapp">
                         <a aria-label="Contact us on Whatsapp" href="https://whatsapp.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-whatsapp"></i></a>
                     </li>
-                    <li class="telegram">
+                    <li class="social-item telegram">
                         <a aria-label="Contact us on Telegram" href="https://telegram.org" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-telegram"></i></a>
                     </li>
-                    <li class="skype">
+                    <li class="social-item skype">
                         <a aria-label="Contact us on Skype" href="https://skype.com" target="_blank" rel="nofollow">
                             <i class="fa-brands fa-skype"></i></a>
                     </li>
-                    <li class="linkedin">
+                    <li class="social-item linkedin">
                         <a aria-label="Learn more from LinkedIn" href="https://www.linkedin.com/in/berkanumutlu"
                            target="_blank" rel="nofollow"><i class="fa-brands fa-linkedin"></i></a>
                     </li>
-                    <li class="github">
+                    <li class="social-item github">
                         <a aria-label="Learn more from Github" href="https://github.com/berkanumutlu" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-github"></i></a>
                     </li>
-                    <li class="medium">
+                    <li class="social-item medium">
                         <a aria-label="Learn more from Medium" href="https://medium.com/@berkanumutlu" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-medium"></i></a>
                     </li>
-                    <li class="pinterest">
+                    <li class="social-item pinterest">
                         <a aria-label="Learn more from Pinterest" href="https://pinterest.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-pinterest"></i></a>
                     </li>
-                    <li class="tumblr">
+                    <li class="social-item tumblr">
                         <a aria-label="Learn more from Tumblr" href="https://tumblr.com" target="_blank" rel="nofollow">
                             <i class="fa-brands fa-tumblr"></i></a>
                     </li>
-                    <li class="dribbble">
+                    <li class="social-item dribbble">
                         <a aria-label="Learn more from Dribbble" href="https://dribbble.com/berkanumutlu"
                            target="_blank" rel="nofollow"><i class="fa-brands fa-dribbble"></i></a>
                     </li>
-                    <li class="wordpress">
+                    <li class="social-item wordpress">
                         <a aria-label="Learn more from Wordpress" href="https://wordpress.com" target="_blank"
                            rel="nofollow"><i class="fa-brands fa-wordpress"></i></a>
                     </li>
-                    <li class="discord">
+                    <li class="social-item discord">
                         <a aria-label="Join our Discord" href="https://discord.com" target="_blank" rel="nofollow">
                             <i class="fa-brands fa-discord"></i></a>
                     </li>
-                    <li class="paypal">
+                    <li class="social-item paypal">
                         <a aria-label="Donate on Paypal" href="https://paypal.com" target="_blank" rel="nofollow">
                             <i class="fa-brands fa-paypal"></i></a>
                     </li>

@@ -259,6 +259,157 @@ footer {
 }
 
 /*#endregion */
+/*#region Socials*/
+/*------------------------------------------------------------
+    [Socials]
+------------------------------------------------------------*/
+.socials ul.social-list {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.socials ul.social-list li.social-item {
+    line-height: 1;
+}
+
+.socials ul.social-list li.social-item a {
+    gap: 20px;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: var(--color-black-6);
+    font-size: 17px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: var(--color-black-7);
+    -webkit-transition: var(--transition);
+    -moz-transition: var(--transition);
+    -o-transition: var(--transition);
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.socials ul.social-list li.social-item a:hover {
+    fill: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.socials ul.social-list li.social-item a i {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    line-height: 1;
+    font-size: 16px;
+    -webkit-transition: var(--transition);
+    -moz-transition: var(--transition);
+    -o-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.socials ul.social-list li.social-item a:hover i {
+    color: var(--color-white);
+}
+
+.socials ul.social-list li.social-item.website a:hover {
+    background-color: var(--color-website);
+}
+
+.socials ul.social-list li.social-item.instagram a:hover {
+    background: var(--color-instagram-gradient);
+}
+
+.socials ul.social-list li.social-item.twitter a:hover {
+    background-color: var(--color-twitter);
+}
+
+.socials ul.social-list li.social-item.facebook a:hover {
+    background-color: var(--color-facebook);
+}
+
+.socials ul.social-list li.social-item.youtube a:hover {
+    background-color: var(--color-youtube);
+}
+
+.socials ul.social-list li.social-item.google a:hover {
+    background-color: var(--color-google);
+}
+
+.socials ul.social-list li.social-item.whatsapp a:hover {
+    background-color: var(--color-whatsapp);
+}
+
+.socials ul.social-list li.social-item.telegram a:hover {
+    background-color: var(--color-telegram);
+}
+
+.socials ul.social-list li.social-item.skype a:hover {
+    background-color: var(--color-skype);
+}
+
+.socials ul.social-list li.social-item.linkedin a:hover {
+    background-color: var(--color-linkedin);
+}
+
+.socials ul.social-list li.social-item.github a:hover {
+    background-color: var(--color-github);
+}
+
+.socials ul.social-list li.social-item.medium a:hover {
+    background-color: var(--color-medium);
+}
+
+.socials ul.social-list li.social-item.pinterest a:hover {
+    background-color: var(--color-pinterest);
+}
+
+.socials ul.social-list li.social-item.tumblr a:hover {
+    background-color: var(--color-tumblr);
+}
+
+.socials ul.social-list li.social-item.dribbble a:hover {
+    background-color: var(--color-dribbble);
+}
+
+.socials ul.social-list li.social-item.wordpress a:hover {
+    background-color: var(--color-wordpress);
+}
+
+.socials ul.social-list li.social-item.discord a:hover {
+    background-color: var(--color-discord);
+}
+
+.socials ul.social-list li.social-item.paypal a:hover {
+    background-color: var(--color-paypal);
+}
+
+/*#endregion */
 /*#region Responsive*/
 /*------------------------------------------------------------
     [Responsive]

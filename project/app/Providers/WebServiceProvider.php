@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Settings;
+use App\Models\SocialMedia;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +41,10 @@ class WebServiceProvider extends ServiceProvider
                 $categories = $this->get_categories();
                 $view->with(compact(['categories']));
             });
+            View::composer('web.layouts.index', function ($view) {
+                $socials = $this->get_socials();
+                $view->with(compact(['socials']));
+            });
         }
     }
 
@@ -61,6 +66,14 @@ class WebServiceProvider extends ServiceProvider
         return Cache::remember('categories', null, function () {
             return Category::query()->where('status', 1)->where('parent_id', null)->with(['childActiveCategory'])
                 ->orderBy('order', 'asc')->orderBy('created_at', 'desc')->get();
+        });
+    }
+
+    public function get_socials()
+    {
+        return Cache::remember('socials', null, function () {
+            return SocialMedia::query()->select(['name', 'icon', 'link'])->where('status', 1)
+                ->orderBy('sort', 'asc')->orderBy('created_at', 'asc')->get();
         });
     }
 }
