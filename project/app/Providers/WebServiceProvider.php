@@ -42,8 +42,7 @@ class WebServiceProvider extends ServiceProvider
                 $view->with(compact(['categories']));
             });
             View::composer('web.layouts.index', function ($view) {
-                $socials = $this->get_socials();
-                $view->with(compact(['socials']));
+                $view->with(['socials' => $this->get_socials()]);
             });
         }
     }
@@ -72,7 +71,7 @@ class WebServiceProvider extends ServiceProvider
     public function get_socials()
     {
         return Cache::remember('socials', null, function () {
-            return SocialMedia::query()->select(['name', 'icon', 'link'])->where('status', 1)
+            return SocialMedia::query()->select(['id', 'name', 'icon', 'link'])->where('status', 1)
                 ->orderBy('sort', 'asc')->orderBy('created_at', 'asc')->get();
         });
     }

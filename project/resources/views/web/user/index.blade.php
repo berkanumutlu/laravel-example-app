@@ -10,7 +10,7 @@
             <form action="{{ route('user.profile.edit', ['user' => $user->id]) }}" method="POST"
                   enctype="multipart/form-data">
                 @csrf
-                <div class="card user-profile-card">
+                <div class="card user-profile-card mb-3">
                     <div class="card-header">
                         <h1 class="card-title">Profile</h1>
                         <p class="card-text">Settings for your personal profile</p>
@@ -82,6 +82,53 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ route('user.profile') }}" class="btn btn-link">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                </div>
+            </form>
+            <form action="{{ route('user.social.edit', ['user' => $user->id]) }}" method="POST">
+                @csrf
+                <div class="card user-social-card">
+                    <div class="card-header">
+                        <h1 class="card-title">Socials</h1>
+                        <p class="card-text">Social medias for your personal profile</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="input-group mb-3 website">
+                                    <span class="input-group-text"><i class="fa-solid fa-globe"></i></span>
+                                    <input type="text" name="website" class="form-control"
+                                           value="{{ old('website') ?? ($user->website ?? '') }}"
+                                           placeholder="Website">
+                                </div>
+                            </div>
+                            @if(!empty($user->socialsActive))
+                                @foreach($user->socialsActive as $item)
+                                    @php
+                                        $item_social_name = $item->social?->name;
+                                        $item_social_name_lowercase = \Illuminate\Support\Str::lower($item_social_name);
+                                    @endphp
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="input-group mb-3 {{ $item_social_name_lowercase }}">
+                                            <span class="input-group-text">
+                                                <i class="fa-brands fa-{{ $item_social_name_lowercase }}"></i>
+                                            </span>
+                                            <input type="hidden" name="socials[{{ $item->id }}][social_id]"
+                                                   value="{{ $item->social_id }}">
+                                            <input type="hidden" name="socials[{{ $item->id }}][name]"
+                                                   value="{{ $item_social_name_lowercase }}">
+                                            <input type="text" name="socials[{{ $item->id }}][link]"
+                                                   class="form-control" placeholder="{{ $item_social_name }}"
+                                                   value="{{ old('socials.'.$item->id.'.link') ?? ($item->link ?? '') }}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer">

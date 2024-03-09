@@ -90,4 +90,14 @@ class User extends Authenticatable
     {
         return $this->morphMany(Log::class, 'user_id', 'id');
     }
+
+    public function socials(): HasMany
+    {
+        return $this->hasMany(UserSocial::class, 'user_id', 'id');
+    }
+
+    public function socialsActive(): HasMany
+    {
+        return $this->hasMany(UserSocial::class, 'user_id', 'id')->where('status', 1);
+    }
 }

@@ -51,25 +51,210 @@
 
 .user-profile-card .card-header,
 .user-profile-card .card-body,
-.user-profile-card .card-footer {
+.user-profile-card .card-footer,
+.user-social-card .card-header,
+.user-social-card .card-body,
+.user-social-card .card-footer {
     padding: 1rem;
     background-color: var(--color-white);
 }
 
-.user-profile-card .card-header .card-title {
+.user-profile-card .card-header .card-title,
+.user-social-card .card-header .card-title {
     margin-bottom: .5rem;
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.2;
 }
 
-.user-profile-card .card-header .card-text {
+.user-profile-card .card-header .card-text,
+.user-social-card .card-header .card-text {
     color: var(--color-gray-15);
     font-size: .85rem;
     font-weight: 400;
     line-height: 0.8;
 }
 
-.user-profile-card .card-footer {
+.user-profile-card .card-footer,
+.user-social-card .card-footer {
     text-align: end;
+}
+
+.user-social-card .card-body .input-group .input-group-text i {
+    color: var(--color-white);
+}
+
+.user-social-card .card-body .input-group input.form-control:focus {
+    box-shadow: none;
+}
+
+.user-social-card .card-body .input-group.website .input-group-text {
+    background-color: var(--color-website);
+    border-color: var(--color-website);
+}
+
+.user-social-card .card-body .input-group input {
+    font-size: 14px;
+}
+
+.user-social-card .card-body .input-group.website input {
+    border-color: var(--color-website);
+}
+
+.user-social-card .card-body .input-group.instagram .input-group-text {
+    /*background-color: var(--color-instagram);*/
+    background: var(--color-instagram-gradient);
+    border-color: var(--color-instagram);
+}
+
+.user-social-card .card-body .input-group.instagram input {
+    border-color: var(--color-instagram);
+    /*border: 1px solid;
+    border-image-slice: 1;
+    border-image-source: var(--color-instagram-gradient);
+    border-radius: .25rem;*/
+}
+
+.user-social-card .card-body .input-group.twitter .input-group-text {
+    background-color: var(--color-twitter);
+    border-color: var(--color-twitter);
+}
+
+.user-social-card .card-body .input-group.twitter input {
+    border-color: var(--color-twitter);
+}
+
+.user-social-card .card-body .input-group.facebook .input-group-text {
+    background-color: var(--color-facebook);
+    border-color: var(--color-facebook);
+}
+
+.user-social-card .card-body .input-group.facebook input {
+    border-color: var(--color-facebook);
+}
+
+.user-social-card .card-body .input-group.youtube .input-group-text {
+    background-color: var(--color-youtube);
+    border-color: var(--color-youtube);
+}
+
+.user-social-card .card-body .input-group.youtube input {
+    border-color: var(--color-youtube);
+}
+
+.user-social-card .card-body .input-group.google .input-group-text {
+    background-color: var(--color-google);
+    border-color: var(--color-google);
+}
+
+.user-social-card .card-body .input-group.google input {
+    border-color: var(--color-google);
+}
+
+.user-social-card .card-body .input-group.whatsapp .input-group-text {
+    background-color: var(--color-whatsapp);
+    border-color: var(--color-whatsapp);
+}
+
+.user-social-card .card-body .input-group.whatsapp input {
+    border-color: var(--color-whatsapp);
+}
+
+.user-social-card .card-body .input-group.telegram .input-group-text {
+    background-color: var(--color-telegram);
+    border-color: var(--color-telegram);
+}
+
+.user-social-card .card-body .input-group.telegram input {
+    border-color: var(--color-telegram);
+}
+
+.user-social-card .card-body .input-group.skype .input-group-text {
+    background-color: var(--color-skype);
+    border-color: var(--color-skype);
+}
+
+.user-social-card .card-body .input-group.skype input {
+    border-color: var(--color-skype);
+}
+
+.user-social-card .card-body .input-group.linkedin .input-group-text {
+    background-color: var(--color-linkedin);
+    border-color: var(--color-linkedin);
+}
+
+.user-social-card .card-body .input-group.linkedin input {
+    border-color: var(--color-linkedin);
+}
+
+.user-social-card .card-body .input-group.github .input-group-text {
+    background-color: var(--color-github);
+    border-color: var(--color-github);
+}
+
+.user-social-card .card-body .input-group.github input {
+    border-color: var(--color-github);
+}
+
+.user-social-card .card-body .input-group.medium .input-group-text {
+    background-color: var(--color-medium);
+    border-color: var(--color-medium);
+}
+
+.user-social-card .card-body .input-group.medium input {
+    border-color: var(--color-medium);
+}
+
+.user-social-card .card-body .input-group.pinterest .input-group-text {
+    background-color: var(--color-pinterest);
+    border-color: var(--color-pinterest);
+}
+
+.user-social-card .card-body .input-group.pinterest input {
+    border-color: var(--color-pinterest);
+}
+
+.user-social-card .card-body .input-group.tumblr .input-group-text {
+    background-color: var(--color-tumblr);
+    border-color: var(--color-tumblr);
+}
+
+.user-social-card .card-body .input-group.tumblr input {
+    border-color: var(--color-tumblr);
+}
+
+.user-social-card .card-body .input-group.dribbble .input-group-text {
+    background-color: var(--color-dribbble);
+    border-color: var(--color-dribbble);
+}
+
+.user-social-card .card-body .input-group.dribbble input {
+    border-color: var(--color-dribbble);
+}
+
+.user-social-card .card-body .input-group.wordpress .input-group-text {
+    background-color: var(--color-wordpress);
+    border-color: var(--color-wordpress);
+}
+
+.user-social-card .card-body .input-group.wordpress input {
+    border-color: var(--color-wordpress);
+}
+
+.user-social-card .card-body .input-group.discord .input-group-text {
+    background-color: var(--color-discord);
+    border-color: var(--color-discord);
+}
+
+.user-social-card .card-body .input-group.discord input {
+    border-color: var(--color-discord);
+}
+
+.user-social-card .card-body .input-group.paypal .input-group-text {
+    background-color: var(--color-paypal);
+    border-color: var(--color-paypal);
+}
+
+.user-social-card .card-body .input-group.paypal input {
+    border-color: var(--color-paypal);
 }

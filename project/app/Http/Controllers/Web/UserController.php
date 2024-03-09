@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
+use App\Http\Requests\Web\UserUpdateSocialsRequest;
 use App\Models\User;
+use App\Models\UserSocial;
 use App\Traits\Loggable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -22,6 +24,7 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::guard('web')->user();
+        $user->load('socialsActive:id,social_id,user_id,link');
         $title = 'User Profile';
         return view('web.user.index', compact(['title', 'user']));
     }
@@ -101,5 +104,34 @@ class UserController extends Controller
         alert()->success("Success", "Your password has been updated successfully.")
             ->showConfirmButton("OK")->autoClose(5000);
         return redirect()->route('login.index')->onlyInput();
+    }
+
+    public function update_socials(UserUpdateSocialsRequest $request, User $user)
+    {
+        try {
+            $user->website = $request->website;
+            $user->save();
+            if (!empty($request->socials)) {
+                $socials_array = UserSocial::query()->where('user_id', $user->id)
+                    ->pluck('link', 'social_id')->toArray();
+                $changed_socials = [];
+                foreach ($request->socials as $social_item) {
+                    UserSocial::updateOrCreate(['social_id' => $social_item['social_id'], 'user_id' => $user->id],
+                        ['link' => $social_item['link']]);
+                    if (!array_key_exists($social_item['social_id'],
+                            $socials_array) || $socials_array[$social_item['social_id']] !== $social_item['link']) {
+                        $changed_socials[$social_item['name']]['old'] = $socials_array[$social_item['social_id']];
+                        $changed_socials[$social_item['name']]['new'] = $social_item['link'];
+                    }
+                }
+                $this->log('update', UserSocial::class, $user->id, $changed_socials);
+            }
+        } catch (\Exception $e) {
+            alert()->error("Error", "Your socials could not be saved.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token");
+        }
+        alert()->success("Success", "Your socials has been updated successfully.")
+            ->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->back()->exceptInput("_token");
     }
 }

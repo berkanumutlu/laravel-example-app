@@ -36,9 +36,13 @@ class SocialMediaController extends BaseController
                             $changed_social_media_list[$item_name]['old'] = $item->link;
                             $changed_social_media_list[$item_name]['new'] = $item_value;
                         }
-                        SocialMedia::query()->where('id', $id)->update([
+                        $item->link = $item_value;
+                        $item->status = $item_status;
+                        $item->sort = $attributes['sort'];
+                        $item->save();
+                        /*SocialMedia::query()->where('id', $id)->update([
                             'link' => $item_value, 'status' => $item_status, 'sort' => $attributes['sort']
-                        ]);
+                        ]);*/
                     }
                 }
                 $this->log('update', $social_media_list->first(), 0, $changed_social_media_list);

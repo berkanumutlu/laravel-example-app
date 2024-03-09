@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
+            $table->string('website', 100)->nullable();
             $table->boolean("status")->default(0);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
