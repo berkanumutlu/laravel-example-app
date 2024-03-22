@@ -37,6 +37,8 @@
                                     :authorName="$user->name"
                                     :authorTitle="$user->title"
                                     :authorDescription="$user->description"
+                                    :authorWebsite="$user->website"
+                                    :authorSocials="$user->socialsActive"
                                 ></x-web.section-author>
                             </div>
                             <div class="col-md-6">
@@ -183,6 +185,34 @@
                 var value = $(this).val();
                 var input = $('.author .author-content .description');
                 change_input_value_live(value, input, 'html');
+            });
+            $('input[name="website"]').on('input', function () {
+                let val = $(this).val();
+                let social_website = $('.author-content .socials .social-list .social-item.website');
+                if (val.trim() != '') {
+                    let regex = /^(http:\/\/|https:\/\/)/i;
+                    if (!regex.test(val)) {
+                        val = 'https://' + val;
+                    }
+                    social_website.fadeIn(1000);
+                    social_website.find('a').attr('href', val);
+                } else {
+                    social_website.fadeOut(1000);
+                }
+            });
+            $('input[name^="socials"]').on('input', function () {
+                let val = $(this).val();
+                let social_website = $('.author-content .socials .social-list .social-item.' + $(this).prev('input').val());
+                if (val.trim() != '') {
+                    let regex = /^(http:\/\/|https:\/\/)/i;
+                    if (!regex.test(val)) {
+                        val = 'https://' + val;
+                    }
+                    social_website.fadeIn(1000);
+                    social_website.find('a').attr('href', val);
+                } else {
+                    social_website.fadeOut(1000);
+                }
             });
         });
     </script>

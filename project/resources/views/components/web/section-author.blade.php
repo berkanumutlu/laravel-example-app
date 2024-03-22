@@ -34,82 +34,58 @@
             <h4 class="name">{{ $author_name }}</h4>
             <div class="designation">{{ $authorTitle ?? '' }}</div>
             <div class="description">{!! $authorDescription ?? '' !!}</div>
-            <div class="socials">
-                <ul class="social-list">
-                    <li class="social-item website">
-                        <a aria-label="Learn more from my website" href="https://example.com" target="_blank"
-                           rel="nofollow"><i class="fa-solid fa-globe"></i></a>
-                    </li>
-                    <li class="social-item instagram">
-                        <a aria-label="Learn more from Instagram" href="https://instagram.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-instagram"></i></a>
-                    </li>
-                    <li class="social-item twitter">
-                        <a aria-label="Learn more from Twitter" href="https://twitter.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-twitter"></i></a>
-                    </li>
-                    <li class="social-item facebook">
-                        <a aria-label="Learn more from Facebook" href="https://facebook.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-facebook"></i></a>
-                    </li>
-                    <li class="social-item youtube">
-                        <a aria-label="Learn more from Youtube" href="https://youtube.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-youtube"></i></a>
-                    </li>
-                    <li class="social-item google">
-                        <a aria-label="Learn more from Google" href="https://google.com" target="_blank" rel="nofollow">
-                            <i class="fa-brands fa-google"></i></a>
-                    </li>
-                    <li class="social-item whatsapp">
-                        <a aria-label="Contact us on Whatsapp" href="https://whatsapp.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-whatsapp"></i></a>
-                    </li>
-                    <li class="social-item telegram">
-                        <a aria-label="Contact us on Telegram" href="https://telegram.org" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-telegram"></i></a>
-                    </li>
-                    <li class="social-item skype">
-                        <a aria-label="Contact us on Skype" href="https://skype.com" target="_blank" rel="nofollow">
-                            <i class="fa-brands fa-skype"></i></a>
-                    </li>
-                    <li class="social-item linkedin">
-                        <a aria-label="Learn more from LinkedIn" href="https://www.linkedin.com/in/berkanumutlu"
-                           target="_blank" rel="nofollow"><i class="fa-brands fa-linkedin"></i></a>
-                    </li>
-                    <li class="social-item github">
-                        <a aria-label="Learn more from Github" href="https://github.com/berkanumutlu" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-github"></i></a>
-                    </li>
-                    <li class="social-item medium">
-                        <a aria-label="Learn more from Medium" href="https://medium.com/@berkanumutlu" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-medium"></i></a>
-                    </li>
-                    <li class="social-item pinterest">
-                        <a aria-label="Learn more from Pinterest" href="https://pinterest.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-pinterest"></i></a>
-                    </li>
-                    <li class="social-item tumblr">
-                        <a aria-label="Learn more from Tumblr" href="https://tumblr.com" target="_blank" rel="nofollow">
-                            <i class="fa-brands fa-tumblr"></i></a>
-                    </li>
-                    <li class="social-item dribbble">
-                        <a aria-label="Learn more from Dribbble" href="https://dribbble.com/berkanumutlu"
-                           target="_blank" rel="nofollow"><i class="fa-brands fa-dribbble"></i></a>
-                    </li>
-                    <li class="social-item wordpress">
-                        <a aria-label="Learn more from Wordpress" href="https://wordpress.com" target="_blank"
-                           rel="nofollow"><i class="fa-brands fa-wordpress"></i></a>
-                    </li>
-                    <li class="social-item discord">
-                        <a aria-label="Join our Discord" href="https://discord.com" target="_blank" rel="nofollow">
-                            <i class="fa-brands fa-discord"></i></a>
-                    </li>
-                    <li class="social-item paypal">
-                        <a aria-label="Donate on Paypal" href="https://paypal.com" target="_blank" rel="nofollow">
-                            <i class="fa-brands fa-paypal"></i></a>
-                    </li>
-                </ul>
-            </div>
+            @if(Route::is('user.profile'))
+                @php
+                    $user_socials = $authorSocials->pluck('link','social_id')->toArray()
+                @endphp
+                <div class="socials">
+                    <ul class="social-list">
+                        <li class="social-item website" {!! !empty($authorWebsite) ? '' : 'style="display:none"' !!}>
+                            <a aria-label="Learn more from my website" href="{{ $authorWebsite }}" target="_blank"
+                               rel="nofollow"><i class="fa-solid fa-globe"></i></a>
+                        </li>
+                        @if($authorSocials->count() > 0)
+                            @foreach($authorSocials as $item)
+                                @php
+                                    $item_social_name = $item->social?->name;
+                                    $item_social_name_lowercase = \Illuminate\Support\Str::lower($item_social_name);
+                                @endphp
+                                <li class="social-item {{ $item_social_name_lowercase }}" {!! !empty($user_socials[$item->id]) ? '' : 'style="display:none"' !!}>
+                                    <a aria-label="Learn more from {{ $item_social_name }}" href="{{ $item->link }}"
+                                       target="_blank" rel="nofollow">
+                                        <i class="fa-brands fa-{{ $item_social_name_lowercase }}"></i></a>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            @elseif($authorSocials->count() > 0 || !empty($authorWebsite))
+                <div class="socials">
+                    <ul class="social-list">
+                        @if(!empty($authorWebsite))
+                            <li class="social-item website">
+                                <a aria-label="Learn more from my website" href="{{ $authorWebsite }}" target="_blank"
+                                   rel="nofollow"><i class="fa-solid fa-globe"></i></a>
+                            </li>
+                        @endif
+                        @if($authorSocials->count() > 0)
+                            @foreach($authorSocials as $item)
+                                @if(!empty($item->link))
+                                    @php
+                                        $item_social_name = $item->social?->name;
+                                        $item_social_name_lowercase = \Illuminate\Support\Str::lower($item_social_name);
+                                    @endphp
+                                    <li class="social-item {{ $item_social_name_lowercase }}">
+                                        <a aria-label="Learn more from {{ $item_social_name }}" href="{{ $item->link }}"
+                                           target="_blank" rel="nofollow">
+                                            <i class="fa-brands fa-{{ $item_social_name_lowercase }}"></i></a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </section>

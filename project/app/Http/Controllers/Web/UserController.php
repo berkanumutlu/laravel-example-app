@@ -24,7 +24,7 @@ class UserController extends Controller
     public function edit()
     {
         $user = Auth::guard('web')->user();
-        $user->load('socialsActive:id,social_id,user_id,link');
+        $user->load(['socialsActive:id,social_id,user_id,link', 'socialsActive.social:id,name,icon']);
         $title = 'User Profile';
         return view('web.user.index', compact(['title', 'user']));
     }

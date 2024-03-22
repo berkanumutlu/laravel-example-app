@@ -23,8 +23,10 @@ class VisitedArticle
     {
         $article = $this->article->query()->where('slug', $request->slug)->status(1)
             ->with([
-                'category:id,name,slug', 'user:id,name,username,title,description,image', 'likes:id,user_id',
-                'comments', 'comments.user:id,name,image', 'comments.children', 'comments.children.user:id,name,image',
+                'category:id,name,slug', 'user:id,name,username,title,description,image,website',
+                'user.socialsActive:id,social_id,user_id,link', 'user.socialsActive.social:id,name,icon',
+                'likes:id,user_id', 'comments', 'comments.user:id,name,image', 'comments.children',
+                'comments.children.user:id,name,image',
                 'comments.currentUserLiked', 'comments.currentUserDisliked'
             ])
             ->select([

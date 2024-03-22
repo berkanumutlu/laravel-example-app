@@ -123,6 +123,8 @@
                         :authorName="$record->user?->name"
                         :authorTitle="$record->user?->title"
                         :authorDescription="$record->user?->description"
+                        :authorWebsite="$record->user?->website"
+                        :authorSocials="$record->user?->socialsActive"
                     ></x-web.section-author>
                     @if(!empty($suggested_articles))
                         <section class="suggested-article-list" data-aos="fade-up">
