@@ -22,13 +22,17 @@ Route::prefix('register')->name('register.')->controller('RegisterController')->
     Route::get('', "index")->name('index');
     Route::post('', "store");
 });
-Route::get('auth/verify/{token}', [\App\Http\Controllers\Web\AuthController::class, "verify"])->name('auth.verify.token');
-Route::get('auth/social/{social}/redirect', [\App\Http\Controllers\Web\AuthController::class, "social_redirect"])->name('auth.social.redirect')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
-Route::get('auth/social/{social}/callback', [\App\Http\Controllers\Web\AuthController::class, "social_callback"])->name('auth.social.callback')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
-Route::get('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_show'])->name('reset.password');
-Route::post('reset-password', [\App\Http\Controllers\Web\LoginController::class, 'reset_password']);
-Route::get('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm_show'])->name('reset.password.confirm');
-Route::post('reset-password/{token}', [\App\Http\Controllers\Web\LoginController::class, 'reset_password_confirm']);
+Route::prefix('auth')->name('auth.')->controller('AuthController')->group(function () {
+    Route::get('verify/{token}', "verify")->name('verify.token');
+    Route::get('social/{social}/redirect', "social_redirect")->name('social.redirect')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+    Route::get('social/{social}/callback', "social_callback")->name('social.callback')->whereIn("social", ['google', 'facebook', 'twitter', 'github']);
+});
+Route::prefix('reset-password')->name('reset.password.')->controller('LoginController')->group(function () {
+    Route::get('', "reset_password_show")->name('index');
+    Route::post('', "reset_password");
+    Route::get('{token}', "reset_password_confirm_show")->name('confirm');
+    Route::post('{token}', "reset_password_confirm");
+});
 Route::prefix('user')->name('user.')->controller('UserController')->middleware('auth:web')->group(function () {
     Route::get('profile', "edit")->name('profile');
     Route::post('profile/edit/{user:id}', "update")->name('profile.edit')->whereNumber('id');

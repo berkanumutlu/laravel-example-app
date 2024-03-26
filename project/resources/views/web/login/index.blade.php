@@ -55,7 +55,8 @@
                                                     <label class="form-check-label" for="remember_me">Remember
                                                         me</label>
                                                 </div>
-                                                <a href="{{ route('reset.password') }}" class="reset-password-link">Forgot
+                                                <a href="{{ route('reset.password.index') }}"
+                                                   class="reset-password-link">Forgot
                                                     Password?</a>
                                             </div>
                                         </div>
