@@ -23,7 +23,7 @@
                             <div class="reset-password-form">
                                 <x-web.errors :errors="$errors"></x-web.errors>
                                 <form
-                                    action="{{ !empty($token) ? route('reset.password.confirm', ['token' => $token]) : route('reset.password') }}"
+                                    action="{{ !empty($token) ? route('reset.password.confirm', ['token' => $token]) : route('reset.password.index') }}"
                                     method="POST">
                                     @csrf
                                     <div class="row">

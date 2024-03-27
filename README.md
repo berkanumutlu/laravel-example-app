@@ -10,12 +10,9 @@
 
 # Laravel Example App
 
-It is an article publishing web project using Laravel. There is an admin panel within the project. In the admin panel,
-administrators and users can be created, articles can be added, edited and deleted, categories can be added, edited and
-deleted, and categories can be assigned to articles. On the web side, users can view the list of articles, filter by
-categories, and comment on articles.
+It is an article publishing web project using Laravel. There is an admin panel within the project. In the admin panel, administrators and users can be created, articles can be added, edited and deleted, categories can be added, edited and deleted, and categories can be assigned to articles. On the web side, users can view the list of articles, filter by categories, and comment on articles.
 
-# Installation
+## Installation
 
 ```sh
 $ docker-compose up
@@ -47,6 +44,17 @@ $ laravel new project
 $ cd project
 $ php artisan serve
 ```
+
+## Screenshots
+
+![screenshot01](screenshots/home.png)
+![screenshot02](screenshots/article_list.png)
+![screenshot03](screenshots/article_detail.png)
+![screenshot04](screenshots/login.png)
+![screenshot05](screenshots/register.png)
+![screenshot06](screenshots/reset-password.png)
+![screenshot07](screenshots/user_profile.png)
+![screenshot08](screenshots/user_change-password.png)
 
 ## License
 
