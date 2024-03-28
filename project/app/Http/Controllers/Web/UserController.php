@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
 use App\Http\Requests\Web\UserUpdateSocialsRequest;
+use App\Models\Article;
 use App\Models\User;
 use App\Models\UserSocial;
 use App\Traits\Loggable;
@@ -133,5 +134,17 @@ class UserController extends Controller
         alert()->success("Success", "Your socials has been updated successfully.")
             ->showConfirmButton("OK")->autoClose(5000);
         return redirect()->back()->exceptInput("_token");
+    }
+
+    public function show_article_list()
+    {
+        $user = Auth::guard('web')->user();
+        $article_list = Article::query()->status(1)->user($user->id)
+            ->with('category:id,name,slug')
+            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id'])
+            ->orderBy('publish_date', 'desc')
+            ->paginate(15);
+        $title = $user->name.'\'s Article List';
+        return view('web.user.article-list', compact(['title', 'article_list']));
     }
 }
