@@ -31,15 +31,16 @@ class WebServiceProvider extends ServiceProvider
                 'web.layouts.*', 'layouts.email', 'web.email.*', 'components.web.*', 'web.home.index',
                 'web.article.detail'
             ], function ($view) use ($settings) {
-                $favicon = asset('assets/web/images/logomark.min.svg');
-                $site_name = $settings->site_name ?? '';
-                $site_slogan = $settings->site_slogan ?? '';
-                $site_logo = !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg');
-                $view->with(compact(['site_name', 'site_slogan', 'site_logo', 'favicon', 'settings']));
+                $view->with([
+                    'site_name'   => $settings->site_name ?? '',
+                    'site_slogan' => $settings->site_slogan ?? '',
+                    'site_logo'   => !empty($settings->image_logo) ? asset($settings->image_logo) : asset('assets/web/images/logomark.min.svg'),
+                    'favicon'     => asset('assets/web/images/logomark.min.svg'),
+                    'settings'    => $settings
+                ]);
             });
             View::composer('components.web.sidebar', function ($view) {
-                $categories = $this->get_categories();
-                $view->with(compact(['categories']));
+                $view->with(['categories' => $this->get_categories()]);
             });
             View::composer('web.layouts.index', function ($view) {
                 $view->with(['socials' => $this->get_socials()]);

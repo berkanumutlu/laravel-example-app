@@ -2,7 +2,6 @@
 @section("style")
     <link href="{{ asset('assets/web/css/pages/user-profile.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
 @endsection
 @section("content")
     <main class="py-5">
@@ -21,7 +20,8 @@
                             <x-web.item-article
                                 :item="$item"
                                 :articleItemAttributes="'data-aos=flip-down'"
-                                :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
+                                :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"
+                                :userPage="true"></x-web.item-article>
                         </div>
                     @endforeach
                     @if($article_list->lastPage() > 1)

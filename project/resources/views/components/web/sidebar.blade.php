@@ -163,10 +163,12 @@
         </div>
     </section>
 @endif
-@push("style")
+@pushonce("style")
+    <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/web/css/components/sidebar.min.css') }}" rel="stylesheet">
-@endpush
-@push("scripts")
+@endpushonce
+@pushonce("scripts")
+    <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
     <script src="{{ asset("assets/web/js/components/sidebar.js") }}"></script>
     <script>
         jQuery(function ($) {
@@ -180,4 +182,4 @@
             }
         });
     </script>
-@endpush
+@endpushonce

@@ -41,6 +41,7 @@ Route::prefix('user')->name('user.')->controller('UserController')->middleware('
     Route::post('socials/edit/{user:id}', "update_socials")->name('social.edit')->whereNumber('id');
     Route::prefix('article')->name('article.')->group(function () {
         Route::get('list', "show_article_list")->name('list');
+        Route::get('detail/{article:slug}', "edit_article")->name('detail');
     });
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {

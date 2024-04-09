@@ -7,6 +7,7 @@ use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
 use App\Http\Requests\Web\UserUpdateSocialsRequest;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\UserSocial;
 use App\Traits\Loggable;
@@ -146,5 +147,63 @@ class UserController extends Controller
             ->paginate(15);
         $title = $user->name.'\'s Article List';
         return view('web.user.article-list', compact(['title', 'article_list']));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit_article(Article $article)
+    {
+        $user = Auth::guard('web')->user();
+        if ($article->user_id != $user->id) {
+            abort(403);
+        }
+        $article->load([
+            'category:id,name,slug', 'user:id,name,username', 'comments', 'comments.user:id,name,image',
+            'comments.children', 'comments.children.user:id,name,image'
+        ]);
+        $article->commentsCount = $article->comments?->count();
+        $article->comments?->map(function ($item) use ($article) {
+            if (!is_null($item->deleted_at)) {
+                $item->comment = '(This message has been deleted.)';
+                $item->is_deleted = true;
+            } else {
+                $item->is_deleted = false;
+            }
+            if (is_null($item->user?->name)) {
+                $item->user = new User();
+                $item->user->name = 'Guest';
+            }
+            if (!is_null($item->user?->image)) {
+                $item->user->image = asset($item->user?->image);
+            }
+            $article->commentsCount += $item->children?->count();
+            if ($item->children?->count() > 0) {
+                $item->children->map(function ($child) {
+                    if (!is_null($child->deleted_at)) {
+                        $child->comment = '(This message has been deleted.)';
+                        $child->is_deleted = true;
+                    } else {
+                        $child->is_deleted = false;
+                    }
+                    if (is_null($child->user?->name)) {
+                        $child->user = new User();
+                        $child->user->name = 'Guest';
+                    }
+                    if (!is_null($child->user?->image)) {
+                        $child->user->image = asset($child->user?->image);
+                    }
+                });
+            }
+        });
+        $category_list = Category::where('status', 1)->select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $userPage = true;
+        $record = $article;
+        $title = $record->title;
+        $description = $record->seo_description;
+        $keywords = $record->seo_keywords;
+        // view('web.user.article-detail', compact(['title', 'record']));
+        return view('web.article.detail',
+            compact(['title', 'description', 'keywords', 'record', 'category_list', 'userPage']));
     }
 }

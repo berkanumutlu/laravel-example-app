@@ -1,7 +1,6 @@
 @extends("web.layouts.index")
 @section("style")
     <link href="{{ asset('assets/web/css/pages/articles.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
 @endsection

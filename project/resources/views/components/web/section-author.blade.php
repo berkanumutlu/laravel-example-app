@@ -35,9 +35,6 @@
             <div class="designation">{{ $authorTitle ?? '' }}</div>
             <div class="description">{!! $authorDescription ?? '' !!}</div>
             @if(Route::is('user.profile'))
-                @php
-                    $user_socials = $authorSocials->pluck('link','social_id')->toArray()
-                @endphp
                 <div class="socials">
                     <ul class="social-list">
                         <li class="social-item website" {!! !empty($authorWebsite) ? '' : 'style="display:none"' !!}>
@@ -45,12 +42,15 @@
                                rel="nofollow"><i class="fa-solid fa-globe"></i></a>
                         </li>
                         @if($authorSocials->count() > 0)
+                            @php
+                                $user_socials = $authorSocials->pluck('link','social_id')->toArray();
+                            @endphp
                             @foreach($authorSocials as $item)
                                 @php
                                     $item_social_name = $item->social?->name;
                                     $item_social_name_lowercase = \Illuminate\Support\Str::lower($item_social_name);
                                 @endphp
-                                <li class="social-item {{ $item_social_name_lowercase }}" {!! !empty($user_socials[$item->id]) ? '' : 'style="display:none"' !!}>
+                                <li class="social-item {{ $item_social_name_lowercase }}" {!! !empty($user_socials[$item->social_id]) ? '' : 'style="display:none"' !!}>
                                     <a aria-label="Learn more from {{ $item_social_name }}" href="{{ $item->link }}"
                                        target="_blank" rel="nofollow">
                                         <i class="fa-brands fa-{{ $item_social_name_lowercase }}"></i></a>
@@ -89,11 +89,11 @@
         </div>
     </div>
 </section>
-@push("style")
+@pushonce("style")
     <link href="{{ asset('assets/web/css/components/author-card.min.css') }}" rel="stylesheet">
-@endpush
+@endpushonce
 @if(Route::is('user.profile'))
-    @push("scripts")
+    @pushonce("scripts")
         <script>
             $(document).ready(function () {
                 $(".edit-author-image").on("click", function (e) {
@@ -141,5 +141,5 @@
                 });
             });
         </script>
-    @endpush
+    @endpushonce
 @endif

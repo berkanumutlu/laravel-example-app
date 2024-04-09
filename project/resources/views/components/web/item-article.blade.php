@@ -1,5 +1,12 @@
 @php
-    $item_url = !empty($item->slug) ? route('article.detail', ['slug' => $item->slug]) : '';
+    $item_url = '';
+    if (!empty($item->slug)) {
+        if (!empty($userPage)) {
+            $item_url =  route('user.article.detail', ['article' => $item->slug]);
+        } else {
+            $item_url =  route('article.detail', ['slug' => $item->slug]);
+        }
+    }
     $item_image = $item->image;
     if (empty($item_image) && !empty($settings->image_default_article)) {
         $item_image = $settings->image_default_article;
@@ -32,3 +39,6 @@
         </div>
     </div>
 </div>
+@pushonce("style")
+    <link href="{{ asset('assets/web/css/components/article-item.min.css') }}" rel="stylesheet">
+@endpushonce
