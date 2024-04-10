@@ -57,12 +57,14 @@
                                         <div class="swiper-wrapper">
                                             <!-- Slides -->
                                             @foreach($popular_article_list as $item)
-                                                <div class="swiper-slide" data-aos="zoom-in-up">
-                                                    <x-web.item-article
-                                                        :item="$item"
-                                                        :articleItemAttributes="'data-aos=flip-down'"
-                                                        :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
-                                                </div>
+                                                @if($item->status == 1)
+                                                    <div class="swiper-slide" data-aos="zoom-in-up">
+                                                        <x-web.item-article
+                                                            :item="$item"
+                                                            :articleItemAttributes="'data-aos=flip-down'"
+                                                            :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -88,12 +90,14 @@
                                     <h2 class="my-3 font-weight-bold">Last Articles</h2>
                                 </div>
                                 @foreach($last_article_list as $item)
-                                    <div class="col-xl-4">
-                                        <x-web.item-article
-                                            :item="$item"
-                                            :articleItemAttributes="'data-aos=flip-down'"
-                                            :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
-                                    </div>
+                                    @if($item->status == 1)
+                                        <div class="col-xl-4">
+                                            <x-web.item-article
+                                                :item="$item"
+                                                :articleItemAttributes="'data-aos=flip-down'"
+                                                :articleCategoryLinkAttributes="'data-aos=flip-right data-aos-easing=ease-out-cubic data-aos-duration=2500'"></x-web.item-article>
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </section>

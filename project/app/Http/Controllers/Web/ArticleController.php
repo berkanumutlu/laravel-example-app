@@ -36,7 +36,7 @@ class ArticleController extends Controller
     public function show(string $slug)
     {
         $record = session()->get('last_article');
-        if (empty($record)) {
+        if (empty($record) || $record->slug != $slug) {
             abort(404);
         }
         $visited_articles = session()->get('visited_articles', []);

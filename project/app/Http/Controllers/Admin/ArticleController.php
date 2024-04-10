@@ -246,7 +246,6 @@ class ArticleController extends BaseController
             $record->image = $public_path.'/'.$image_file_name;
         }
         try {
-            $changed_fields = $record->getDirty();
             $record->save();
             if ($image_file) {
                 $image_file->storeAs($folder, $image_file_name);
@@ -254,28 +253,6 @@ class ArticleController extends BaseController
                     if (file_exists(public_path($record_image))) {
                         //Storage::delete($record->image); // DB'de image değerleri storage/... olarak tutulduğu için çalışmadı.
                         File::delete(public_path($record_image));
-                    }
-                }
-            }
-            if (!empty($changed_fields)) {
-                if (Cache::has('popular_article_list')) {
-                    $cache = Cache::get('popular_article_list');
-                    if (!empty($cache)) {
-                        $cache_record = $cache->where('id', $record->id)->first();
-                        if (!empty($cache_record)) {
-                            $cache_record->update($changed_fields);
-                            Cache::put('popular_article_list', $cache);
-                        }
-                    }
-                }
-                if (Cache::has('last_article_list')) {
-                    $cache = Cache::get('last_article_list');
-                    if (!empty($cache)) {
-                        $cache_record = $cache->where('id', $record->id)->first();
-                        if (!empty($cache_record)) {
-                            $cache_record->update($changed_fields);
-                            Cache::put('last_article_list', $cache);
-                        }
                     }
                 }
             }

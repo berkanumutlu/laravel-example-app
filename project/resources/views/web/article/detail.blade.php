@@ -17,204 +17,221 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-9">
-                    <section class="article-detail" data-aos="zoom-in-right">
-                        <div class="article-header">
-                            @if(empty($userPage))
-                                <h1 class="title">{{ $record->title ?? '' }}</h1>
-                            @else
-                                <div class="mb-2">
-                                    <input type="text" class="form-control" name="title" id="title"
-                                           placeholder="Article Title" required
-                                           value="{{ old('title') ?? ($record->title ?? '') }}">
-                                </div>
+                    @if (!empty($userPage))
+                        <form action="{{ route('user.article.edit', ['article' => $record]) }}" method="POST">
+                            @csrf
                             @endif
-                            <ul class="meta">
-                                <li class="author">by <a
-                                        href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
-                                    @if(!empty($record->category?->slug))
+                            <section class="article-detail" data-aos="zoom-in-right">
+                                <div class="article-header">
+                                    @if(empty($userPage))
+                                        <h1 class="title">{{ $record->title ?? '' }}</h1>
+                                    @else
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control" name="title" id="title"
+                                                   placeholder="Article Title" required
+                                                   value="{{ old('title') ?? ($record->title ?? '') }}">
+                                        </div>
+                                    @endif
+                                    <ul class="meta">
+                                        <li class="author">by <a
+                                                href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
+                                            @if(!empty($record->category?->slug))
+                                                @if(empty($userPage))
+                                                    in <a
+                                                        href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
+                                                @else
+                                                    in <select class="form-select" name="category_id" id="category_id"
+                                                               class="bg-light" aria-label="Category">
+                                                        <option value="{{ null }}">Category</option>
+                                                        @if(!empty($category_list))
+                                                            @foreach($category_list as $item)
+                                                                <option
+                                                                    value="{{ $item->id }}" {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                @endif
+                                            @endif
+                                        </li>
                                         @if(empty($userPage))
-                                            in <a
-                                                href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
+                                            @if(!empty($record->publish_date))
+                                                <li class="date">
+                                                    @php
+                                                        $record_publish_date = \Illuminate\Support\Carbon::parse($record->publish_date)->format('d M Y');
+                                                    @endphp
+                                                    <span class="material-icons-outlined">calendar_month</span>
+                                                    <time
+                                                        datetime="{{ $record_publish_date }}">{{ $record_publish_date }}</time>
+                                                </li>
+                                            @endif
                                         @else
-                                            in <select class="form-select" name="category_id" id="category_id"
-                                                       class="bg-light" aria-label="Category">
-                                                <option value="{{ null }}">Category</option>
-                                                @if(!empty($category_list))
-                                                    @foreach($category_list as $item)
-                                                        <option
-                                                            value="{{ $item->id }}" {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            <li class="date">
+                                                <span class="material-icons-outlined">calendar_month</span>
+                                                <input type="text"
+                                                       class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
+                                                       name="publish_date" id="publish_date" placeholder="Publish Date"
+                                                       style="max-width: 170px;"
+                                                       value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
+                                            </li>
+                                        @endif
+                                        <li class="read_time">
+                                            <span class="material-icons-outlined">schedule</span>
+                                            @if(empty($userPage))
+                                                {{ $record->read_time ?? '' }} min.
+                                            @else
+                                                <input type="number"
+                                                       class="form-control form-control-solid-bordered m-b-sm"
+                                                       name="read_time" id="read_time" placeholder="Article Read Time"
+                                                       style="max-width: 70px;"
+                                                       value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
+                                                min.
+                                            @endif
+                                        </li>
+                                        <li class="view-count">
+                                    <span
+                                        class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
+                                        </li>
+                                        <li class="like-count">
+                                            @if(empty($userPage))
+                                                @csrf
+                                                <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
+                                                   class="btn btn-like">
+                                        <span
+                                            class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
+                                            @else
+                                                <span class="material-icons-outlined">favorite_border</span>
+                                            @endif
+                                            <span class="number">{{ $record->like_count ?? 0 }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="article-content">
+                                    <div class="text">
+                                        @if(!empty($record->image))
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <img data-src="{{ asset($record->image) }}"
+                                                     class="img-fluid w-75 rounded-1 lazyload" loading="lazy"
+                                                     alt="{{ $record->title ?? '' }}">
+                                            </div>
+                                        @endif
+                                        @if(empty($userPage))
+                                            {!! $record->body ?? '' !!}
+                                        @else
+                                            <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
+                                                      name="body" id="body" rows="3" placeholder="Description"
+                                                      required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
+                                        @endif
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="article-detail-bottom {{ !empty($userPage) ? 'mb-2' : '' }}" data-aos="fade-up">
+                                <div class="tag-share-wrap">
+                                    <div class="tag-wrap">
+                                        <h4 class="mb-2">Tags:</h4>
+                                        @if(empty($userPage))
+                                            @if(!empty($record->tags))
+                                                <div class="tag-list">
+                                                    <ul class="nav list-unstyled">
+                                                        @foreach($record->tags as $item)
+                                                            <li class="tag-item"><a
+                                                                    href="{{ route('article.search', ['q' => $item]) }}">{{ $item }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <select
+                                                class="form-control js-example-tokenizer" multiple="multiple"
+                                                name="tags[]"
+                                                id="tags" tabindex="-1" style="display: none; width: 100%"
+                                                data-allow-clear="true">
+                                                @if((!empty($record->tags) && is_array($record->tags)) || (old('tags') && is_array(old('tags'))))
+                                                    @php
+                                                        $tag_list = $record->tags ?? old('tags');
+                                                    @endphp
+                                                    @foreach($tag_list as $item)
+                                                        <option value="{{ $item }}" selected>{{ $item }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         @endif
-                                    @endif
-                                </li>
-                                @if(empty($userPage))
-                                    @if(!empty($record->publish_date))
-                                        <li class="date">
-                                            @php
-                                                $record_publish_date = \Illuminate\Support\Carbon::parse($record->publish_date)->format('d M Y');
-                                            @endphp
-                                            <span class="material-icons-outlined">calendar_month</span>
-                                            <time
-                                                datetime="{{ $record_publish_date }}">{{ $record_publish_date }}</time>
-                                        </li>
-                                    @endif
-                                @else
-                                    <li class="date">
-                                        <span class="material-icons-outlined">calendar_month</span>
-                                        <input type="text"
-                                               class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
-                                               name="publish_date" id="publish_date" placeholder="Publish Date"
-                                               style="max-width: 170px;"
-                                               value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
-                                    </li>
-                                @endif
-                                <li class="read_time">
-                                    <span class="material-icons-outlined">schedule</span>
-                                    @if(empty($userPage))
-                                        {{ $record->read_time ?? '' }} min.
-                                    @else
-                                        <input type="number" class="form-control form-control-solid-bordered m-b-sm"
-                                               name="read_time" id="read_time" placeholder="Article Read Time"
-                                               style="max-width: 70px;"
-                                               value="{{ old('read_time') ?? ($record->read_time ?? '') }}"> min.
-                                    @endif
-                                </li>
-                                <li class="view-count">
-                                    <span
-                                        class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
-                                </li>
-                                <li class="like-count">
-                                    @if(empty($userPage))
-                                        @csrf
-                                        <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
-                                           class="btn btn-like">
-                                        <span
-                                            class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
-                                    @else
-                                        <span class="material-icons-outlined">favorite_border</span>
-                                    @endif
-                                    <span class="number">{{ $record->like_count ?? 0 }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="article-content">
-                            <div class="text">
-                                @if(!empty($record->image))
-                                    <div class="d-flex justify-content-center mb-3">
-                                        <img data-src="{{ asset($record->image) }}"
-                                             class="img-fluid w-75 rounded-1 lazyload" loading="lazy"
-                                             alt="{{ $record->title ?? '' }}">
                                     </div>
-                                @endif
-                                @if(empty($userPage))
-                                    {!! $record->body ?? '' !!}
-                                @else
-                                    <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
-                                              name="body" id="body" rows="3" placeholder="Description"
-                                              required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
-                                @endif
-                            </div>
-                        </div>
-                    </section>
-                    <div class="article-detail-bottom" data-aos="fade-up">
-                        <div class="tag-share-wrap">
-                            <div class="tag-wrap">
-                                <h4 class="mb-2">Tags:</h4>
-                                @if(empty($userPage))
-                                    @if(!empty($record->tags))
-                                        <div class="tag-list">
-                                            <ul class="nav list-unstyled">
-                                                @foreach($record->tags as $item)
-                                                    <li class="tag-item"><a
-                                                            href="{{ route('article.search', ['q' => $item]) }}">{{ $item }}</a>
+                                    @if(empty($userPage))
+                                        <div class="share-wrap">
+                                            <h4 class="mb-2">Share:</h4>
+                                            <div class="social-list">
+                                                <ul>
+                                                    <li class="facebook">
+                                                        <a aria-label="Learn more from Facebook"
+                                                           href="https://facebook.com/">
+                                                            <i class="fa-brands fa-facebook-f"></i>
+                                                        </a>
                                                     </li>
-                                                @endforeach
-                                            </ul>
+                                                    <li class="instagram">
+                                                        <a aria-label="Learn more from Instagram"
+                                                           href="https://instagram.com/">
+                                                            <i class="fa-brands fa-instagram"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="twitter">
+                                                        <a aria-label="Learn more from Twitter"
+                                                           href="https://twitter.com/">
+                                                            <i class="fa-brands fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="pinterest">
+                                                        <a aria-label="Learn more from Pinterest"
+                                                           href="https://pinterest.com/">
+                                                            <i class="fa-brands fa-pinterest-p"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="linkedin">
+                                                        <a aria-label="Learn more from Linkedin"
+                                                           href="https://linkedin.com/">
+                                                            <i class="fa-brands fa-linkedin-in"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="youtube">
+                                                        <a aria-label="Learn more from Youtube"
+                                                           href="https://youtube.com/">
+                                                            <i class="fa-brands fa-youtube"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     @endif
-                                @else
-                                    <select
-                                        class="form-control js-example-tokenizer" multiple="multiple" name="tags[]"
-                                        id="tags" tabindex="-1" style="display: none; width: 100%"
-                                        data-allow-clear="true">
-                                        @if((!empty($record->tags) && is_array($record->tags)) || (old('tags') && is_array(old('tags'))))
-                                            @php
-                                                $tag_list = $record->tags ?? old('tags');
-                                            @endphp
-                                            @foreach($tag_list as $item)
-                                                <option value="{{ $item }}" selected>{{ $item }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                @endif
-                            </div>
-                            @if(empty($userPage))
-                                <div class="share-wrap">
-                                    <h4 class="mb-2">Share:</h4>
-                                    <div class="social-list">
-                                        <ul>
-                                            <li class="facebook">
-                                                <a aria-label="Learn more from Facebook" href="https://facebook.com/">
-                                                    <i class="fa-brands fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li class="instagram">
-                                                <a aria-label="Learn more from Instagram" href="https://instagram.com/">
-                                                    <i class="fa-brands fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                            <li class="twitter">
-                                                <a aria-label="Learn more from Twitter" href="https://twitter.com/">
-                                                    <i class="fa-brands fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li class="pinterest">
-                                                <a aria-label="Learn more from Pinterest" href="https://pinterest.com/">
-                                                    <i class="fa-brands fa-pinterest-p"></i>
-                                                </a>
-                                            </li>
-                                            <li class="linkedin">
-                                                <a aria-label="Learn more from Linkedin" href="https://linkedin.com/">
-                                                    <i class="fa-brands fa-linkedin-in"></i>
-                                                </a>
-                                            </li>
-                                            <li class="youtube">
-                                                <a aria-label="Learn more from Youtube" href="https://youtube.com/">
-                                                    <i class="fa-brands fa-youtube"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-                    @if(!empty($userPage))
-                        <div class="article-detail-bottom" data-aos="fade-up">
-                            <div class="form-floating mb-3">
+                            </div>
+                            @if(!empty($userPage))
+                                <div class="article-detail-bottom mt-0" data-aos="fade-up">
+                                    <div class="form-floating mb-3">
                                 <textarea class="form-control" name="seo_keywords" id="seo_keywords"
                                           style="height: 150px;"
                                           placeholder="SEO Keywords">{{ old('seo_keywords') ?? ($record->seo_keywords ?? '') }}</textarea>
-                                <label for="seo_keywords" class="form-label">SEO Keywords</label>
-                            </div>
-                            <div class="form-floating mb-3">
+                                        <label for="seo_keywords" class="form-label">SEO Keywords</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
                                 <textarea class="form-control" name="seo_description" id="seo_description"
                                           style="height: 150px;"
                                           placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
-                                <label for="seo_description" class="form-label">SEO Description</label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" name="status" id="status"
-                                    {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status">Article Status</label>
-                            </div>
-                            <hr>
-                            <div class="d-grid gap-2 col-lg-6 mx-auto">
-                                <button class="btn btn-primary" type="submit">Save</button>
-                            </div>
-                        </div>
+                                        <label for="seo_description" class="form-label">SEO Description</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" name="status"
+                                               id="status"
+                                            {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="status">Article Status</label>
+                                    </div>
+                                    <hr>
+                                    <div class="d-grid gap-2 col-lg-6 mx-auto">
+                                        <button class="btn btn-primary" type="submit">Save</button>
+                                    </div>
+                                </div>
+                            @endif
+                            @if(!empty($userPage))
+                        </form>
                     @endif
                     @if(empty($userPage))
                         <x-web.section-author

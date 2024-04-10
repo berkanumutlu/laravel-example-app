@@ -79,18 +79,24 @@ class HomeController extends Controller
 
         }*/
         $popular_article_list = Cache::remember('popular_article_list', null, function () {
-            return Article::query()->status(1)
+            return Article::query()
                 ->with(['category:id,name,slug', 'user:id,name,username'])
-                ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
+                ->select([
+                    'id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id', 'status',
+                    'updated_at'
+                ])
                 ->orderBy('view_count', 'desc')
-                ->limit(6)->get();
+                ->limit(10)->get();
         });
         $last_article_list = Cache::remember('last_article_list', null, function () {
-            return Article::query()->status(1)
+            return Article::query()
                 ->with(['category:id,name,slug', 'user:id,name,username'])
-                ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
+                ->select([
+                    'id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id', 'status',
+                    'updated_at'
+                ])
                 ->orderBy('publish_date', 'desc')
-                ->limit(9)->get();
+                ->limit(12)->get();
         });
         return view('web.home.index', compact(['feature_category_list', 'popular_article_list', 'last_article_list']));
     }

@@ -13,7 +13,8 @@
     }
     $item_publish_date = \Illuminate\Support\Carbon::parse($item->publish_date)->format('d M Y');
 @endphp
-<div class="article-item" {{ $articleItemAttributes ?? '' }}>
+<div
+    class="article-item {{ !empty($userPage) && $item->status == 0 ? 'disabled' : '' }}" {{ $articleItemAttributes ?? '' }}>
     <div class="article-item-image-section">
         <a href="{{ $item_url }}" class="article-item-image-link">
             <img data-src="{{ asset($item_image) }}" class="article-item-image img-fluid lazyload" loading="lazy"

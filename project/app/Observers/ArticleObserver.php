@@ -25,6 +25,29 @@ class ArticleObserver
         if (!$article->wasChanged('deleted_at') && !$article->wasChanged('view_count')) {
             $this->updateLog($article);
         }
+        $changed_fields = $article->getDirty();
+        if (!empty($changed_fields)) {
+            if (\Illuminate\Support\Facades\Cache::has('popular_article_list')) {
+                $cache = \Illuminate\Support\Facades\Cache::get('popular_article_list');
+                $cache_record = $cache->where('id', $article->id)->first();
+                if (!empty($cache_record)) {
+                    foreach ($changed_fields as $field => $value) {
+                        $cache_record->$field = $value;
+                    }
+                    \Illuminate\Support\Facades\Cache::put('popular_article_list', $cache);
+                }
+            }
+            if (\Illuminate\Support\Facades\Cache::has('last_article_list')) {
+                $cache = \Illuminate\Support\Facades\Cache::get('last_article_list');
+                $cache_record = $cache->where('id', $article->id)->first();
+                if (!empty($cache_record)) {
+                    foreach ($changed_fields as $field => $value) {
+                        $cache_record->$field = $value;
+                    }
+                    \Illuminate\Support\Facades\Cache::put('last_article_list', $cache);
+                }
+            }
+        }
     }
 
     /**

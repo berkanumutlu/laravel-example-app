@@ -6,6 +6,15 @@
     padding: 12px 0;
 }
 
+.article-item.disabled {
+    filter: opacity(.5) contrast(.5) grayscale(.7);
+    transition: filter .5s ease-in-out;
+}
+
+.article-item.disabled:hover {
+    filter: none;
+}
+
 .article-item .article-item-image-section {
     position: relative;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\ArticleUpdateStore;
 use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
 use App\Http\Requests\Web\UserUpdateSocialsRequest;
@@ -140,9 +141,9 @@ class UserController extends Controller
     public function show_article_list()
     {
         $user = Auth::guard('web')->user();
-        $article_list = Article::query()->status(1)->user($user->id)
+        $article_list = Article::query()->user($user->id)
             ->with('category:id,name,slug')
-            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id'])
+            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'status'])
             ->orderBy('publish_date', 'desc')
             ->paginate(15);
         $title = $user->name.'\'s Article List';
@@ -205,5 +206,34 @@ class UserController extends Controller
         // view('web.user.article-detail', compact(['title', 'record']));
         return view('web.article.detail',
             compact(['title', 'description', 'keywords', 'record', 'category_list', 'userPage']));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update_article(ArticleUpdateStore $request, Article $article)
+    {
+        $user = Auth::guard('web')->user();
+        if ($article->user_id != $user->id) {
+            abort(403);
+        }
+        $article->title = trim($request->title);
+        $article->slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
+        $article->body = trim($request->body);
+        $article->category_id = $request->category_id;
+        $article->read_time = $request->read_time;
+        $article->publish_date = $request->publish_date;
+        $article->status = isset($request->status) ? 1 : 0;
+        $article->tags = is_array($request->tags) ? implode(',', $request->tags) : trim($request->tags);
+        $article->seo_keywords = trim($request->seo_keywords);
+        $article->seo_description = trim($request->seo_description);
+        try {
+            $article->save();
+        } catch (\Exception $e) {
+            alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token", "files", "image");
+        }
+        alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
+        return redirect()->route('user.article.detail', ['article' => $article]);
     }
 }
