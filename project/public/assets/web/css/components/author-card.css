@@ -33,39 +33,126 @@ section.author .author-card .author-thumb .author-image img {
     overflow: hidden;
 }
 
-section.author .author-card .author-thumb .author-image .edit-author-image,
-section.author .author-card .author-thumb .author-image .delete-author-image {
-    padding: 7px;
+section.author .author-card .author-thumb .author-image .actions {
+    z-index: -1;
     position: absolute;
-    right: -25%;
-    display: inline-flex;
+    top: 1.25rem;
+    right: 1.25rem;
+    border-radius: 100%;
+    width: 0;
+    height: 0;
+    transform: translate(50%, -50%);
+    transition: 0.25s cubic-bezier(0.25, 0, 0, 1);
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
     color: inherit;
     background-color: var(--color-gray-14);
     border: 1px solid;
     border-color: var(--color-black-4);
     border-radius: 50%;
     text-decoration: none;
+    cursor: pointer;
+    transition: .25s cubic-bezier(0.25, 0, 0, 1);
 }
 
-section.author .author-card .author-thumb .author-image .edit-author-image:hover,
-section.author .author-card .author-thumb .author-image .delete-author-image:hover {
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(1) {
+    right: 25%;
+    top: 25%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(2):nth-child(1),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(2) ~ *:nth-child(1) {
+    right: 37.5%;
+    top: 18.75%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(2):nth-child(2),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(2) ~ *:nth-child(2) {
+    right: 18.75%;
+    top: 37.5%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3):nth-child(1),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3) ~ *:nth-child(1) {
+    right: 50%;
+    top: 15.625%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3):nth-child(2),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3) ~ *:nth-child(2) {
+    right: 25%;
+    top: 25%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3):nth-child(3),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(3) ~ *:nth-child(3) {
+    right: 15.625%;
+    top: 50%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4):nth-child(1),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4) ~ *:nth-child(1) {
+    right: 62.5%;
+    top: 18.75%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4):nth-child(2),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4) ~ *:nth-child(2) {
+    right: 37.5%;
+    top: 18.75%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4):nth-child(3),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4) ~ *:nth-child(3) {
+    right: 18.75%;
+    top: 37.5%;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4):nth-child(4),
+section.author .author-card .author-thumb .author-image .actions .action-item:first-child:nth-last-child(4) ~ *:nth-child(4) {
+    right: 18.75%;
+    top: 62.5%;
+}
+
+section.author .author-card .author-thumb .author-image:hover .actions,
+section.author .author-card .author-thumb .author-image .actions:active,
+section.author .author-card .author-thumb .author-image .actions:focus,
+section.author .author-card .author-thumb .author-image .actions:focus-within {
+    width: 10rem;
+    height: 10rem;
+    z-index: 0;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item.edit:hover,
+section.author .author-card .author-thumb .author-image .actions .action-item.delete:hover {
     background-color: var(--color-gray-14-hover);
 }
 
-section.author .author-card .author-thumb .author-image .edit-author-image {
-    bottom: 50%;
-    color: var(--color-black-3);
-    border-color: var(--color-black-3);
+section.author .author-card .author-thumb .author-image .actions .action-item.edit {
+    color: var(--color-black-3) !important;
+    border-color: var(--color-black-3) !important;
 }
 
-section.author .author-card .author-thumb .author-image .delete-author-image {
-    bottom: 20%;
-    color: var(--color-primary-alternative);
-    border-color: var(--color-primary-alternative);
+section.author .author-card .author-thumb .author-image .actions .action-item.edit a {
+    color: var(--color-black-3) !important;
 }
 
-section.author .author-card .author-thumb .author-image .edit-author-image i,
-section.author .author-card .author-thumb .author-image .delete-author-image i {
+section.author .author-card .author-thumb .author-image .actions .action-item.delete {
+    color: var(--color-primary-alternative) !important;
+    border-color: var(--color-primary-alternative) !important;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item.delete a {
+    color: var(--color-primary-alternative) !important;
+}
+
+section.author .author-card .author-thumb .author-image .actions .action-item i {
     min-width: 20px;
 }
 

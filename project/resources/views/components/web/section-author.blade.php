@@ -16,14 +16,21 @@
                          data-src-default="{{ asset($settings->image_default_author) }}"
                          class="lazyload reload_image_file" loading="lazy"
                          alt="{{ $author_name }} Image" width="120" height="120">
-                    <input type="file" name="image" id="image" class="d-none reload_image_file_input"
-                           accept="image/png, image/jpeg, image/jpg">
-                    <a href="javascript:;" class="edit-author-image"><i class="fa-solid fa-camera-rotate"></i></a>
-                    <input type="text" name="image_file_deleted" class="d-none"
-                           value="{!! $is_author_image_null ? 1 : 0 !!}">
-                    <a href="javascript:;" class="delete-author-image"
-                        {!! $is_author_image_null ? 'style="display:none"' : '' !!}>
-                        <i class="fa-regular fa-trash-can"></i></a>
+                    <div class="actions">
+                        <div class="action-item edit">
+                            <input type="file" name="image" id="image" class="d-none reload_image_file_input"
+                                   accept="image/png, image/jpeg, image/jpg">
+                            <a href="javascript:;" class="edit-author-image">
+                                <i class="fa-solid fa-camera-rotate"></i></a>
+                        </div>
+                        <div class="action-item delete">
+                            <input type="text" name="image_file_deleted" class="d-none"
+                                   value="{!! $is_author_image_null ? 1 : 0 !!}">
+                            <a href="javascript:;" class="delete-author-image"
+                                {!! $is_author_image_null ? 'style="display:none"' : '' !!}>
+                                <i class="fa-regular fa-trash-can"></i></a>
+                        </div>
+                    </div>
                 @else
                     <img data-src="{{ asset($author_image) }}" class="lazyload" loading="lazy"
                          alt="{{ $author_name }} Image" width="120" height="120">
@@ -97,10 +104,12 @@
         <script>
             $(document).ready(function () {
                 $(".edit-author-image").on("click", function (e) {
+                    $(this).parent('.action-item').get(0).focus();
                     e.preventDefault();
                     $("#image").trigger('click');
                 });
                 $(".delete-author-image").on("click", function (e) {
+                    $(this).parent('.action-item').get(0).focus();
                     e.preventDefault();
                     let image_file = $('.reload_image_file');
                     let image_file_input = $('.reload_image_file_input');
