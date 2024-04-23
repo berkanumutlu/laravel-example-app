@@ -86,7 +86,12 @@
                                     <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
                                     <li><a class="dropdown-item" href="{{ route('user.change.password') }}">Change
                                             Password</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('user.article.list') }}">My Articles</a>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('user.article.list') }}">My Articles</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('user.article.add') }}">Publish a
+                                            Article</a>
                                     </li>
                                     <li>
                                         <hr class="dropdown-divider">

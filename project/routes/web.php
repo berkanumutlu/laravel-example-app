@@ -43,6 +43,7 @@ Route::prefix('user')->name('user.')->controller('UserController')->middleware('
         Route::get('list', "show_article_list")->name('list');
         Route::get('detail/{article:slug}', "edit_article")->name('detail');
         Route::post('edit/{article:id}', "update_article")->name('edit')->whereNumber('id');
+        Route::get('add', "create_article")->name('add');
     });
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {

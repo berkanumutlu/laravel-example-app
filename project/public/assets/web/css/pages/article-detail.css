@@ -133,6 +133,10 @@
     flex-wrap: wrap;
 }
 
+.article-detail-bottom .tag-share-wrap .tag-wrap {
+    width: 100%;
+}
+
 .article-detail-bottom .tag-share-wrap .tag-wrap h4,
 .article-detail-bottom .tag-share-wrap .share-wrap h4 {
     font-size: 18px;

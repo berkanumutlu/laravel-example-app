@@ -18,7 +18,9 @@
             <div class="row">
                 <div class="col-xl-9">
                     @if (!empty($userPage))
-                        <form action="{{ route('user.article.edit', ['article' => $record]) }}" method="POST">
+                        <form
+                            action="{{ !empty($record) ? route('user.article.edit', ['article' => $record]) : route('user.article.add') }}"
+                            method="POST">
                             @csrf
                             @endif
                             <section class="article-detail" data-aos="zoom-in-right">
@@ -33,26 +35,31 @@
                                         </div>
                                     @endif
                                     <ul class="meta">
-                                        <li class="author">by <a
-                                                href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
-                                            @if(!empty($record->category?->slug))
-                                                @if(empty($userPage))
-                                                    in <a
-                                                        href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
-                                                @else
-                                                    in <select class="form-select" name="category_id" id="category_id"
-                                                               class="bg-light" aria-label="Category">
-                                                        <option value="{{ null }}">Category</option>
-                                                        @if(!empty($category_list))
-                                                            @foreach($category_list as $item)
-                                                                <option
-                                                                    value="{{ $item->id }}" {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
+                                        @if(!empty($record))
+                                            <li class="author">by
+                                                @if(!empty($record->user))
+                                                    <a href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
                                                 @endif
-                                            @endif
-                                        </li>
+                                                @if(!empty($record->category?->slug))
+                                                    @if(empty($userPage))
+                                                        in <a
+                                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
+                                                    @else
+                                                        in <select class="form-select" name="category_id"
+                                                                   id="category_id"
+                                                                   class="bg-light" aria-label="Category">
+                                                            <option value="{{ null }}">Category</option>
+                                                            @if(!empty($category_list))
+                                                                @foreach($category_list as $item)
+                                                                    <option
+                                                                        value="{{ $item->id }}" {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    @endif
+                                                @endif
+                                            </li>
+                                        @endif
                                         @if(empty($userPage))
                                             @if(!empty($record->publish_date))
                                                 <li class="date">
@@ -65,14 +72,17 @@
                                                 </li>
                                             @endif
                                         @else
-                                            <li class="date">
-                                                <span class="material-icons-outlined">calendar_month</span>
-                                                <input type="text"
-                                                       class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
-                                                       name="publish_date" id="publish_date" placeholder="Publish Date"
-                                                       style="max-width: 170px;"
-                                                       value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
-                                            </li>
+                                            @if(!empty($record))
+                                                <li class="date">
+                                                    <span class="material-icons-outlined">calendar_month</span>
+                                                    <input type="text"
+                                                           class="form-control form-control-solid-bordered m-b-sm flatpickr2 bg-light"
+                                                           name="publish_date" id="publish_date"
+                                                           placeholder="Publish Date"
+                                                           style="max-width: 170px;"
+                                                           value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
+                                                </li>
+                                            @endif
                                         @endif
                                         <li class="read_time">
                                             <span class="material-icons-outlined">schedule</span>
@@ -82,27 +92,29 @@
                                                 <input type="number"
                                                        class="form-control form-control-solid-bordered m-b-sm"
                                                        name="read_time" id="read_time" placeholder="Article Read Time"
-                                                       style="max-width: 70px;"
+                                                       style="max-width: 70px;" min="1"
                                                        value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
                                                 min.
                                             @endif
                                         </li>
-                                        <li class="view-count">
-                                    <span
-                                        class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
-                                        </li>
-                                        <li class="like-count">
-                                            @if(empty($userPage))
-                                                @csrf
-                                                <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
-                                                   class="btn btn-like">
-                                        <span
-                                            class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
-                                            @else
-                                                <span class="material-icons-outlined">favorite_border</span>
-                                            @endif
-                                            <span class="number">{{ $record->like_count ?? 0 }}</span>
-                                        </li>
+                                        @if(!empty($record))
+                                            <li class="view-count">
+                                                <span
+                                                    class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
+                                            </li>
+                                            <li class="like-count">
+                                                @if(empty($userPage))
+                                                    @csrf
+                                                    <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
+                                                       class="btn btn-like">
+                                                    <span
+                                                        class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
+                                                @else
+                                                    <span class="material-icons-outlined">favorite_border</span>
+                                                @endif
+                                                <span class="number">{{ $record->like_count ?? 0 }}</span>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="article-content">
@@ -218,15 +230,18 @@
                                           placeholder="SEO Description">{{ old('seo_description') ?? ($record->seo_description ?? '') }}</textarea>
                                         <label for="seo_description" class="form-label">SEO Description</label>
                                     </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" name="status"
-                                               id="status"
-                                            {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="status">Article Status</label>
-                                    </div>
+                                    @if(!empty($record))
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" name="status"
+                                                   id="status"
+                                                {{ old('status') || !empty($record->status) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="status">Article Status</label>
+                                        </div>
+                                    @endif
                                     <hr>
                                     <div class="d-grid gap-2 col-lg-6 mx-auto">
-                                        <button class="btn btn-primary" type="submit">Save</button>
+                                        <button class="btn btn-primary"
+                                                type="submit">{{ !empty($record) ? 'Save' : 'Publish' }}</button>
                                     </div>
                                 </div>
                             @endif
@@ -279,10 +294,12 @@
                             :formMethod="'POST'"
                         ></x-web.section-comment-form>
                     @endif
-                    <x-web.section-comments
-                        :comments="$record->comments"
-                        :commentsCount="$record->commentsCount"
-                        :userPage="$userPage ?? false"></x-web.section-comments>
+                    @if(!empty($record->comments))
+                        <x-web.section-comments
+                            :comments="$record->comments"
+                            :commentsCount="$record->commentsCount"
+                            :userPage="$userPage ?? false"></x-web.section-comments>
+                    @endif
                 </div>
                 <div class="col-xl-3">
                     @include('components.web.sidebar')

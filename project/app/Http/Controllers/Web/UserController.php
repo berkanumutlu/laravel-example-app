@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\ArticleUpdateStore;
+use App\Http\Requests\Web\ArticleUpdateRequest;
 use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
 use App\Http\Requests\Web\UserUpdateSocialsRequest;
@@ -211,7 +211,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update_article(ArticleUpdateStore $request, Article $article)
+    public function update_article(ArticleUpdateRequest $request, Article $article)
     {
         $user = Auth::guard('web')->user();
         if ($article->user_id != $user->id) {
@@ -235,5 +235,13 @@ class UserController extends Controller
         }
         alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->route('user.article.detail', ['article' => $article]);
+    }
+
+    public function create_article()
+    {
+        $category_list = Category::where('status', 1)->select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $userPage = true;
+        $title = 'Publish Article';
+        return view('web.article.detail', compact(['title', 'category_list', 'userPage']));
     }
 }

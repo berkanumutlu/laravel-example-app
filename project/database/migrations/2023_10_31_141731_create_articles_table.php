@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->integer("view_count")->default(0);
             $table->integer("like_count")->default(0);
             $table->dateTime("publish_date")->nullable();
+            $table->boolean("approve_status")->default(0);
             $table->boolean("status")->default(0);
             $table->unsignedBigInteger("category_id")->nullable();
             $table->unsignedBigInteger("user_id");
