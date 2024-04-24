@@ -51,7 +51,7 @@ class HomeController extends Controller
             Cache::put('feature_category_list', $feature_category_list);
         }*/
         $feature_category_list = Cache::remember('feature_category_list', null, function () {
-            $most_popular_categories = Article::query()
+            $most_popular_categories = Article::query()->status(1)->approveStatus(1)
                 ->select(['id', 'category_id'])
                 ->with(['category:id,name,slug,image,description,created_at', 'category.articlesActive'])
                 ->whereHas('category', function ($query) {
@@ -63,7 +63,7 @@ class HomeController extends Controller
                 ->get();
             $category_list = [];
             $most_popular_categories->map(function ($item) use (&$category_list) {
-                if ($item->category->relationLoaded('articlesActive')) {
+                if (!$item->category->relationLoaded('articlesActive')) {
                     $item->category->load('articlesActive');
                 }
                 $category_list[] = $item->category;
@@ -79,7 +79,7 @@ class HomeController extends Controller
 
         }*/
         $popular_article_list = Cache::remember('popular_article_list', null, function () {
-            return Article::query()
+            return Article::query()->status(1)->approveStatus(1)
                 ->with(['category:id,name,slug', 'user:id,name,username'])
                 ->select([
                     'id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id', 'status',
@@ -89,7 +89,7 @@ class HomeController extends Controller
                 ->limit(10)->get();
         });
         $last_article_list = Cache::remember('last_article_list', null, function () {
-            return Article::query()
+            return Article::query()->status(1)->approveStatus(1)
                 ->with(['category:id,name,slug', 'user:id,name,username'])
                 ->select([
                     'id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id', 'status',

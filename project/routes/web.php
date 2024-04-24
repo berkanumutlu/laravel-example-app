@@ -44,6 +44,7 @@ Route::prefix('user')->name('user.')->controller('UserController')->middleware('
         Route::get('detail/{article:slug}', "edit_article")->name('detail');
         Route::post('edit/{article:id}', "update_article")->name('edit')->whereNumber('id');
         Route::get('add', "create_article")->name('add');
+        Route::post('add', "store_article");
     });
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {

@@ -45,9 +45,8 @@
                                                         in <a
                                                             href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
                                                     @else
-                                                        in <select class="form-select" name="category_id"
-                                                                   id="category_id"
-                                                                   class="bg-light" aria-label="Category">
+                                                        in <select class="form-select bg-light" name="category_id"
+                                                                   id="category_id" aria-label="Category">
                                                             <option value="{{ null }}">Category</option>
                                                             @if(!empty($category_list))
                                                                 @foreach($category_list as $item)
@@ -58,6 +57,19 @@
                                                         </select>
                                                     @endif
                                                 @endif
+                                            </li>
+                                        @else
+                                            <li class="author">
+                                                Category <select class="form-select bg-light" name="category_id"
+                                                                 id="category_id" aria-label="Category">
+                                                    <option value="{{ null }}">Category</option>
+                                                    @if(!empty($category_list))
+                                                        @foreach($category_list as $item)
+                                                            <option
+                                                                value="{{ $item->id }}" {{ (old('category_id') && old('category_id') == $item->id) || (isset($record) && $record->category_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
                                             </li>
                                         @endif
                                         @if(empty($userPage))

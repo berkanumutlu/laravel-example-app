@@ -24,7 +24,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $records = Article::query()->status(1)
+        $records = Article::query()->status(1)->approveStatus(1)
             ->with(['category:id,name,slug', 'user:id,name,username'])
             ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->orderBy('publish_date', 'desc')
@@ -55,7 +55,7 @@ class ArticleController extends Controller
             }
         }
         $suggested_articles = Article::query()->with(['category:id,name,slug', 'user:id,name,username'])
-            ->status(1)
+            ->status(1)->approveStatus(1)
             ->where(function ($query) use ($visited_article_info) {
                 $query->whereIn('category_id', $visited_article_info['category_id'])
                     ->orWhereIn('user_id', $visited_article_info['user_id']);
@@ -147,7 +147,7 @@ class ArticleController extends Controller
 
     public function author(User $user)
     {
-        $records = Article::query()->status(1)
+        $records = Article::query()->status(1)->approveStatus(1)
             ->with(['category:id,name,slug', 'user:id,name,username'])
             ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'user_id'])
             ->whereHas('user', function ($query) use ($user) {

@@ -94,4 +94,11 @@ class Article extends BaseModel
     {
         return Carbon::parse($value)->format('d M Y');
     }*/
+
+    protected function scopeApproveStatus($query, $value = null)
+    {
+        if (isset($value)) {
+            return $query->where('approve_status', $value);
+        }
+    }
 }

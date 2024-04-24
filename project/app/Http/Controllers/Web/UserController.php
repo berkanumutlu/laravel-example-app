@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\ArticleStoreRequest;
 use App\Http\Requests\Web\ArticleUpdateRequest;
 use App\Http\Requests\Web\UserUpdatePasswordRequest;
 use App\Http\Requests\Web\UserUpdateRequest;
@@ -237,11 +238,51 @@ class UserController extends Controller
         return redirect()->route('user.article.detail', ['article' => $article]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create_article()
     {
         $category_list = Category::where('status', 1)->select(['id', 'name'])->orderBy('name', 'asc')->get();
         $userPage = true;
         $title = 'Publish Article';
         return view('web.article.detail', compact(['title', 'category_list', 'userPage']));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store_article(ArticleStoreRequest $request)
+    {
+        $title = trim($request->title);
+        $slug = Str::slug($title);
+        $check_slug = Article::where('slug', $slug)->first();
+        if (!is_null($check_slug)) {
+            $slug = Str::slug($slug.'-'.random_int(1, 9999));
+        }
+        $data = [
+            'title'           => $title,
+            'slug'            => $slug,
+            'body'            => trim($request->body),
+            'category_id'     => $request->category_id,
+            'read_time'       => $request->read_time,
+            'tags'            => is_array($request->tags) ? implode(',', $request->tags) : trim($request->tags),
+            'seo_keywords'    => trim($request->seo_keywords),
+            'seo_description' => trim($request->seo_description),
+            'user_id'         => auth()->id(),
+            'publish_date'    => date('Y-m-d H:i:s'),
+            'approve_status'  => 0,
+            'status'          => 1
+        ];
+        try {
+            Article::create($data);
+        } catch (\Exception $e) {
+            alert()->error("Error", "Article could not be added.")->showConfirmButton("OK");
+            return redirect()->back()->exceptInput("_token", "files", "image");
+        }
+        alert()->success("Success",
+            "Your article has been added successfully. It will be published on the website after approval.")
+            ->showConfirmButton("OK");
+        return redirect()->route('user.article.add')->onlyInput();
     }
 }
