@@ -47,7 +47,7 @@
                     <i class="material-icons-two-tone">receipt_long</i>Logs</a>
             </li>
             <li class="sidebar-title">Records</li>
-            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') ? 'open' : '' }}">
+            <li class="{{ Route::is('admin.article.index') || Route::is('admin.article.add') || Route::is('admin.article.pending') ? 'open' : '' }}">
                 <a href="javascript:;"><i class="material-icons-two-tone">article</i>Article
                     <i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu">
@@ -60,6 +60,11 @@
                         <a href="{{ route('admin.article.add') }}"
                            class="{{ Route::is('admin.article.add') ? 'active' : '' }} has-icon">
                             <i class="material-icons">add</i>Add</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.article.pending') }}"
+                           class="{{ Route::is('admin.article.pending') ? 'active' : '' }} has-icon">
+                            <i class="material-icons">pending</i>Pending</a>
                     </li>
                 </ul>
             </li>

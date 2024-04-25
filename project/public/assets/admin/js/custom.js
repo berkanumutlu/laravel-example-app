@@ -203,7 +203,7 @@ $(document).ready(function () {
         e.preventDefault();
         let $this = $(this);
         Swal.fire({
-            text: 'Do you want to approve this comment?',
+            text: 'Do you want to approve this record?',
             icon: 'success',
             showCancelButton: true,
             cancelButtonColor: '#babbbd',

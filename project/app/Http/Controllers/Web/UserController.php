@@ -144,7 +144,9 @@ class UserController extends Controller
         $user = Auth::guard('web')->user();
         $article_list = Article::query()->user($user->id)
             ->with('category:id,name,slug')
-            ->select(['id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'status'])
+            ->select([
+                'id', 'title', 'slug', 'image', 'publish_date', 'read_time', 'category_id', 'approve_status', 'status'
+            ])
             ->orderBy('publish_date', 'desc')
             ->paginate(15);
         $title = $user->name.'\'s Article List';

@@ -21,7 +21,7 @@ class VisitedArticle
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $article = $this->article->query()->where('slug', $request->slug)->status(1)
+        $article = $this->article->query()->where('slug', $request->slug)->status(1)->approveStatus(1)
             ->with([
                 'category:id,name,slug', 'user:id,name,username,title,description,image,website',
                 'user.socialsActive:id,social_id,user_id,link', 'user.socialsActive.social:id,name,icon',

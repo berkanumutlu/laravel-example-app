@@ -8,6 +8,9 @@
         </thead>
         <tbody>
         @if(!empty($data))
+            @if(is_object($data))
+                @php($data = $data->getAttributes())
+            @endif
             @if (is_array($data))
                 @foreach ($data as $key => $value)
                     <tr>

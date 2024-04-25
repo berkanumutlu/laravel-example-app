@@ -105,7 +105,7 @@
                                     <th scope="row">{{ $item->id }}</th>
                                     <td>{{ Str::limit($item->title, 20) }}</td>
                                     <td>{{ Str::limit($item->slug, 20) }}</td>
-                                    <td>{{ Str::limit(strip_tags($item->body), 40) }}</td>
+                                    <td>{!! !empty($item->body) ? Str::limit(strip_tags(html_entity_decode($item->body)), 40) : '' !!}</td>
                                     <td>
                                         @if(!empty($item->image))
                                             <a href="{{ asset($item->image) }}" target="_blank">
@@ -113,9 +113,19 @@
                                                      width="40" height="40"></a>
                                         @endif
                                     </td>
+                                    @if(isset($item->approve_status))
+                                        <td>
+                                            <x-admin.change-status
+                                                :recordId="$item->id"
+                                                :url="route('admin.article.change.status')"
+                                                :recordType="'approve_status'" :recordTypeText="'Approve Status'"
+                                                :recordStatus="$item->approve_status">
+                                            </x-admin.change-status>
+                                        </td>
+                                    @endif
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :url="route('admin.article.change_status')"
+                                            :recordId="$item->id" :url="route('admin.article.change.status')"
                                             :recordType="'status'" :recordTypeText="'Status'"
                                             :recordStatus="$item->status">
                                         </x-admin.change-status>
@@ -129,8 +139,14 @@
                                     <td>{{ $item->created_at }}</td>
                                     <x-admin.table-actions
                                         :recordId="$item->id"
-                                        :editURL="route('admin.article.edit', ['id' => $item->id])"
+                                        :viewModalContentAJAX="true"
+                                        :viewModalAJAXURL="route('admin.article.show.ajax')"
+                                        :editURL="$page == 'pending' ? '' : route('admin.article.edit', ['id' => $item->id])"
+                                        :approveURL="$page == 'pending' ? route('admin.article.approve') : ''"
                                         :deleteURL="route('admin.article.delete')"
+                                        :deleteURLClass="is_null($item->deleted_at) ? '' : 'd-none'"
+                                        :restoreURL="route('admin.article.restore')"
+                                        :restoreURLClass="is_null($item->deleted_at) ? 'd-none' : ''"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach
@@ -141,6 +157,9 @@
             </x-admin.card>
         </div>
     </div>
+    <x-admin.modal
+        :modalId="'viewModalAJAX'" :headerTitle="'Article'"
+        :modalDialogClass="'modal-xl'"></x-admin.modal>
 @endsection
 @section("scripts")
     <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>

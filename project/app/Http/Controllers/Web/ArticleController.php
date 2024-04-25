@@ -348,7 +348,7 @@ class ArticleController extends Controller
     {
         $search_text = $request->q;
         $search_text_like = '%'.$search_text.'%';
-        $records = Article::query()->status(1)
+        $records = Article::query()->status(1)->approveStatus(1)
             ->where(function ($query) use (&$search_text_like) {
                 $query->where('title', 'LIKE', $search_text_like)
                     ->orWhere('slug', 'LIKE', $search_text_like)

@@ -32,17 +32,17 @@
                                                      width="40"></a>
                                         @endif
                                     </td>
-                                    <td>{{ Str::limit(strip_tags($item->description), 50) }}</td>
+                                    <td>{!! !empty($item->description) ? Str::limit(strip_tags(html_entity_decode($item->description)), 50) : '' !!}</td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :url="route('admin.category.change_status')"
+                                            :recordId="$item->id" :url="route('admin.category.change.status')"
                                             :recordType="'status'" :recordTypeText="'Status'"
                                             :recordStatus="$item->status">
                                         </x-admin.change-status>
                                     </td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :url="route('admin.category.change_status')"
+                                            :recordId="$item->id" :url="route('admin.category.change.status')"
                                             :recordType="'feature_status'" :recordTypeText="'Feature Status'"
                                             :recordStatus="$item->feature_status">
                                         </x-admin.change-status>

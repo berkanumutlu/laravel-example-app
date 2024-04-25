@@ -28,7 +28,7 @@ Route::get('log-viewer',
 Route::prefix("log")->name("log.")->controller('LogController')
     ->group(function () {
         Route::get('list', "index")->name('index');
-        Route::post('show', "show_ajax")->name('show_ajax');
+        Route::post('show', "show_ajax")->name('show.ajax');
         Route::post('delete', "destroy")->name('delete');
     });
 Route::prefix("settings")->name("settings.")->controller('SettingsController')
@@ -44,12 +44,16 @@ Route::prefix("social-media")->name("social.media.")->controller('SocialMediaCon
 Route::prefix("article")->name("article.")->controller('ArticleController')
     ->group(function () {
         Route::get('list', "index")->name('index');
+        Route::get('list/pending', "pending")->name('pending');
+        Route::post('approve', "approve")->name('approve');
         Route::get('add', "create")->name('add');
         Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
         Route::post('edit/{id}', "update")->whereNumber('id');
-        Route::post('change-status', "change_status")->name('change_status');
+        Route::post('change-status', "change_status")->name('change.status');
         Route::post('delete', "destroy")->name('delete');
+        Route::post('restore', "restore")->name('restore');
+        Route::post('show', "show_ajax")->name('show.ajax');
     });
 Route::prefix("article/comments")->name("article.comments.")->controller('ArticleCommentController')
     ->group(function () {
@@ -67,7 +71,7 @@ Route::prefix("category")->name("category.")->controller('CategoryController')
         Route::post('add', "store");
         Route::get('edit/{id}', "edit")->name('edit')->whereNumber('id');
         Route::post('edit/{id}', "update")->whereNumber('id');
-        Route::post('change-status', "change_status")->name('change_status');
+        Route::post('change-status', "change_status")->name('change.status');
         Route::post('delete', "destroy")->name('delete');
     });
 Route::prefix("laravel-filemanager")->group(function () {
@@ -82,5 +86,5 @@ Route::prefix("user")->name("user.")->controller('UserController')
         Route::post('edit/{id}', "update")->whereNumber('id');
         Route::post('delete', "destroy")->name('delete');
         Route::post('restore', "restore")->name('restore');
-        Route::post('change-status', "change_status")->name('change_status');
+        Route::post('change-status', "change_status")->name('change.status');
     });

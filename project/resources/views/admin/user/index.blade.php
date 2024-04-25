@@ -31,10 +31,10 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->username }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{!! !empty($item->description) ? Str::limit($item->description, 50) : '' !!}</td>
+                                    <td>{!! !empty($item->description) ? Str::limit(strip_tags(html_entity_decode($item->description)), 50) : '' !!}</td>
                                     <td>
                                         <x-admin.change-status
-                                            :recordId="$item->id" :url="route('admin.user.change_status')"
+                                            :recordId="$item->id" :url="route('admin.user.change.status')"
                                             :recordType="'status'" :recordTypeText="'Status'"
                                             :recordStatus="$item->status">
                                         </x-admin.change-status>

@@ -81,7 +81,7 @@
                                         :recordId="$item->id"
                                         :deleteURL="route('admin.log.delete')"
                                         :viewModalContentAJAX="true"
-                                        :viewModalAJAXURL="route('admin.log.show_ajax')"
+                                        :viewModalAJAXURL="route('admin.log.show.ajax')"
                                     ></x-admin.table-actions>
                                 </tr>
                             @endforeach

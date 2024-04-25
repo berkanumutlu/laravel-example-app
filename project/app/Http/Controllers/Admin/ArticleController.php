@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
+use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -16,6 +17,8 @@ use Illuminate\Validation\Rule;
 
 class ArticleController extends BaseController
 {
+    use Loggable;
+
     /**
      * Display a listing of the resource.
      */
@@ -25,10 +28,13 @@ class ArticleController extends BaseController
         $this->data['categories'] = $categories;
         $users = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
         $this->data['users'] = $users;
-        $records = Article::query()->with(['category:id,name', 'user:id,name'])->select([
-            'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count', 'like_count',
-            'publish_date', 'category_id', 'user_id', 'created_at'
-        ])
+        $records = Article::query()
+            ->withTrashed()
+            ->with(['category:id,name', 'user:id,name'])
+            ->select([
+                'id', 'title', 'slug', 'body', 'image', 'approve_status', 'status', 'read_time', 'view_count',
+                'like_count', 'publish_date', 'category_id', 'user_id', 'created_at', 'deleted_at'
+            ])
             //->where(function ($query) use ($category_id, $user_id) {
             //    if (!is_null($category_id)) {
             //        $query->where('category_id', $category_id);
@@ -65,9 +71,10 @@ class ArticleController extends BaseController
             ->appends(request()->query());// Pagination'daki sayfa linklerine filtre parametrelerini eklemesini sağlıyor.
         $this->data['records'] = $records;
         $this->data['columns'] = [
-            'Id', 'Title', 'Slug', 'Body', 'Image', 'Status', 'Read Time', 'Views', 'Likes', 'Publish Date',
-            'Category', 'User', 'Creation Time', 'Actions'
+            'Id', 'Title', 'Slug', 'Body', 'Image', 'Aprrove Status', 'Status', 'Read Time', 'Views', 'Likes',
+            'Publish Date', 'Category', 'User', 'Creation Time', 'Actions'
         ];
+        $this->data['page'] = 'list';
         $this->data['title'] = 'Article List';
         return view('admin.article.index', $this->data);
     }
@@ -157,6 +164,39 @@ class ArticleController extends BaseController
     public function show(string $id)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show_ajax(Request $request)
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:articles,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        $record_id = $request->id;
+        $article = Article::query()->find($record_id);
+        if (!empty($article)) {
+            $response['status'] = true;
+            $response['data']['raw'] = \Illuminate\Support\Facades\View::make('admin.log.log-view',
+                ['data' => $article])->render();
+        } else {
+            $response['message'] = "Article not found.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
     }
 
     /**
@@ -283,9 +323,50 @@ class ArticleController extends BaseController
         }
         try {
             $record_id = $request->id;
-            Article::query()->where('id', $record_id)->first()->delete();
+            $record = Article::query()->find($record_id);
+            $record->delete();
             $response['status'] = true;
-            $response['message'] = "Record(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['message'] = "Article(<strong>#".$record_id."</strong>) successfully deleted.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+            $response['hideButton'] = true;
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:articles,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        try {
+            $record_id = $request->id;
+            $record = Article::withTrashed()->find($record_id);
+            $record->restore();
+            $response['status'] = true;
+            $response['message'] = "Article(<strong>#".$record_id."</strong>) successfully restored.";
             $response['notify'] = [
                 'message' => $response['message'],
                 'icon'    => 'success',
@@ -294,7 +375,7 @@ class ArticleController extends BaseController
         } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
             $response['notify'] = [
-                'message' => "Could not delete.",
+                'message' => "Could not restore.",
                 'icon'    => 'error'
             ];
         }
@@ -351,6 +432,104 @@ class ArticleController extends BaseController
             }
         } else {
             $response['message'] = "Record not found.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function pending(Request $request)
+    {
+        $categories = Category::where('status', 1)->select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['categories'] = $categories;
+        $users = User::select(['id', 'name'])->orderBy('name', 'asc')->get();
+        $this->data['users'] = $users;
+        $this->data['records'] = Article::query()
+            ->withTrashed()
+            ->with(['category:id,name', 'user:id,name'])
+            ->select([
+                'id', 'title', 'slug', 'body', 'image', 'status', 'read_time', 'view_count',
+                'like_count', 'publish_date', 'category_id', 'user_id', 'created_at', 'deleted_at'
+            ])
+            ->approveStatus(0)
+            ->title($request->title)
+            ->slug($request->slug)
+            ->body($request->body)
+            ->status($request->status)
+            ->tag($request->tag)
+            ->publishDate($request->publish_date)
+            ->where(function ($query) use ($request) {
+                if ($request->min_view_count) {
+                    $query->where('view_count', '>=', (int) $request->min_view_count);
+                }
+                if ($request->max_view_count) {
+                    $query->where('view_count', '<=', (int) $request->max_view_count);
+                }
+                if ($request->min_like_count) {
+                    $query->where('like_count', '>=', (int) $request->min_like_count);
+                }
+                if ($request->max_like_count) {
+                    $query->where('like_count', '<=', (int) $request->max_like_count);
+                }
+            })
+            ->user($request->user_id)
+            ->category($request->category_id)
+            ->orderBy('id', 'desc')
+            ->paginate(20)
+            ->appends(request()->query());
+        $this->data['columns'] = [
+            'Id', 'Title', 'Slug', 'Body', 'Image', 'Status', 'Read Time', 'Views', 'Likes', 'Publish Date', 'Category',
+            'User', 'Creation Time', 'Actions'
+        ];
+        $this->data['page'] = 'pending';
+        $this->data['title'] = 'Pending Article List';
+        return view('admin.article.index', $this->data);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function approve(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:articles,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        $record_id = $request->id;
+        $article = Article::query()->where("id", $record_id)->first();
+        if (!empty($article)) {
+            try {
+                $article->approve_status = 1;
+                $article->status = 1;
+                $article->save();
+                $this->log('approve', $article, $article->id, $article->toArray());
+                $response['status'] = true;
+                $response['message'] = "Article (<strong>#".$record_id."</strong>) approved.";
+                $response['notify'] = [
+                    'message' => $response['message'],
+                    'icon'    => 'success',
+                    'timer'   => 4000
+                ];
+            } catch (\Exception $e) {
+                $response['message'] = $e->getMessage();
+                $response['notify'] = [
+                    'message' => "Could not approved.",
+                    'icon'    => 'error'
+                ];
+            }
+        } else {
+            $response['message'] = "Article not found.";
             $response['notify'] = [
                 'message' => $response['message'],
                 'icon'    => 'error'

@@ -74,7 +74,7 @@
                                     @else
                                         <td></td>
                                     @endif
-                                    <td>{{ Str::limit(strip_tags($item->comment), 40) }}</td>
+                                    <td>{!! !empty($item->comment) ? Str::limit(strip_tags(html_entity_decode($item->comment)), 40) : '' !!}</td>
                                     @if(isset($item->like_count))
                                         <td>{{ $item->like_count }}</td>
                                     @endif
