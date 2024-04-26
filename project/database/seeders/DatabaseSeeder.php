@@ -20,13 +20,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            UserLogsSeeder::class,
+            AdminSeeder::class,
+            SettingsSeeder::class,
+            SocialMediaSeeder::class,
             CategorySeeder::class,
             ArticlesSeeder::class,
-            ArticleCommentsSeeder::class,
             ArticleFeaturesSeeder::class,
-            ArticleUserLikesSeeder::class,
-            UserLogsSeeder::class,
-            SocialMediaSeeder::class
+            ArticleCommentsSeeder::class,
+            ArticleUserLikesSeeder::class
         ]);
     }
 }

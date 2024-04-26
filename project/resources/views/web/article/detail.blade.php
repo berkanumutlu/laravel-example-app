@@ -3,13 +3,13 @@
     <link href="{{ asset('assets/web/css/pages/article-detail.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/aos/aos.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/highlight/styles/default.min.css') }}" rel="stylesheet">
-    @if(empty($userPage))
-        <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/plugins/waitMe/waitMe.min.css') }}" rel="stylesheet">
-    @else
+    @if(!empty($userPage))
         <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/plugins/summernote/summernote-lite.min.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/plugins/waitMe/waitMe.min.css') }}" rel="stylesheet">
     @endif
 @endsection
 @section("content")
@@ -20,19 +20,19 @@
                     @if (!empty($userPage))
                         <form
                             action="{{ !empty($record) ? route('user.article.edit', ['article' => $record]) : route('user.article.add') }}"
-                            method="POST">
+                            method="POST" enctype="multipart/form-data">
                             @csrf
                             @endif
                             <section class="article-detail" data-aos="zoom-in-right">
                                 <div class="article-header">
-                                    @if(empty($userPage))
-                                        <h1 class="title">{{ $record->title ?? '' }}</h1>
-                                    @else
+                                    @if(!empty($userPage))
                                         <div class="mb-2">
                                             <input type="text" class="form-control" name="title" id="title"
                                                    placeholder="Article Title" required
                                                    value="{{ old('title') ?? ($record->title ?? '') }}">
                                         </div>
+                                    @else
+                                        <h1 class="title">{{ $record->title ?? '' }}</h1>
                                     @endif
                                     <ul class="meta">
                                         @if(!empty($record))
@@ -41,10 +41,7 @@
                                                     <a href="{{ route('article.author', ['user' => $record->user]) }}">{{ $record->user?->name }}</a>
                                                 @endif
                                                 @if(!empty($record->category?->slug))
-                                                    @if(empty($userPage))
-                                                        in <a
-                                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
-                                                    @else
+                                                    @if(!empty($userPage))
                                                         in <select class="form-select bg-light" name="category_id"
                                                                    id="category_id" aria-label="Category">
                                                             <option value="{{ null }}">Category</option>
@@ -55,6 +52,9 @@
                                                                 @endforeach
                                                             @endif
                                                         </select>
+                                                    @else
+                                                        in <a
+                                                            href="{{ route('article.category', ['slug' => $record->category?->slug]) }}">{{ $record->category?->name }}</a>
                                                     @endif
                                                 @endif
                                             </li>
@@ -72,18 +72,7 @@
                                                 </select>
                                             </li>
                                         @endif
-                                        @if(empty($userPage))
-                                            @if(!empty($record->publish_date))
-                                                <li class="date">
-                                                    @php
-                                                        $record_publish_date = \Illuminate\Support\Carbon::parse($record->publish_date)->format('d M Y');
-                                                    @endphp
-                                                    <span class="material-icons-outlined">calendar_month</span>
-                                                    <time
-                                                        datetime="{{ $record_publish_date }}">{{ $record_publish_date }}</time>
-                                                </li>
-                                            @endif
-                                        @else
+                                        @if(!empty($userPage))
                                             @if(!empty($record))
                                                 <li class="date">
                                                     <span class="material-icons-outlined">calendar_month</span>
@@ -95,18 +84,29 @@
                                                            value="{{ old('publish_date') ?? ($record->publish_date ?? '') }}">
                                                 </li>
                                             @endif
+                                        @else
+                                            @if(!empty($record->publish_date))
+                                                <li class="date">
+                                                    @php
+                                                        $record_publish_date = \Illuminate\Support\Carbon::parse($record->publish_date)->format('d M Y');
+                                                    @endphp
+                                                    <span class="material-icons-outlined">calendar_month</span>
+                                                    <time
+                                                        datetime="{{ $record_publish_date }}">{{ $record_publish_date }}</time>
+                                                </li>
+                                            @endif
                                         @endif
                                         <li class="read_time">
                                             <span class="material-icons-outlined">schedule</span>
-                                            @if(empty($userPage))
-                                                {{ $record->read_time ?? '' }} min.
-                                            @else
+                                            @if(!empty($userPage))
                                                 <input type="number"
                                                        class="form-control form-control-solid-bordered m-b-sm"
                                                        name="read_time" id="read_time" placeholder="Article Read Time"
                                                        style="max-width: 70px;" min="1"
                                                        value="{{ old('read_time') ?? ($record->read_time ?? '') }}">
                                                 min.
+                                            @else
+                                                {{ $record->read_time ?? '' }} min.
                                             @endif
                                         </li>
                                         @if(!empty($record))
@@ -115,14 +115,14 @@
                                                     class="material-icons-outlined">visibility</span>{{ $record->view_count ?? '' }}
                                             </li>
                                             <li class="like-count">
-                                                @if(empty($userPage))
+                                                @if(!empty($userPage))
+                                                    <span class="material-icons-outlined">favorite_border</span>
+                                                @else
                                                     @csrf
                                                     <a href="{{ route('article.like') }}" data-id="{{ $record->id }}"
                                                        class="btn btn-like">
                                                     <span
                                                         class="material-icons-outlined">{{ !empty($userLike) ? 'favorite' : 'favorite_border' }}</span></a>
-                                                @else
-                                                    <span class="material-icons-outlined">favorite_border</span>
                                                 @endif
                                                 <span class="number">{{ $record->like_count ?? 0 }}</span>
                                             </li>
@@ -138,12 +138,20 @@
                                                      alt="{{ $record->title ?? '' }}">
                                             </div>
                                         @endif
-                                        @if(empty($userPage))
-                                            {!! $record->body ?? '' !!}
-                                        @else
+                                        @if(!empty($userPage))
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label mb-0">Image</label>
+                                                <input type="file" name="image" id="image"
+                                                       class="form-control form-control-solid-bordered"
+                                                       accept="image/png, image/jpeg, image/jpg">
+                                            </div>
+                                        @endif
+                                        @if(!empty($userPage))
                                             <textarea class="summernote form-control form-control-solid-bordered m-b-sm"
                                                       name="body" id="body" rows="3" placeholder="Description"
                                                       required>{!! old('body') ?? ($record->body ?? '') !!}</textarea>
+                                        @else
+                                            {!! $record->body ?? '' !!}
                                         @endif
                                     </div>
                                 </div>
@@ -152,19 +160,7 @@
                                 <div class="tag-share-wrap">
                                     <div class="tag-wrap">
                                         <h4 class="mb-2">Tags:</h4>
-                                        @if(empty($userPage))
-                                            @if(!empty($record->tags))
-                                                <div class="tag-list">
-                                                    <ul class="nav list-unstyled">
-                                                        @foreach($record->tags as $item)
-                                                            <li class="tag-item"><a
-                                                                    href="{{ route('article.search', ['q' => $item]) }}">{{ $item }}</a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                        @else
+                                        @if(!empty($userPage))
                                             <select
                                                 class="form-control js-example-tokenizer" multiple="multiple"
                                                 name="tags[]"
@@ -179,6 +175,18 @@
                                                     @endforeach
                                                 @endif
                                             </select>
+                                        @else
+                                            @if(!empty($record->tags))
+                                                <div class="tag-list">
+                                                    <ul class="nav list-unstyled">
+                                                        @foreach($record->tags as $item)
+                                                            <li class="tag-item"><a
+                                                                    href="{{ route('article.search', ['q' => $item]) }}">{{ $item }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                         @endif
                                     </div>
                                     @if(empty($userPage))
@@ -251,9 +259,20 @@
                                         </div>
                                     @endif
                                     <hr>
-                                    <div class="d-grid gap-2 col-lg-6 mx-auto">
-                                        <button class="btn btn-primary"
-                                                type="submit">{{ !empty($record) ? 'Save' : 'Publish' }}</button>
+                                    <div class="col-12">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <button class="btn btn-primary d-flex align-items-center" type="submit">
+                                                <i class="material-icons me-1">done</i>{{ !empty($record) ? 'Save' : 'Publish' }}
+                                            </button>
+                                            @if(!empty($record))
+                                                @csrf
+                                                <a href="{{ route('user.article.delete') }}"
+                                                   data-id="{{ $record->id ?? '' }}"
+                                                   class="btnDeleteArticle btn btn-danger d-flex align-items-center">
+                                                    <i class="material-icons me-1">delete_forever</i>Delete
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -323,10 +342,7 @@
 @section("scripts")
     <script src="{{ asset("assets/plugins/aos/aos.js") }}"></script>
     <script src="{{ asset("assets/plugins/highlight/highlight.min.js") }}"></script>
-    @if(empty($userPage))
-        <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
-        <script src="{{ asset("assets/plugins/waitMe/waitMe.min.js") }}"></script>
-    @else
+    @if(!empty($userPage))
         <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/pages/select2.js') }}"></script>
         <script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>
@@ -334,12 +350,49 @@
         <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/summernote/lang/summernote-tr-TR.js') }}"></script>
         <script src="{{ asset('assets/admin/js/pages/text-editor.js') }}"></script>
+    @else
+        <script src="{{ asset("assets/plugins/swiper/swiper-bundle.min.js") }}"></script>
+        <script src="{{ asset("assets/plugins/waitMe/waitMe.min.js") }}"></script>
     @endif
     <script>
         $(document).ready(function () {
             AOS.init();
             hljs.highlightAll();
-            @if(empty($userPage))
+            @if(!empty($userPage))
+            $('.btnDeleteArticle').on("click", function (e) {
+                e.preventDefault();
+                let $this = $(this);
+                Swal.fire({
+                    text: 'Do you want to delete this article?',
+                    icon: 'error',
+                    showCancelButton: true,
+                    cancelButtonColor: '#babbbd',
+                    confirmButtonColor: '#ff6673',
+                    confirmButtonText: 'Yes',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let url = $this.attr('href');
+                        let recordId = $this.data('id');
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            headers: {'X-CSRF-TOKEN': $this.prev('input[name="_token"]').val()},
+                            dataType: "JSON",
+                            data: {'id': recordId}
+                        }).done(function (response) {
+                            if (response.hasOwnProperty('status')) {
+                                if (response.status) {
+                                    $("form button").prop("disabled", true);
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+            @else
             let suggestedArticleList = new Swiper('.suggested-article-list .swiper', {
                 speed: 400,
                 spaceBetween: 15,

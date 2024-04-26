@@ -45,6 +45,7 @@ Route::prefix('user')->name('user.')->controller('UserController')->middleware('
         Route::post('edit/{article:id}', "update_article")->name('edit')->whereNumber('id');
         Route::get('add', "create_article")->name('add');
         Route::post('add', "store_article");
+        Route::post('delete', "destroy_article")->name('delete');
     });
 });
 Route::prefix('article')->name('article.')->controller('ArticleController')->group(function () {

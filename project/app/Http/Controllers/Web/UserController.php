@@ -13,9 +13,11 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\UserSocial;
 use App\Traits\Loggable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -220,6 +222,7 @@ class UserController extends Controller
         if ($article->user_id != $user->id) {
             abort(403);
         }
+        $article_image = $article->image;
         $article->title = trim($request->title);
         $article->slug = !empty($request->slug) ? Str::slug($request->slug) : Str::slug($request->title);
         $article->body = trim($request->body);
@@ -230,13 +233,29 @@ class UserController extends Controller
         $article->tags = is_array($request->tags) ? implode(',', $request->tags) : trim($request->tags);
         $article->seo_keywords = trim($request->seo_keywords);
         $article->seo_description = trim($request->seo_description);
+        $image_file = $request->file('image');
+        if ($image_file) {
+            $folder = 'articles';
+            $public_path = 'storage/'.$folder;
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $article->slug.'.'.$image_original_extension;
+            $article->image = $public_path.'/'.$image_file_name;
+        }
         try {
             $article->save();
+            if ($image_file) {
+                $image_file->storeAs($folder, $image_file_name);
+                if ($article_image !== $article->image) {
+                    if (file_exists(public_path($article_image))) {
+                        File::delete(public_path($article_image));
+                    }
+                }
+            }
         } catch (\Exception $e) {
-            alert()->error("Error", "Record could not be updated.")->showConfirmButton("OK");
+            alert()->error("Error", "Article could not be updated.")->showConfirmButton("OK");
             return redirect()->back()->exceptInput("_token", "files", "image");
         }
-        alert()->success("Success", "Record has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
+        alert()->success("Success", "Article has been updated successfully.")->showConfirmButton("OK")->autoClose(5000);
         return redirect()->route('user.article.detail', ['article' => $article]);
     }
 
@@ -258,7 +277,7 @@ class UserController extends Controller
     {
         $title = trim($request->title);
         $slug = Str::slug($title);
-        $check_slug = Article::where('slug', $slug)->first();
+        $check_slug = Article::query()->where('slug', $slug)->first();
         if (!is_null($check_slug)) {
             $slug = Str::slug($slug.'-'.random_int(1, 9999));
         }
@@ -276,6 +295,19 @@ class UserController extends Controller
             'approve_status'  => 0,
             'status'          => 1
         ];
+        $image_file = $request->file('image');
+        if ($image_file) {
+            $folder = 'articles';
+            $public_path = 'storage/'.$folder;
+            $image_original_extension = $image_file->getClientOriginalExtension();
+            $image_file_name = $data['slug'].'.'.$image_original_extension;
+            try {
+                $image_file->storeAs($folder, $image_file_name);
+                $data['image'] = $public_path.'/'.$image_file_name;
+            } catch (\Exception $e) {
+
+            }
+        }
         try {
             Article::create($data);
         } catch (\Exception $e) {
@@ -286,5 +318,48 @@ class UserController extends Controller
             "Your article has been added successfully. It will be published on the website after approval.")
             ->showConfirmButton("OK");
         return redirect()->route('user.article.add')->onlyInput();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy_article(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = ['status' => false, 'message' => null];
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:articles,id']
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = collect($validator->errors()->all())->implode('<br>');
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'info'
+            ];
+            return response()->json($response);
+        }
+        $article_id = $request->id;
+        $article = Article::query()->find($article_id);
+        $user = Auth::guard('web')->user();
+        if ($article->user_id != $user->id) {
+            abort(403);
+        }
+        try {
+            $article->delete();
+            $response['status'] = true;
+            $response['message'] = "Article successfully deleted.";
+            $response['notify'] = [
+                'message' => $response['message'],
+                'icon'    => 'success',
+                'timer'   => 4000
+            ];
+            $response['redirect'] = route('user.article.list');
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['notify'] = [
+                'message' => "Could not delete.",
+                'icon'    => 'error'
+            ];
+        }
+        return response()->json($response);
     }
 }

@@ -311,7 +311,7 @@ class ArticleController extends BaseController
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:articles']
+            'id' => ['required', 'integer', 'exists:articles,id']
         ]);
         if ($validator->fails()) {
             $response['message'] = collect($validator->errors()->all())->implode('<br>');
@@ -390,7 +390,7 @@ class ArticleController extends BaseController
     {
         $response = ['status' => false, 'message' => null];
         $validator = Validator::make($request->all(), [
-            'id'   => ['required', 'integer', 'exists:articles'],
+            'id'   => ['required', 'integer', 'exists:articles,id'],
             'type' => ['required', 'string', Rule::in(['status', 'feature_status'])]
         ]);
         if ($validator->fails()) {
