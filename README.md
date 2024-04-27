@@ -1,5 +1,4 @@
 <p align="center"><a href="https://laravel.com" target="_blank" rel="nofollow"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
 <a href="https://github.com/berkanumutlu/laravel-example-app/releases/tag/v1.0.0" target="_blank" rel="nofollow"><img src="https://img.shields.io/github/v/release/berkanumutlu/laravel-example-app?logo=github" alt="Laravel Blog Site Release"></a>
 <a href="https://github.com/berkanumutlu/laravel-example-app/stargazers" rel="nofollow"><img src="https://img.shields.io/github/stars/berkanumutlu/laravel-example-app?style=flat&logo=github" alt="Laravel Blog Site Repo stars"></a>
@@ -40,7 +39,7 @@
 
 # Laravel Example App
 
-It is an article publishing web project using Laravel. There is an admin panel within the project. In the admin panel, administrators and users can be created, articles can be added, edited and deleted, categories can be added, edited and deleted, and categories can be assigned to articles. On the web side, users can view the list of articles, filter by categories, and comment on articles.
+It is an article publishing web project using Laravel Framework. There is an admin panel within the project. Administrators and users can be created in the admin panel, adding-editing-deleting articles, adding-editing-deleting categories, assigning categories to articles, changing site settings and listing logs can be done. On the web page, users can list articles, publish articles, write comments, and filter by categories.
 
 ## Installation
 
@@ -77,14 +76,28 @@ $ php artisan serve
 
 ## Screenshots
 
-![screenshot01](screenshots/home.png)
-![screenshot02](screenshots/article_list.png)
-![screenshot03](screenshots/article_detail.png)
-![screenshot04](screenshots/login.png)
-![screenshot05](screenshots/register.png)
-![screenshot06](screenshots/reset-password.png)
-![screenshot07](screenshots/user_profile.png)
-![screenshot08](screenshots/user_change-password.png)
+- Home
+![home](screenshots/home.png)
+- Article List
+![article_list](screenshots/article_list.png)
+- Article Detail
+![article_detail](screenshots/article_detail.png)
+- Login
+![login](screenshots/login.png)
+- Register
+![register](screenshots/register.png)
+- Reset Password
+![reset_password](screenshots/reset_password.png)
+- User Profile
+![user_profile](screenshots/user_profile.png)
+- User Change Password
+![user_change_password](screenshots/user_change_password.png)
+- User Article List
+![user_article_list](screenshots/user_article_list.png)
+- User Article Detail
+![user_article_detail](screenshots/user_article_detail.png)
+- User Publish Article
+![user_publish_article](screenshots/user_publish_article.png)
 
 ## License
 
