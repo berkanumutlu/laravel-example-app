@@ -27,8 +27,10 @@ jobs:
         if ! grep -q "APP_KEY=" project/.env; then
           php -r "echo 'APP_KEY=' . bin2hex(random_bytes(32)) . PHP_EOL;" >> project/.env
         fi
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+    - name: Fix Directory Permissions
+      run: |
+        chmod -R 755 storage bootstrap/cache
+        chown -R $USER:www-data storage bootstrap/cache
     - name: Create Database
       run: |
         mkdir -p database
