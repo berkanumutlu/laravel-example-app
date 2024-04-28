@@ -16,7 +16,9 @@ jobs:
       with:
         php-version: '8.1'
     - uses: actions/checkout@v4
-    - name: Copy .env
+    - name: Edit .env
+      run: sed -i 's/REDIS_HOST=.*/REDIS_HOST=new_redis_host/' project/.env
+    - name: Copy .env if not exists
       run: php -r "file_exists('project/.env') || copy('project/.env.example', 'project/.env');"
     - name: Clear Composer Cache
       run: composer clear-cache
@@ -38,4 +40,4 @@ jobs:
       env:
         DB_CONNECTION: mysql
         DB_DATABASE: database/laravel_example_app.sql
-      run: php artisan config:clear && php artisan test
+      run: php artisan test
