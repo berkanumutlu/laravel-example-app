@@ -17,7 +17,7 @@ jobs:
         php-version: '8.1'
     - uses: actions/checkout@v4
     - name: Edit .env
-      run: sed -i 's/REDIS_HOST=.*/REDIS_HOST=new_redis_host/' project/.env
+      run: sed -i 's/REDIS_HOST=.*/REDIS_HOST=127.0.0.1/' project/.env
     - name: Copy .env if not exists
       run: php -r "file_exists('project/.env') || copy('project/.env.example', 'project/.env');"
     - name: Clear Composer Cache
