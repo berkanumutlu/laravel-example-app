@@ -37,4 +37,4 @@ jobs:
       env:
         DB_CONNECTION: mysql
         DB_DATABASE: database/laravel_example_app.sql
-      run: php artisan test
+      run: cd project && php artisan test
