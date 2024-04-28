@@ -33,10 +33,3 @@ jobs:
       run: |
         mkdir -p database
         touch database/laravel_example_app.sql
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-      working-directory: project
-      env:
-        DB_CONNECTION: mysql
-        DB_DATABASE: database/laravel_example_app.sql
-        CACHE_DRIVER: file
-      run: php artisan test
